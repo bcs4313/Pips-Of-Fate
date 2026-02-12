@@ -2,11 +2,15 @@ import "./DiceBoard.css"
 import { useState } from "react"
 import { Button } from 'reactstrap';
 import DiceCard from "./../DiceCard/DiceCard.jsx"
+import StartRollSFX from "./../../../assets/diceview/DiceBoard/RollStart.mp3"
+import FinishRollSFX from "./../../../assets/diceview/DiceBoard/RollFinish.mp3"
 
 export default function DiceBoard(props) {
 
     // initialize the dice board
     let diceAmount = 6;
+    let startRollSFX = new Audio(StartRollSFX)
+    let finishRollSFX = new Audio(FinishRollSFX)
     let [diceValues, setDiceValues] = useState(Array(diceAmount).fill(1));
 
     function rollDice() {
@@ -18,9 +22,11 @@ export default function DiceBoard(props) {
             diceAnimArr.push(0);
         }
         setDiceValues(() => diceAnimArr)
+        startRollSFX.play();
 
         // roll completion
         setTimeout(function() {
+            finishRollSFX.play();
             console.log("animation done")
             let newDiceValues = []
             for(let i = 0; i < diceAmount; i++)
