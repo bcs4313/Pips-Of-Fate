@@ -47,7 +47,7 @@ export default function DiceCard({rollState}) {
     return (
     <>
     <div>
-        <h1 class="die-num">{rollState}</h1>
+        <h1 className="die-num">{rollState}</h1>
         <img className="die" src={imgRef}/>
     </div>
     </>

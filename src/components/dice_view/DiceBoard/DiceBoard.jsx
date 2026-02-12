@@ -10,18 +10,30 @@ export default function DiceBoard(props) {
     let [diceValues, setDiceValues] = useState(Array(diceAmount).fill(1));
 
     function rollDice() {
-        console.log("roll");
-        let newDiceValues = []
+        // roll animation phase
+        console.log("rolling dice...")
+        let diceAnimArr = []
         for(let i = 0; i < diceAmount; i++)
         {
-            newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
+            diceAnimArr.push(0);
         }
+        setDiceValues(() => diceAnimArr)
 
-        console.log(newDiceValues);
+        // roll completion
+        setTimeout(function() {
+            console.log("animation done")
+            let newDiceValues = []
+            for(let i = 0; i < diceAmount; i++)
+            {
+                newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
+            }
 
-        setDiceValues(
-            newDiceValues
-        )
+            console.log(newDiceValues);
+
+            setDiceValues(
+                () => newDiceValues
+            )
+        }, 300)
     }
 
     // generate the dice cards
