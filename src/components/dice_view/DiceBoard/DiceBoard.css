@@ -31,7 +31,3 @@ Button {
     flex-flow:column;
     justify-content:center;
 }
-.dice-card {
-    width:200px;
-    height:250px;
-}

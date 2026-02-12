@@ -1,0 +1,14 @@
+.dice-card {
+    width:200px;
+    height:250px;
+    background-color:var(--bs-success)
+}
+
+.die-num {
+    
+}
+
+.die {
+    object-fit:contain;
+    height:150px;
+}
