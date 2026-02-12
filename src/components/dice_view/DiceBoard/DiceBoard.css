@@ -1,0 +1,37 @@
+.dice-board-main-panel {
+    background-color:gray;
+    height:calc(100% - 70px);
+    width:100%;
+}
+
+Button {
+    width:200px;
+    height:100px;
+    margin:20px;
+    align-self:center;
+}
+
+.dice-container {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-flow:row;
+    flex-wrap:wrap;
+    gap:20px;
+    height:auto;
+    width:100%;
+    background-color:var(--bs-muted);
+}
+
+.rolling-container {
+    height:100%;
+    width:100%;
+    background-color:var(--bs-muted);
+    display:flex;
+    flex-flow:column;
+    justify-content:center;
+}
+.dice-card {
+    width:200px;
+    height:250px;
+}

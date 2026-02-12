@@ -1,0 +1,17 @@
+/** theme colors for reactstrap are defined here */
+$primary:      #2A9D8F; // sea green
+$secondary:    #264653; // dark slate
+$success:      #28A745; // classic success
+$info:         #17A2B8; // cyan
+$warning:      #FFC107; // amber
+$danger:       #E76F51; // clay red
+$light:        #F8F9FA; // light grey
+$dark:         #1E1E2F; // near-black
+
+// accents
+$accent-one:   #E9C46A;
+$accent-two:   #F4A261;
+$muted:        #6C757D;
+
+
+@import "bootstrap/scss/bootstrap";
