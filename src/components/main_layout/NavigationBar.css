@@ -1,5 +1,6 @@
 .dice-nav-bar {
     height:100px;
+    background-color:var(--bs-light)
 }
 
 .dice-nav-button {

@@ -1,7 +1,7 @@
 import "./DiceBoard.css"
 import { useState, useEffect } from "react"
 import { Button } from 'reactstrap';
-import { useQuota, useScore, useRollsLeft } from "./../../internal_state/Round_State.jsx"
+import { useQuota, useScore, useRollsLeft, completeQuota, gameOver } from "./../../internal_state/Round_State.jsx"
 import DiceCard from "./../DiceCard/DiceCard.jsx"
 import StartRollSFX from "./../../../assets/diceview/DiceBoard/RollStart.mp3"
 import FinishRollSFX from "./../../../assets/diceview/DiceBoard/RollFinish.mp3"
@@ -57,7 +57,24 @@ export default function DiceBoard() {
             }
             setScore(newScore)
             setRollsLeft(rollsLeft - 1)
-            setRolling(() => false)
+
+            // quota updates a little after setting score
+            setTimeout(function() {
+                if(newScore >= quota)
+                {
+                    setQuota(() => quota + 2)
+                    setScore(() => 0)
+                    setRollsLeft(() => 3)
+                    completeQuota()
+                }
+                else if(rollsLeft <= 1)
+                {
+                    setScore(() => 0)
+                    setRollsLeft(() => 3)
+                    gameOver()
+                }
+                setRolling(() => false)
+            }, 500)
         }, 300)
     }
 

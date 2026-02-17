@@ -1,7 +1,7 @@
 .dice-board-main-panel {
     display:flex;
     flex-direction:column;
-    background-color:gray;
+    background-color:var(--bs-gray);
     flex:1;
     width:100%;
 }

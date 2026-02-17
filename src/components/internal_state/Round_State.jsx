@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { ConfettiEffect } from "./../main_layout/CanvasOverlay"
 import QuotaCompleteAudio from "./../../assets/diceview/internal_state/CompleteQuota.mp3"
+import LoseAudio from "./../../assets/diceview/internal_state/GameOver.mp3"
 
 // functional model that stores variables representing the round state
 export function useQuota() {
@@ -25,13 +26,6 @@ export function useScore() {
     // links to all score based events and quota completion
     useEffect(() => {
         localStorage.setItem("score", score)
-
-        let quota = localStorage.getItem("quota")
-
-        if(score >= quota)
-        {
-            completeQuota()
-        }
     }, [score]) 
 
     return [score, setScore];
@@ -54,4 +48,9 @@ export function completeQuota() {
     let winAudio = new Audio(QuotaCompleteAudio)
     ConfettiEffect()
     winAudio.play()
+}
+
+export function gameOver() {
+    let loseAudio = new Audio(LoseAudio)
+    loseAudio.play()
 }
