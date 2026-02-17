@@ -17,7 +17,11 @@ export default function DiceBoard() {
     const [score, setScore ] = useScore()
     const [rollsLeft, setRollsLeft ] = useRollsLeft()
 
+    const [rolling, setRolling] = useState(false);
+
     function rollDice() {
+        if(rolling) { return; }
+
         // roll animation phase
         //console.log("rolling dice...")
         let diceAnimArr = []
@@ -26,6 +30,7 @@ export default function DiceBoard() {
             diceAnimArr.push(0);
         }
         setDiceValues(() => diceAnimArr)
+        setRolling(() => true)
         startRollSFX.play();
 
         // roll completion
@@ -42,16 +47,17 @@ export default function DiceBoard() {
                 () => newDiceValues
             )
 
+            console.log("Roll Result: " + newDiceValues)
+
             // update score
             let newScore = score;
             for(let i = 0; i < diceAmount; i++)
             {
                 newScore += parseInt(newDiceValues[i])
-                console.log(parseInt(newDiceValues[i]))
             }
             setScore(newScore)
             setRollsLeft(rollsLeft - 1)
-
+            setRolling(() => false)
         }, 300)
     }
 
@@ -70,7 +76,7 @@ export default function DiceBoard() {
             <div className="dice-container">
                 {diceCards}
             </div>
-            <Button onClick={rollDice} color="primary">Roll</Button>
+            <Button onClick={rollDice} active={!rolling} color="primary">Roll</Button>
         </div>
     </div>)
 }
