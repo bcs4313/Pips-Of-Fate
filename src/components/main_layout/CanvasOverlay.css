@@ -1,0 +1,9 @@
+.overlay-canvas {
+  position: fixed;       /* sits relative to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;         /* above other content */
+  pointer-events: none;  /* allow clicks to pass through */
+}

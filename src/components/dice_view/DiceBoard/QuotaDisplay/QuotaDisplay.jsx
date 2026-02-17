@@ -12,7 +12,7 @@ export default function QuotaDisplay({totalDiceScore, quotaRequired, rollsLeft})
                 <strong className="quota-strong">Required Score: {quotaRequired} </strong>
                 <strong className="quota-strong">Rolls Remaining: {rollsLeft}</strong>
             </div>
-            <Progress class="quota-progress" animated="true" value={quotaProgressAmount}/>
+            <Progress className="quota-progress" animated="true" value={quotaProgressAmount}/>
         </div>
     )
 }
