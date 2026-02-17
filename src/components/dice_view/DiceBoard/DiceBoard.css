@@ -1,6 +1,6 @@
 .dice-board-main-panel {
     background-color:gray;
-    height:calc(100% - 70px);
+    height:calc(100% - 100px);
     width:100%;
 }
 
@@ -24,7 +24,7 @@ Button {
 }
 
 .rolling-container {
-    height:100%;
+    height:calc(100% - 100px);
     width:100%;
     background-color:var(--bs-muted);
     display:flex;
