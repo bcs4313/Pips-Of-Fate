@@ -71,6 +71,7 @@ export default function DiceBoard() {
                 {
                     setScore(() => 0)
                     setRollsLeft(() => 3)
+                    setQuota(7)
                     gameOver()
                 }
                 setRolling(() => false)
