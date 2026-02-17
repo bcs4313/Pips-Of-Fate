@@ -2,15 +2,14 @@ import "./Header.css"
 
 export default function Header() {
     return (
-    <div className="expanded-header">
+    <header className="expanded-header">
         <div className="header-div">
-            <nav>
+            <div className="nav-top">
                 <img className="header-img" src="src\assets\main_layout\dice.png"/>
                 <img className="header-title" src="src\assets\main_layout\title.png"/>
                 <img className="header-img" src="src\assets\main_layout\dice.png"/>
-            </nav>
+            </div>
         </div>
-        <small>Roll or Get Fired</small>
-    </div>
+    </header>
     )
 }

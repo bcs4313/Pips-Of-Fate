@@ -7,7 +7,7 @@ import StartRollSFX from "./../../../assets/diceview/DiceBoard/RollStart.mp3"
 import FinishRollSFX from "./../../../assets/diceview/DiceBoard/RollFinish.mp3"
 import QuotaDisplay from "./QuotaDisplay/QuotaDisplay.jsx"
 
-export default function DiceBoard(props) {
+export default function DiceBoard() {
     // initialize the dice board
     let diceAmount = 1;
     let startRollSFX = new Audio(StartRollSFX)

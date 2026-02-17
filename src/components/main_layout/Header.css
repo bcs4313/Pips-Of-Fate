@@ -20,10 +20,10 @@
 .expanded-header {
     display:block;
     background-color:var(--bs-green);
-    height:100px;
+    height:70px;
 }
 
-nav {
+.nav-top {
     width:100%;
     height:100%;
 }
