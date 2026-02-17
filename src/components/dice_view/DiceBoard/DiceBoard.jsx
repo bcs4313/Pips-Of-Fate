@@ -47,12 +47,14 @@ export default function DiceBoard(props) {
             for(let i = 0; i < diceAmount; i++)
             {
                 newScore += parseInt(newDiceValues[i])
+                console.log(parseInt(newDiceValues[i]))
             }
             setScore(newScore)
             setRollsLeft(rollsLeft - 1)
+
         }, 300)
     }
-    
+
     // generate the dice cards
     let diceCards = [];
     for(let i = 0; i < diceValues.length; i++)

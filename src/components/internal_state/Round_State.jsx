@@ -16,7 +16,7 @@ export function useQuota() {
 
 export function useScore() {
     const [score, setScore] = useState(() => {
-        const storedScore = localStorage.getItem("score")
+        const storedScore = parseInt(localStorage.getItem("score"))
         return storedScore ? storedScore : 0
     })
 
@@ -29,7 +29,7 @@ export function useScore() {
 
 export function useRollsLeft() {
     const [rollsLeft, setRollsLeft] = useState(() => {
-        const storedRolls = localStorage.getItem("rollsLeft")
+        const storedRolls = parseInt(localStorage.getItem("rollsLeft"))
         return storedRolls ? storedRolls : 3
     })
 
