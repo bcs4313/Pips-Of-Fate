@@ -1,0 +1,22 @@
+.quota-row {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2em;
+    width:100%;
+    padding-left:20%;
+    padding-right:20%;
+}
+
+.quota-strong {
+    text-align:center;
+    width:auto;
+}
+
+.quota-parent {
+    align-content:center;
+    width:100%;
+}
+
+.quota-progress {
+    width:100%;
+}

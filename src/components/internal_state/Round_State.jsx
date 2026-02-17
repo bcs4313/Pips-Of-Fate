@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 export function useQuota() {
     const [quota, setQuota] = useState(() => {
         const savedQuota = parseInt(localStorage.getItem("quota"))
-        return savedQuota ? savedQuota : 6
+        return savedQuota ? savedQuota : 7
     })
     
     useEffect(() => {

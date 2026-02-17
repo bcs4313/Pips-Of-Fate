@@ -38,7 +38,7 @@ export default function DiceCard({rollState}) {
             imgRef = result5;
             break;
         case 6:
-            imgRef = result5;
+            imgRef = result6;
             break;
         default:
             imgRef = result1;
