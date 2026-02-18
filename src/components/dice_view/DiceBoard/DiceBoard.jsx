@@ -4,7 +4,6 @@ import DiceCard from "./../DiceCard/DiceCard.jsx"
 import QuotaDisplay from "./QuotaDisplay/QuotaDisplay.jsx"
 import { useGameEngine} from "./../../internal_state/GameEngine.jsx"
 
-
 export default function DiceBoard() {
     // initialize the dice board
     let diceAmount = 1;

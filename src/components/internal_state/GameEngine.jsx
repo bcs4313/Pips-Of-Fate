@@ -1,7 +1,10 @@
-import { useQuota, useScore, useRollsLeft, completeQuota, gameOver } from "./Round_State"
+import { useQuota, useScore, useRollsLeft } from "./Autosaver_Round_State"
 import StartRollSFX from "./../../assets/internal_state/RollStart.mp3"
 import FinishRollSFX from "./../../assets/internal_state/RollFinish.mp3"
 import { useState, useEffect } from "react"
+import QuotaCompleteAudio from "./../../assets/internal_state/CompleteQuota.mp3"
+import LoseAudio from "./../../assets/internal_state/GameOver.mp3"
+import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 
 // The game engine consumes item activations and
 // the roll function from the dice board
@@ -18,6 +21,17 @@ export function useGameEngine(diceAmount) {
     // local variables
     const [diceValues, setDiceValues] = useState(Array(diceAmount).fill(1));
     const [rolling, setRolling] = useState(false);
+
+    function completeQuota() {
+        let winAudio = new Audio(QuotaCompleteAudio)
+        ConfettiEffect()
+        winAudio.play()
+    }
+
+    function gameOver() {
+        let loseAudio = new Audio(LoseAudio)
+        loseAudio.play()
+    }
 
     function rollDice() {
         // roll animation phase
