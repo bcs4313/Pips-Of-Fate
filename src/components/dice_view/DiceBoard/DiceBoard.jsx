@@ -12,12 +12,15 @@ export default function DiceBoard() {
     let diceAmount = 1;
     let startRollSFX = new Audio(StartRollSFX)
     let finishRollSFX = new Audio(FinishRollSFX)
+
+    // local state variables
     const [diceValues, setDiceValues] = useState(Array(diceAmount).fill(1));
+    const [rolling, setRolling] = useState(false);
+
+    // saved in storage via internal_state/Round_State
     const [quota, setQuota ] = useQuota()
     const [score, setScore ] = useScore()
     const [rollsLeft, setRollsLeft ] = useRollsLeft()
-
-    const [rolling, setRolling] = useState(false);
 
     function rollDice() {
         if(rolling) { return; }

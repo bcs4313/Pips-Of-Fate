@@ -3,14 +3,15 @@ import { useState } from 'react'
 import './App.css'
 import Header from './components/main_layout/Header'
 import WebsiteMain from './components/main_layout/WebsiteMain'
+import { Routes, Route } from "react-router-dom"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <Header/>
-      <WebsiteMain/>
+      <Routes>
+        <Route path="/" element={<WebsiteMain/>}/>
+      </Routes>
     </>
   )
 }
