@@ -6,8 +6,8 @@ import CanvasOverlay from "./CanvasOverlay.jsx"
 export default function WebsiteMain() {
     return (
         <main>
-            <NavigationBar />
             <DiceBoard/>
+            <NavigationBar />
             <CanvasOverlay/>
         </main>
     )

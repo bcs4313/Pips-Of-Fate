@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { ConfettiEffect } from "./../main_layout/CanvasOverlay"
-import QuotaCompleteAudio from "./../../assets/diceview/internal_state/CompleteQuota.mp3"
-import LoseAudio from "./../../assets/diceview/internal_state/GameOver.mp3"
+import { ConfettiEffect } from "../main_layout/CanvasOverlay"
+import QuotaCompleteAudio from "./../../assets/internal_state/CompleteQuota.mp3"
+import LoseAudio from "./../../assets/internal_state/GameOver.mp3"
 
 // functional model that stores variables representing the round state
 export function useQuota() {
