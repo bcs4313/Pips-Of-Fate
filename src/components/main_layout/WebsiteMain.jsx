@@ -7,7 +7,7 @@ export default function WebsiteMain() {
     return (
         <main>
             <DiceBoard/>
-            <NavigationBar />
+            <NavigationBar currentLocation="/"/>
             <CanvasOverlay/>
         </main>
     )
