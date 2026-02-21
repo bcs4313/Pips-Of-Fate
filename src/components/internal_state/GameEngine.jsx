@@ -35,7 +35,7 @@ export function useGameEngine(diceAmount) {
             setRolling(() => false)
             setQuota(() => 7)
             setScore(() => 0)
-            
+            setRollsLeft(() => 3)
         }, 4000) 
     }
 
@@ -99,7 +99,7 @@ export function useGameEngine(diceAmount) {
                 {
                     console.log("GAME OVER: " + newScore + " quota = " + quota)
                     gameOver()
-                    return 3
+                    return 0
                 }
                 else
                 {

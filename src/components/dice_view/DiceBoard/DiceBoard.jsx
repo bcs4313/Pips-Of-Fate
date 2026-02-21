@@ -17,6 +17,15 @@ export default function DiceBoard() {
         diceCards.push(<DiceCard key={i} rollState={diceValues[i]}/>);
     }
 
+    function getRollButtonColor() {
+        if(rollsLeft <= 0 && score < quota)
+        {
+            return "danger"
+        }
+
+        return "primary";
+    }
+
     // return the board layout
     return (
     <div className = "dice-board-main-panel">
@@ -25,7 +34,7 @@ export default function DiceBoard() {
             <div className="dice-container">
                 {diceCards}
             </div>
-            <Button onClick={rollDice} active={!rolling} color="primary">Roll</Button>
+            <Button onClick={rollDice} active={!rolling} color={getRollButtonColor()}>Roll</Button>
         </div>
     </div>)
 }
