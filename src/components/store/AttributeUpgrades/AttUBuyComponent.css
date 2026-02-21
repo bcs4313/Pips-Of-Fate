@@ -10,7 +10,7 @@
 .att-buy-desc {
     text-align:start;
     font-weight:200;
-    font-size: clamp(0.5em, 1.6vw, 3em);
+    font-size: clamp(0.5em, 1.4vw, 3em);
     align-content:center;
 }
 
@@ -24,11 +24,9 @@
 .buy-btn {
     background-color:var(--bs-info);
     flex-grow:1;
-    height:100%;
-    display:grid;
-    grid-template-columns: auto auto auto;
     gap:1em;
     margin-top:3em;
+    min-width:0px;
 }
 
 .cost-btn {
@@ -41,9 +39,7 @@
 }
 
 .att-img {
-    height:clamp(50px, 18vw, 100px);
     object-fit:contain;
-    align-self:start;
 }
 
 .att-cost-text {

@@ -10,7 +10,7 @@ import FrozenDiceImg from "./../../assets/store/FrozenDiceUpgrade.png"
 export default function Store() {
     return (
         <main>
-            <div className="store-container">
+            <div className="store-container overflow-hidden">
                 <div className="store-baseupgrades-container">
                     <BuyComponent title="Extra Dice" imgPath={ExtraDiceImg} description="Get an additional die for each roll. 
                     Score higher and trigger items more often!"/>
