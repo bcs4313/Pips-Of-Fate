@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-// functional model that stores variables representing the round state
+// functional model hook that stores variables representing the round state
 export function useQuota() {
     const [quota, setQuota] = useState(() => {
         const savedQuota = parseInt(localStorage.getItem("quota"))
