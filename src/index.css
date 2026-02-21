@@ -1,3 +1,6 @@
+
+@import "tailwindcss";
+
 :root { /* root of the document, not the id of root */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

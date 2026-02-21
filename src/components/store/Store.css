@@ -1,19 +1,19 @@
-.dice-container {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-flow:row;
-    flex-wrap:wrap;
-    gap:20px;
-    height:auto;
-    width:100%;
-    background-color:var(--bs-muted);
+.store-container {
+    flex:1;
+    background-color:var(--bs-gray);
+    overflow:scroll;
 }
 
-.rolling-container {
-    background-color:var(--bs-muted);
+.store-baseupgrades-container {
+    background-color:var(--bs-gray);
     display:flex;
-    flex:1;
     flex-flow:column;
     justify-content:center;
+    gap:12px;
+}
+
+main {
+    height:calc(100% - 70px);
+    display:flex;
+    flex-direction:column;
 }

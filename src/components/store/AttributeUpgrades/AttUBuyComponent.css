@@ -1,0 +1,51 @@
+.att-buy-title {
+    text-align:start;
+    font-weight:600;
+    font-size: clamp(16px, 4vw, 3em);
+    display:inline; 
+    white-space: nowrap;
+    align-content:center;
+}
+
+.att-buy-desc {
+    text-align:start;
+    font-weight:200;
+    font-size: clamp(0.5em, 1.6vw, 3em);
+    align-content:center;
+}
+
+.purchase-bar {
+    width:100%;
+    height:100px;
+    display:flex;
+    flex-direction:row;
+}
+
+.buy-btn {
+    background-color:var(--bs-info);
+    flex-grow:1;
+    height:100%;
+    display:grid;
+    grid-template-columns: auto auto auto;
+    gap:1em;
+    margin-top:3em;
+}
+
+.cost-btn {
+    background-color:var(--bs-yellow);
+    width: 20%;
+    height:100%;
+    align-content:center;
+    margin-top:3em; 
+    margin-left:0px;
+}
+
+.att-img {
+    height:clamp(50px, 18vw, 100px);
+    object-fit:contain;
+    align-self:start;
+}
+
+.att-cost-text {
+    font-size: clamp(16px, 4vw, 3em);
+}
