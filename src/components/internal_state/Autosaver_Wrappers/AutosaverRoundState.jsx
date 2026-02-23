@@ -44,7 +44,7 @@ export function useRollsLeft() {
 export function useDiceAmount() {
     const [diceAmount, setDiceAmount] = useState(() => {
         const storedDiceAmount = parseInt(localStorage.getItem("diceAmount"))
-        return storedDiceAmount ? storedDiceAmount : 1
+        return storedDiceAmount ? storedDiceAmount : 3
     })
 
     useEffect(() => {

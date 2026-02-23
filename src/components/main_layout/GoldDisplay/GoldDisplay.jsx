@@ -8,6 +8,15 @@ export default function GoldDisplay() {
 
     const engine = useEngine()
 
+    function GetPercentDiff() {
+        const gold = engine.engineState["gold"]
+        const lastRoundGold = engine.engineState["lastRoundGold"]
+
+        if(lastRoundGold == 0) { return 0}
+
+        return (gold - lastRoundGold) / gold
+    }
+
     function PriceWithDiff(value, diff) {
         return (
             <div className="bg-[var(--bs-secondary)] w-fit h-[100%] flex items-center flex-row gap-[10px] px-[2vw] py-2">
@@ -40,7 +49,7 @@ export default function GoldDisplay() {
     return (
         <div className="@container">
         <div className="text-[clamp(0.5em,10cqw,2.8em)] text-center w-[auto] h-[100px]">
-            {PriceWithDiff(engine.engineState["gold"], 0.05)}
+            {PriceWithDiff(engine.engineState["gold"], GetPercentDiff())}
         </div>
         </div>
     )

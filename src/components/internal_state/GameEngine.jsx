@@ -17,7 +17,7 @@ export function useGameEngine() {
     let finishRollSFX = useRef(new Audio(FinishRollSFX))
 
     // saved in storage via internal_state/Round_State
-    const [diceAmount, setDiceAMount] = useDiceAmount()
+    const [diceAmount, setDiceAmount] = useDiceAmount()
     const [quota, setQuota ] = useQuota()
     const [score, setScore ] = useScore()
     const [rollsLeft, setRollsLeft ] = useRollsLeft()
@@ -96,12 +96,13 @@ export function useGameEngine() {
                 {
                     setQuota(() => quota + 2)
                     setRollsLeft(() => 3)
-                    EngineStepEndRound(engineState, setEngineState)
                     completeQuota()
                     return 0;
                 }
                 return newScore
                 })
+
+                if(rollSum + score >= quota) { EngineStepEndRound(engineState, setEngineState) }
             }, 400)
 
             setRollsLeft(prevRolls => {
