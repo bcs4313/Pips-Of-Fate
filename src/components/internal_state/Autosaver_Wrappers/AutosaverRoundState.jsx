@@ -40,3 +40,16 @@ export function useRollsLeft() {
 
     return [rollsLeft, setRollsLeft];
 }
+
+export function useRoundNumber() {
+    const [round, setRound] = useState(() => {
+    const storedRounds = parseInt(localStorage.getItem("round_num"))
+    return storedRounds ? storedRounds : 0
+    })
+
+    useEffect(() => {
+        localStorage.setItem("round_num", round)
+    }, [round]) 
+
+    return [round, setRound];
+}

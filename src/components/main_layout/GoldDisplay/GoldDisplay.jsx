@@ -3,7 +3,7 @@ import { Progress } from "reactstrap"
 import NumberFlow, { NumberFlowGroup } from '@number-flow/react'
 import clsx from 'clsx/lite'
 
-export default function GoldDisplay({gold}) {
+export default function GoldDisplay() {
     function PriceWithDiff(value, diff) {
         return (
             <div className="bg-[var(--bs-secondary)] w-fit h-[100%] flex items-center flex-row gap-[10px] px-[2vw] py-2">
@@ -36,7 +36,7 @@ export default function GoldDisplay({gold}) {
     return (
         <div className="@container">
         <div className="text-[clamp(0.5em,10cqw,2.8em)] text-center w-[auto] h-[100px]">
-            {PriceWithDiff(100, 0.05)}
+            {PriceWithDiff(1, 0.05)}
         </div>
         </div>
     )
