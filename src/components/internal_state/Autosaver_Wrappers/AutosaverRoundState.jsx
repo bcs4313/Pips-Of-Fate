@@ -41,6 +41,20 @@ export function useRollsLeft() {
     return [rollsLeft, setRollsLeft];
 }
 
+export function useDiceAmount() {
+    const [diceAmount, setDiceAmount] = useState(() => {
+        const storedDiceAmount = parseInt(localStorage.getItem("diceAmount"))
+        return storedDiceAmount ? storedDiceAmount : 1
+    })
+
+    useEffect(() => {
+        localStorage.setItem("diceAmount", diceAmount)
+    }, [diceAmount]) 
+
+    return [diceAmount, setDiceAmount];
+}
+
+
 export function useRoundNumber() {
     const [round, setRound] = useState(() => {
     const storedRounds = parseInt(localStorage.getItem("round_num"))

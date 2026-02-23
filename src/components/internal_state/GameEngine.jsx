@@ -1,4 +1,4 @@
-import { useQuota, useScore, useRollsLeft } from "./Autosaver_Wrappers/AutosaverRoundState.jsx"
+import { useQuota, useScore, useRollsLeft, useDiceAmount } from "./Autosaver_Wrappers/AutosaverRoundState.jsx"
 import StartRollSFX from "./../../assets/internal_state/RollStart.mp3"
 import FinishRollSFX from "./../../assets/internal_state/RollFinish.mp3"
 import { useRef, useState, useEffect } from "react"
@@ -12,11 +12,12 @@ import EngineStepEndRound from "./Engine_Steps/EngineStepEndRound.jsx"
 // The game engine consumes item activations and
 // the roll function from the dice board
 // @param {number} diceAmount the amount of dice to use in this roll
-export function useGameEngine(diceAmount) {
+export function useGameEngine() {
     let startRollSFX = useRef(new Audio(StartRollSFX))
     let finishRollSFX = useRef(new Audio(FinishRollSFX))
 
     // saved in storage via internal_state/Round_State
+    const [diceAmount, setDiceAMount] = useDiceAmount()
     const [quota, setQuota ] = useQuota()
     const [score, setScore ] = useScore()
     const [rollsLeft, setRollsLeft ] = useRollsLeft()
@@ -75,6 +76,8 @@ export function useGameEngine(diceAmount) {
                 newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
             }
 
+            console.log("newDiceValues: " + newDiceValues)
+
             setDiceValues(
                 () => newDiceValues
             )
@@ -93,7 +96,7 @@ export function useGameEngine(diceAmount) {
                 {
                     setQuota(() => quota + 2)
                     setRollsLeft(() => 3)
-                    EngineStepEndRound(engineState)
+                    EngineStepEndRound(engineState, setEngineState)
                     completeQuota()
                     return 0;
                 }
@@ -119,5 +122,5 @@ export function useGameEngine(diceAmount) {
         }, 300)
     }
 
-    return { rollDice, rolling, diceValues, score, quota, rollsLeft }
+    return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState }
 }
