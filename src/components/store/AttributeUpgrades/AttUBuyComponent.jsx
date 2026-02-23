@@ -1,10 +1,19 @@
 import "./AttUBuyComponent.css"
 import { Button } from 'reactstrap'
+import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
+import { useRef } from "react"
 
 export default function AttUBuyComponent({ imgPath, title, description }) {
+    const InvalidBuySFX = useRef(new Audio(InvalidBuyAudio))
+
+    function buyAtt() {
+        InvalidBuySFX.current.currentTime = 0
+        InvalidBuySFX.current.play()
+    }
+
     return (
         <div className="purchase-bar @container">
-            <Button className="buy-btn group p-0 grid! grid-cols-[100px_30%_auto]">
+            <Button onClick={buyAtt} className="buy-btn group p-0 grid! grid-cols-[100px_30%_auto] duration-0 active:bg-cyan-500!">
                 <div className="h-[100px] flex">
                     <img className="att-img group-hover:animate-bounce group-active:animate-bounce h-[70px] self-center ml-[12px]" src={imgPath} alt="buyicon" />
                 </div>
@@ -12,7 +21,7 @@ export default function AttUBuyComponent({ imgPath, title, description }) {
                 <h5 className="att-buy-desc mb-0">{description}</h5>
             </Button>
 
-            <Button className="cost-btn">
+            <Button onClick={buyAtt} className="cost-btn">
                 <h2 className="att-cost-text mb-0">Cost: $10</h2>
             </Button>
         </div>
