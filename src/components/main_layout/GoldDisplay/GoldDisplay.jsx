@@ -14,7 +14,14 @@ export default function GoldDisplay() {
 
         if(lastRoundGold == 0) { return 0}
 
-        return (gold - lastRoundGold) / gold
+        let difference = 0
+
+
+        if(gold > lastRoundGold)
+            return (gold - lastRoundGold) / gold
+        else
+            console.log("negative round lastRound = " + lastRoundGold)
+            return -(1 - gold/lastRoundGold)
     }
 
     function PriceWithDiff(value, diff) {

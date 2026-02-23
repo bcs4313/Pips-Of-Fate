@@ -34,6 +34,27 @@ export function useGameEngine() {
         items: {}
     })
 
+    useEffect(() => {
+        console.log("Engine reacting to diceAmount:", diceAmount)
+
+        setDiceValues(Array(diceAmount).fill(1))
+    }, [diceAmount])
+
+    function _setEngineState(newState) {
+        setEngineState((prev) => newState)
+    }
+
+    function _setDiceAmount(val) {
+        setDiceAmount((prev) => {
+            console.log("setting new die amount => " + prev + " " + val)
+            return val
+        })
+    }
+
+    function _getDiceAmount(val) {
+        return diceAmount
+    }
+
     function completeQuota() {
         let winAudio = new Audio(QuotaCompleteAudio)
         ConfettiEffect()
@@ -48,6 +69,14 @@ export function useGameEngine() {
             setQuota(() => 7)
             setScore(() => 0)
             setRollsLeft(() => 3)
+            setEngineState(() => {
+                return {
+                    lastRoundGold:0,
+                    gold: 0,
+                    roundNum: 0,
+                    items: {}
+                }
+            })
         }, 4000) 
     }
 
@@ -76,8 +105,6 @@ export function useGameEngine() {
                 newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
             }
 
-            console.log("newDiceValues: " + newDiceValues)
-
             setDiceValues(
                 () => newDiceValues
             )
@@ -94,7 +121,7 @@ export function useGameEngine() {
                 let newScore = prev
                 if(newScore >= quota)
                 {
-                    setQuota(() => quota + 2)
+                    setQuota(() => Math.floor(quota*1.1) + 2)
                     setRollsLeft(() => 3)
                     completeQuota()
                     return 0;
@@ -102,7 +129,7 @@ export function useGameEngine() {
                 return newScore
                 })
 
-                if(rollSum + score >= quota) { EngineStepEndRound(engineState, setEngineState) }
+                if(rollSum + score >= quota) { EngineStepEndRound(engineState, setEngineState, setRolling) }
             }, 400)
 
             setRollsLeft(prevRolls => {
@@ -114,7 +141,7 @@ export function useGameEngine() {
                     gameOver()
                     return 0
                 }
-                else
+                else if (newScore < quota) 
                 {
                    setRolling(() => false)
                 }
@@ -123,5 +150,9 @@ export function useGameEngine() {
         }, 300)
     }
 
-    return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState }
+    return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState, hooks: {
+        "getDiceAmount": _getDiceAmount,
+        "setDiceAmount": _setDiceAmount,
+        "setEngineState": _setEngineState
+    }}
 }

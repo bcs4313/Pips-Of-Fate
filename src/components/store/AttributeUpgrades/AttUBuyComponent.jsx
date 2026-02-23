@@ -2,13 +2,23 @@ import "./AttUBuyComponent.css"
 import { Button } from 'reactstrap'
 import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
 import { useRef } from "react"
+import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
 
-export default function AttUBuyComponent({ imgPath, title, description }) {
+export default function AttUBuyComponent({ imgPath, price, title, description, upgradefunction}) {
     const InvalidBuySFX = useRef(new Audio(InvalidBuyAudio))
+    const engine = useEngine()
 
     function buyAtt() {
-        InvalidBuySFX.current.currentTime = 0
-        InvalidBuySFX.current.play()
+        if(engine.engineState["gold"] >= price)
+        {
+            upgradefunction(price)
+        }
+        else
+        {
+            InvalidBuySFX.current.currentTime = 0
+            InvalidBuySFX.current.play()
+            console.log("Can't buy upgrade! Price is: " + price)
+        }
     }
 
     return (
@@ -22,7 +32,7 @@ export default function AttUBuyComponent({ imgPath, title, description }) {
             </Button>
 
             <Button onClick={buyAtt} className="cost-btn">
-                <h2 className="att-cost-text mb-0">Cost: $10</h2>
+                <h2 className="att-cost-text mb-0">Cost: ${price}</h2>
             </Button>
         </div>
     )

@@ -3,18 +3,10 @@ import { Button } from 'reactstrap';
 import DiceCard from "./../DiceCard/DiceCard.jsx"
 import QuotaDisplay from "./QuotaDisplay/QuotaDisplay.jsx"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
+import { useEffect, useState} from "react"
 
 export default function DiceBoard() {
-    // initialize the dice board
-    let diceAmount = 1;
-
-    const engine = useEngine(diceAmount)
-    // generate the dice cards
-    let diceCards = [];
-    for(let i = 0; i < engine.diceValues.length; i++)
-    {
-        diceCards.push(<DiceCard key={i} rollState={engine.diceValues[i]}/>)
-    }
+    const engine = useEngine(1)
 
     function getRollButtonColor() {
         if(engine.rollsLeft <= 0 && engine.score < engine.quota)
@@ -31,7 +23,11 @@ export default function DiceBoard() {
         <QuotaDisplay totalDiceScore={engine.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
         <div className="rolling-container">
             <div className="dice-container">
-                {diceCards}
+                <div className="dice-container">
+                {engine.diceValues.map((value, i) => (
+                    <DiceCard key={i} rollState={value}/>
+                ))}
+            </div>
             </div>
             <Button onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
         </div>
