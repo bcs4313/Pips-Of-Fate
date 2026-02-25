@@ -30,7 +30,7 @@
 }
 
 .cost-btn {
-    background-color:var(--bs-yellow);
+    background-color:var(--bs-secondary);
     width: 20%;
     height:100%;
     align-content:center;

@@ -17,6 +17,10 @@ export default function DiceBoard() {
         return "primary";
     }
 
+    function canFreezeOrUnfreeze() {
+        return engine.engineState["freezesBought"] > 0
+    }
+
     // return the board layout
     return (
     <div className = "dice-board-main-panel">
@@ -25,7 +29,7 @@ export default function DiceBoard() {
             <div className="dice-container">
                 <div className="dice-container">
                 {engine.diceValues.map((value, i) => (
-                    <DiceCard key={i} rollState={value}/>
+                    <DiceCard key={i} diePosition={i} freezable={canFreezeOrUnfreeze()} rollState={value}/>
                 ))}
             </div>
             </div>

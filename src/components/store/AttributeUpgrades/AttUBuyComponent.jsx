@@ -1,17 +1,22 @@
 import "./AttUBuyComponent.css"
 import { Button } from 'reactstrap'
 import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
+import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
 import { useRef } from "react"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
 
 export default function AttUBuyComponent({ imgPath, price, title, description, upgradefunction}) {
     const InvalidBuySFX = useRef(new Audio(InvalidBuyAudio))
+    const ValidBuySFX = useRef(new Audio(ValidBuyAudio))
     const engine = useEngine()
 
     function buyAtt() {
         if(engine.engineState["gold"] >= price)
         {
+            ValidBuySFX.current.currentTime = 0
+            ValidBuySFX.current.play()
             upgradefunction(price)
+            console.log("Upgrade bought: " + title + " for " + price + " gold")
         }
         else
         {

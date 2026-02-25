@@ -31,6 +31,8 @@ export function useGameEngine() {
         lastRoundGold:0,
         gold: 0,
         roundNum: 0,
+        freezesBought: 0,
+        frozenDice: [],
         items: {}
     })
 
@@ -69,6 +71,7 @@ export function useGameEngine() {
             setQuota(() => 7)
             setScore(() => 0)
             setRollsLeft(() => 3)
+            setDiceAmount(() => 1)
             setEngineState(() => {
                 return {
                     lastRoundGold:0,
@@ -87,7 +90,16 @@ export function useGameEngine() {
         let diceAnimArr = []
         for(let i = 0; i < diceAmount; i++)
         {
-            diceAnimArr.push(0);
+            // frozen dice case
+            if(engineState.frozenDice && engineState.frozenDice.includes(i))
+            {
+                diceAnimArr.push(diceValues[i]);
+            }
+            else
+            {
+                // unfrozen dice case
+                diceAnimArr.push(0);
+            }
         }
         setDiceValues(() => diceAnimArr)
         setRolling(() => true)
@@ -102,7 +114,16 @@ export function useGameEngine() {
             let newDiceValues = []
             for(let i = 0; i < diceAmount; i++)
             {
-                newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
+                // frozen dice case
+                if(engineState.frozenDice && engineState.frozenDice.includes(i))
+                {
+                    newDiceValues.push(diceValues[i]);
+                }
+                else
+                {
+                    // unfrozen dice case
+                    newDiceValues.push(Math.floor(Math.random() * 6) + 1);  // 0 to 6\
+                }
             }
 
             setDiceValues(

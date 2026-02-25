@@ -20,10 +20,10 @@ export default function NavigationBar({currentLocation}) {
         switch(currentLocation)
         {
             case "/store":
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
+                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
                 break;
             default:
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
+                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1.5cqmax,5em)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
                 break;
         }
     }
@@ -35,14 +35,14 @@ export default function NavigationBar({currentLocation}) {
                 return (<></>)
                 break;
             default:
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]!" onClick={deleteSave} color="danger">Delete Save and Restart</Button>)
+                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={deleteSave} color="danger">Delete Save and Restart</Button>)
                 break;
         }
     }
 
     return (
     <>
-    <nav className="h-[100px] bg-[var(--bs-light)] grid justify-center grid-cols-[1fr_auto_auto_1fr]">
+    <nav className="h-[100px] bg-[var(--bs-light)] grid justify-center grid-cols-[1fr_auto_auto_1fr] @container">
         <GoldDisplay/>
         {createSecondaryButton()}
         {createDangerButton()}
