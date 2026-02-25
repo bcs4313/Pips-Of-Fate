@@ -15,7 +15,8 @@ export default function Store() {
     const engine = useEngine()
 
     // buy prices
-    const buyDiePrice = 10 + (engine["hooks"]["getDiceAmount"]()-1) * 15
+    const buyDiePrice = 15 + (engine["hooks"]["getDiceAmount"]()-1) * 5
+    const buyFreezePrice = 10 + (engine.engineState["freezesBought"]) * 10
 
     function acquireAdditionalDie(price) {
         console.log("buy die call")
@@ -31,7 +32,7 @@ export default function Store() {
         const currentFreezes = engine.engineState["freezesBought"]
         const gold = engine.engineState["gold"]
         console.log("gold = " + gold)
-        engine.hooks["setEngineState"]({...engine.engineState, gold:(gold-price), freezesBought: currentFreezes+1})
+        engine.hooks["setEngineState"]({...engine.engineState, gold:(gold-price), freezesBought: currentFreezes+1, remainingFreezes: engine.engineState["remainingFreezes"]+1})
     }
 
     return (
@@ -41,9 +42,9 @@ export default function Store() {
                     <BuyComponent title="Extra Dice" price={buyDiePrice} upgradefunction={acquireAdditionalDie} 
                     imgPath={ExtraDiceImg} description="Get an additional die for each roll. 
                     Score higher and trigger items more often!"/>
-                    <BuyComponent title="+1 Freeze" price={10} upgradefunction={ acquireAdditionalFreeze }
+                    <BuyComponent title="+1 Freeze" price={buyFreezePrice} upgradefunction={ acquireAdditionalFreeze }
                     imgPath={FrozenDiceImg} description="Freeze a die value for the rest of the round with a checkbox. 
-                    Dice can be unfrozen for free."/>
+                    Dice can be unfrozen for free. You can only freeze after your first roll."/>
                 </div>
             </div>
             <NavigationBar currentLocation="/store"/>

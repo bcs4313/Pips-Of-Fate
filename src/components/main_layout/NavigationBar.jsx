@@ -2,6 +2,7 @@ import { Button } from "reactstrap"
 //import "./NavigationBar.css"
 import { useNavigate } from "react-router-dom"
 import GoldDisplay from "./GoldDisplay/GoldDisplay.jsx"
+import GameDataDisplay from "./GameDataDisplay/GameDataDisplay.jsx"
 
 // @param { string } location : our current Router path
 export default function NavigationBar({currentLocation}) {
@@ -43,6 +44,7 @@ export default function NavigationBar({currentLocation}) {
     return (
     <>
     <nav className="h-[100px] bg-[var(--bs-light)] grid justify-center grid-cols-[1fr_auto_auto_1fr] @container">
+        <GameDataDisplay/>
         <GoldDisplay/>
         {createSecondaryButton()}
         {createDangerButton()}

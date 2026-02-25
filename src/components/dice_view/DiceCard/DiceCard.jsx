@@ -15,6 +15,7 @@ import rollAnim from "../../../assets/diceview/DiceCard/roll-animation/roll.gif"
 // sound imports
 import FreezeSound from "../../../assets/diceview/DiceCard/FreezeSound.mp3"
 import UnFreezeSound from "../../../assets/diceview/DiceCard/UnFreezeSound.mp3"
+import InvalidFreezeSound from "../../../assets/diceview/DiceCard/InvalidFreeze.mp3"
 
 // icon imports
 import freezeIcon from "../../../assets/diceview/DiceCard/FreezeIcon.png"
@@ -31,41 +32,43 @@ import { useEngine } from "../../internal_state/EngineContextProvider"
 // 1-6 = resting on the roll result from 1 to 6
 //@param {boolean} freezable attaches a icon to the die that makes it freeze and unfreeze
 //@param position {number} an integer that indicates where the die is positioned on the board
-export default function DiceCard({rollState, freezable, diePosition}) {
+export default function DiceCard({rollState, diePosition}) {
     const engine = useEngine()
     const freezeAudioRef = useRef(new Audio(FreezeSound))
     const unfreezeAudioRef = useRef(new Audio(UnFreezeSound))
+    const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
 
-    console.log("generate")
+
+    const freezable = engine.engineState["freezesBought"] > 0 && engine.rollsLeft < 3 && (engine.engineState["remainingFreezes"] > 0 || engine.engineState["frozenDice"].includes(diePosition))
 
     function freezeDice() {
         console.log("Freeze Dice Call")
-        //console.log("state being reviewed: ")
-        //console.log(engine.engineState)
+        
         const frozenDiceList = engine.engineState["frozenDice"]
         let newDieList = [...frozenDiceList]
+        
         if(frozenDiceList && frozenDiceList.includes(diePosition))
-        {
+        {   // case where you are unfreezing a die
             const index = newDieList.indexOf(diePosition)
             newDieList = frozenDiceList.filter(num => num !== diePosition)
-            //console.log("mutated die list 1 -> ")
-            //console.log(newDieList)
             const newState = {...engine.engineState, frozenDice:newDieList}
-            //console.log("pushing the following state -> ")
-            //console.log(newState)
+
             engine.hooks["setEngineState"](newState)
             unfreezeAudioRef.current.currentTime = 0
             unfreezeAudioRef.current.play()
         }
-        else
+        else // case where you are trying to freeze a die
         {
-            newDieList = newDieList.concat(diePosition)
-            //console.log("mutated die list 2 -> ")
-            //console.log(newDieList)
-            const newState = {...engine.engineState, frozenDice:newDieList}
+            // first check if you even have a freeze to spend
+            if(engine.engineState["remainingFreezes"] <= 0)
+            {
+                invalidFreezeAudioRef.current.currentTime = 0
+                invalidFreezeAudioRef.current.play()
+                return
+            }
 
-            //console.log("pushing the following state -> ")
-            //console.log(newState)
+            newDieList = newDieList.concat(diePosition)
+            const newState = {...engine.engineState, frozenDice:newDieList, remainingFreezes: engine.engineState["remainingFreezes"]-1}
             engine.hooks["setEngineState"](newState)
 
             freezeAudioRef.current.currentTime = 0
@@ -75,10 +78,7 @@ export default function DiceCard({rollState, freezable, diePosition}) {
 
     function dieIsFrozen() {
         const frozenDiceList = engine.engineState["frozenDice"]
-        //console.log(frozenDiceList)
-        //console.log(engine.engineState)
-        //console.log("die is frozen? " + frozenDiceList.includes(diePosition))
-        return frozenDiceList.includes(diePosition)
+        return frozenDiceList && frozenDiceList.includes(diePosition)
     }
 
     function generateFreezeButton() {
@@ -90,7 +90,6 @@ export default function DiceCard({rollState, freezable, diePosition}) {
     }
 
     function generateFreezeOverlay() {
-        console.log("generate freeze overlay call")
         if(dieIsFrozen())
         {
             return <img className="die absolute object-fill z-10" src={freezeOverlay}/>

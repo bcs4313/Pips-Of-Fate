@@ -32,6 +32,7 @@ export function useGameEngine() {
         gold: 0,
         roundNum: 0,
         freezesBought: 0,
+        remainingFreezes: 0,
         frozenDice: [],
         items: {}
     })
@@ -57,7 +58,7 @@ export function useGameEngine() {
         return diceAmount
     }
 
-    function completeQuota() {
+    function completeQuotaFX() {
         let winAudio = new Audio(QuotaCompleteAudio)
         ConfettiEffect()
         winAudio.play()
@@ -68,7 +69,7 @@ export function useGameEngine() {
         loseAudio.play()
         setTimeout(function() {
             setRolling(() => false)
-            setQuota(() => 7)
+            setQuota(() => 6)
             setScore(() => 0)
             setRollsLeft(() => 3)
             setDiceAmount(() => 1)
@@ -77,6 +78,9 @@ export function useGameEngine() {
                     lastRoundGold:0,
                     gold: 0,
                     roundNum: 0,
+                    freezesBought: 0,
+                    remainingFreezes:0,
+                    frozenDice: [],
                     items: {}
                 }
             })
@@ -142,9 +146,9 @@ export function useGameEngine() {
                 let newScore = prev
                 if(newScore >= quota)
                 {
-                    setQuota(() => Math.floor(quota*1.1) + 2)
+                    setQuota(() => Math.floor(quota*1.1) + 1)
                     setRollsLeft(() => 3)
-                    completeQuota()
+                    completeQuotaFX()
                     return 0;
                 }
                 return newScore
