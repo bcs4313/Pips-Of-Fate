@@ -53,7 +53,7 @@ export default function Inventory() {
             const itemRarity = ItemRegistry[itemID]["rarity"]
             const itemDescription = ItemRegistry[itemID]["description"]
             const itemImagePath = ItemRegistry[itemID]["image"]
-            itemCardList.push(<ItemCard name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>)
+            itemCardList.push(<ItemCard id={itemID} name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>)
         }
         return itemCardList
     }
