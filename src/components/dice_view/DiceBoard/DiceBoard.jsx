@@ -2,6 +2,7 @@ import "./DiceBoard.css"
 import { Button } from 'reactstrap';
 import DiceCard from "./../DiceCard/DiceCard.jsx"
 import QuotaDisplay from "./QuotaDisplay/QuotaDisplay.jsx"
+import Inventory from "./../../items/Inventory.jsx"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
 import { useEffect, useState} from "react"
 
@@ -21,6 +22,7 @@ export default function DiceBoard() {
     return (
     <div className = "dice-board-main-panel">
         <QuotaDisplay totalDiceScore={engine.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
+        <Inventory/>
         <div className="rolling-container">
             <div className="dice-container">
                 <div className="dice-container">

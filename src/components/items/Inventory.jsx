@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { ItemRegistry } from "./ItemRegistry"
-
+import ItemCard from "./ItemCard"
 
 // Items are assigned to specifc engine steps, of which they check
 // and execute their own code. EngineSteps call forwardEngineStep(<identity>) somewhere in their
@@ -12,7 +12,7 @@ import { ItemRegistry } from "./ItemRegistry"
 export default function Inventory() {
     // an object consisting of item ids as keys and integer values
     // as stack counts
-    const [items, setItems] = useState({})
+    const [items, setItems] = useState({"shiny_coin":1})
 
     // add an item id to the item list.
     function addItem(itemID) {
@@ -43,4 +43,20 @@ export default function Inventory() {
             return nextEngineState
         })
     }
+
+    function createItemCards() 
+    {
+        const itemCardList = []
+        for(const [itemID, count] of Object.entries(items))
+        {
+            const itemName = ItemRegistry[itemID]["name"]
+            const itemRarity = ItemRegistry[itemID]["rarity"]
+            const itemDescription = ItemRegistry[itemID]["description"]
+            const itemImagePath = ItemRegistry[itemID]["image"]
+            itemCardList.push(<ItemCard name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>)
+        }
+        return itemCardList
+    }
+
+    return (createItemCards())
 }
