@@ -44,10 +44,10 @@ export default function Store() {
                     Score higher and trigger items more often!"/>
                     <BuyComponent title="+1 Freeze" price={buyFreezePrice} upgradefunction={ acquireAdditionalFreeze }
                     imgPath={FrozenDiceImg} description="Freeze a die value for the rest of the round with a checkbox. 
-                    Dice can be unfrozen for free. You can only freeze after your first roll."/>
+                    Dice can be unfrozen for free."/>
                 </div>
             </div>
-            <NavigationBar currentLocation="/store"/>
+            <NavigationBar className="text-center" currentLocation="/store"/>
         </main>
     )
 }

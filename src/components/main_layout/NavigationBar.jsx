@@ -24,7 +24,7 @@ export default function NavigationBar({currentLocation}) {
                 return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
                 break;
             default:
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1.5cqmax,5em)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
+                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
                 break;
         }
     }

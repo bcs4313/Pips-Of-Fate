@@ -19,6 +19,8 @@
   --bs-primary: #7c3aed;
   --bs-danger: #ef4444;
   --bs-success: #22c55e;
+
+  overflow:hidden;
 }
 
 #root {
