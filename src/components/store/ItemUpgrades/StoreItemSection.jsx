@@ -1,6 +1,7 @@
 import ItemOffer from "./ItemOffer"
 import { Button } from "reactstrap"
 import { useIsPortrait } from "./../../../utilities/useIsPortrait"
+import { ItemRegistry } from "./../../items/ItemRegistry"
 
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
@@ -27,15 +28,19 @@ export default function StoreItemSection() {
         }
     }
 
+    function getPrice(itemid) {
+        return ItemRegistry[itemid]["basePrice"]
+    }
+
     return(
     <div className="@container w-[100%] mt-[10px] h-[auto] bg-[var(--bs-gray-800)]">
         <h1 className="text-white">Item Shop:</h1>
         <div className={getStoreContainerClass()}>
             <div></div>
             <div className="flex flex-row justify-center">
-                <ItemOffer/>
-                <ItemOffer/>
-                <ItemOffer/>
+                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
+                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
+                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
             </div>
             <div>
                 <Button className={getRerollButtonStyle()}>

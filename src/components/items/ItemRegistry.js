@@ -5,6 +5,7 @@
 export const ItemRegistry = {
     shiny_coin: {
         id: "shiny_coin",
+        basePrice: 10,
         name: "Shiny Coin",
         rarity: "common",
         description: "Earn an extra 5 gold per round",

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ItemRegistry } from "./ItemRegistry"
+import { useItems } from "./../internal_state/Autosaver_Wrappers/AutosaverItems"
 import ItemCard from "./ItemCard"
 
 // Items are assigned to specifc engine step ids, of which they check
@@ -8,8 +9,7 @@ import ItemCard from "./ItemCard"
 export default function useInventory() {
     // an object consisting of item ids as keys and integer values
     // as stack counts
-    const [items, setItems] = useState({"shiny_coin":1})
-
+    const [items, setItems] = useItems()
     // add an item id to the item list.
     function addItem(itemID) {
         setItems((prev) => {
@@ -58,7 +58,7 @@ export default function useInventory() {
 
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
-        "add": addItem,
+        "addItem": addItem,
         "createCards": createItemCards,
     }
 

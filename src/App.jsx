@@ -10,15 +10,15 @@ import { InventoryProvider } from "./components/items/InventoryContextProvider.j
 function App() {
   return (
     <>
-      <EngineProvider>
-        <InventoryProvider>
-          <Header/>
-          <Routes>
-            <Route path="/" element={<WebsiteMain/>}/>
-            <Route path="/store" element={<Store/>}/>
-          </Routes>
-        </InventoryProvider>
-      </EngineProvider>
+      <InventoryProvider>
+        <EngineProvider>
+            <Header/>
+            <Routes>
+              <Route path="/" element={<WebsiteMain/>}/>
+              <Route path="/store" element={<Store/>}/>
+            </Routes>
+        </EngineProvider>
+      </InventoryProvider>
     </>
   )
 }

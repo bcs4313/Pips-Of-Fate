@@ -7,7 +7,7 @@ import LoseAudio from "./../../assets/internal_state/GameOver.mp3"
 import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 
 // inventory import
-import useInventory from "./../items/UseInventory.jsx"
+import { useInventory } from "./../items/InventoryContextProvider.jsx"
 
 // round step imports
 import EngineStepEndRound from "./Engine_Steps/EngineStepEndRound.jsx"

@@ -17,8 +17,17 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     const idRef = useRef("itemicon-" + id + "-" + Math.floor(Math.random() * 1000000))
 
+    function attachStackCount() {
+        if(stacks > 1)
+        {
+            return <h1 className="absolute text-white font-[600]! top-0 right-0">x{stacks}</h1>
+        }
+        return <></>
+    }
+
     return (<>
         <div className="relative align-self-center">
+            {attachStackCount()}
             <img id={idRef.current } className="object-fill w-[clamp(16px,16cqw,128px)]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 
             target={idRef.current } 
