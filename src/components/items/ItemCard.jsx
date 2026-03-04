@@ -19,7 +19,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     return (<>
         <div className="relative align-self-center">
-            <img id={idRef.current } className="object-fill w-[128px]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
+            <img id={idRef.current } className="object-fill w-[clamp(16px,16cqw,128px)]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 
             target={idRef.current } 
             placement={tooltipDirection}
