@@ -1,20 +1,18 @@
-import Inventory from "../../items/Inventory"
+import { useInventory } from "../../items/InventoryContextProvider"
 
-export default function EngineStepEndRound(engineState, setEngineState, setRolling) {
-
-    //
+export default function EngineStepEndRound(engineState, inventoryInterface, hooks) {
+    console.log(hooks)
+    // trigger items under this step
+    let postItemEngineState = inventoryInterface.forwardStep("END_ROUND", engineState)
 
     // award gold
-    const gold = engineState["gold"]
+    const newState = {...postItemEngineState, gold:postItemEngineState["gold"] + 5, frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"]}
+    newState["lastRoundGold"] = engineState["gold"]
+
     console.log("end_round")
-    setEngineState((prev) => {
-        const newState = {...prev, gold:prev["gold"] + 5, frozenDice:[], remainingFreezes: prev["freezesBought"]}
-        newState["lastRoundGold"] = prev["gold"]
-        return newState;
-    }) 
+
+    hooks["setEngineState"](newState)
 
     // notify engine that the round has ended (allow rolls again)
-    setRolling(() => false)
-
-    return engineState
+    hooks["setRolling"](false)
 }

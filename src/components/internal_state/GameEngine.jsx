@@ -6,6 +6,9 @@ import QuotaCompleteAudio from "./../../assets/internal_state/CompleteQuota.mp3"
 import LoseAudio from "./../../assets/internal_state/GameOver.mp3"
 import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 
+// inventory import
+import useInventory from "./../items/UseInventory.jsx"
+
 // round step imports
 import EngineStepEndRound from "./Engine_Steps/EngineStepEndRound.jsx"
 
@@ -34,8 +37,18 @@ export function useGameEngine() {
         freezesBought: 0,
         remainingFreezes: 0,
         frozenDice: [],
-        items: {}
     })
+
+    // inventory
+    const InventoryInterface = useInventory()
+
+    // hooks
+    const engineHooks = {
+        "getDiceAmount": _getDiceAmount,
+        "setDiceAmount": _setDiceAmount,
+        "setRolling": _setRolling,
+        "setEngineState": _setEngineState
+    }
 
     useEffect(() => {
         console.log("Engine reacting to diceAmount:", diceAmount)
@@ -52,6 +65,10 @@ export function useGameEngine() {
             console.log("setting new die amount => " + prev + " " + val)
             return val
         })
+    }
+
+    function _setRolling(val) {
+        setRolling((prev) => val)
     }
 
     function _getDiceAmount(val) {
@@ -81,7 +98,6 @@ export function useGameEngine() {
                     freezesBought: 0,
                     remainingFreezes:0,
                     frozenDice: [],
-                    items: {}
                 }
             })
         }, 4000) 
@@ -154,7 +170,7 @@ export function useGameEngine() {
                 return newScore
                 })
 
-                if(rollSum + score >= quota) { EngineStepEndRound(engineState, setEngineState, setRolling) }
+                if(rollSum + score >= quota) { EngineStepEndRound(engineState, InventoryInterface, engineHooks) }
             }, 400)
 
             setRollsLeft(prevRolls => {
@@ -175,9 +191,5 @@ export function useGameEngine() {
         }, 300)
     }
 
-    return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState, hooks: {
-        "getDiceAmount": _getDiceAmount,
-        "setDiceAmount": _setDiceAmount,
-        "setEngineState": _setEngineState
-    }}
+    return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState, hooks: engineHooks}
 }

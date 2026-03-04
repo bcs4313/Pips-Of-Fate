@@ -1,5 +1,7 @@
 
 // architecture relies on the Inventory object to call setEngineState for item steps
+// for items that modify the inventory itself a hook must be retrieved from the engine to
+// get the inventory context, getting access to its various public functions.
 export const ItemRegistry = {
     shiny_coin: {
         id: "shiny_coin",
@@ -9,12 +11,15 @@ export const ItemRegistry = {
         image: "shiny_coin.png",
         stackable: true,
         steps: {
-            END_ROUND: (engineState) => {
+            END_ROUND: (engineState, hooks) => {
                 return {...engineState, gold: engineState.gold + 5}
             }
         }
     }
 }
+
+// valid step examples:
+// END_ROUND
 
 // a uiBus will handle updates on the ui side
 // some ideas...
