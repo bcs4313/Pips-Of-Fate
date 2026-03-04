@@ -7,6 +7,9 @@ import "./Store.css"
 import ExtraDiceImg from "./../../assets/store/ExtraDiceUpgrade.png"
 import FrozenDiceImg from "./../../assets/store/FrozenDiceUpgrade.png"
 
+// other components
+import StoreItemSection from "./ItemUpgrades/StoreItemSection"
+
 // context level
 import { useEngine } from "./../internal_state/EngineContextProvider.jsx"
 import { useState } from "react"
@@ -41,14 +44,15 @@ export default function Store() {
 
     return (
         <main>
-            <div className="store-container overflow-hidden">
-                <div className="store-baseupgrades-container">
+            <div className="store-container">
+                <div className="upgrades-container">
                     <BuyComponent title="Extra Dice" price={buyDiePrice} upgradefunction={acquireAdditionalDie} 
                     imgPath={ExtraDiceImg} description="Get an additional die for each roll. 
                     Score higher and trigger items more often!"/>
                     <BuyComponent title="+1 Freeze" price={buyFreezePrice} upgradefunction={ acquireAdditionalFreeze }
                     imgPath={FrozenDiceImg} description="Freeze a die value for the rest of the round with a checkbox. 
                     Dice can be unfrozen for free."/>
+                    <StoreItemSection/>
                 </div>
             </div>
             <NavigationBar className="text-center" currentLocation="/store"/>

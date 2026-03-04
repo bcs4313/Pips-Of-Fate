@@ -22,22 +22,22 @@ export default function useInventory() {
     // trigger item functions for all items linked to the stepIdentity, forwarding the current engine state
     // @param stepIdentity { string }
     function forwardEngineStep(stepIdentity, prevEngineState) {
-        console.log("forwardEngineStep")
+        //console.log("forwardEngineStep")
         const itemsSnapshot = {...items}
         let nextEngineState = {...prevEngineState}
 
         for(const [itemID, count] of Object.entries(itemsSnapshot)) {
             const steps = ItemRegistry[itemID].steps
             const callback = steps[stepIdentity]
-            console.log("item steps: ")
-            console.log(steps)
-            console.log("stepIdentity: ")
-            console.log(stepIdentity)
-            console.log("itemID: " + itemID + " count: " + count + " callback: " + callback)
+            //console.log("item steps: ")
+            //console.log(steps)
+            //console.log("stepIdentity: ")
+            //console.log(stepIdentity)
+            //console.log("itemID: " + itemID + " count: " + count + " callback: " + callback)
             if(!callback) { continue }
             for(let i = 0; i < count; i++)
             {
-                console.log("item callback -> " + itemID)
+                //console.log("item callback -> " + itemID)
                 nextEngineState = callback(nextEngineState)
             }
         }
@@ -49,11 +49,7 @@ export default function useInventory() {
         const itemCardList = []
         for(const [itemID, count] of Object.entries(items))
         {
-            const itemName = ItemRegistry[itemID]["name"]
-            const itemRarity = ItemRegistry[itemID]["rarity"]
-            const itemDescription = ItemRegistry[itemID]["description"]
-            const itemImagePath = ItemRegistry[itemID]["image"]
-            itemCardList.push(<ItemCard id={itemID} name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>)
+            itemCardList.push(buildItemCard(itemID, count, "right"))
         }
         return itemCardList
     }
@@ -63,7 +59,16 @@ export default function useInventory() {
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
         "add": addItem,
+        "createCards": createItemCards,
     }
 
     return inventoryInterface
+}
+
+export function buildItemCard(itemID, count, tooltipDir) {
+    const itemName = ItemRegistry[itemID]["name"]
+    const itemRarity = ItemRegistry[itemID]["rarity"]
+    const itemDescription = ItemRegistry[itemID]["description"]
+    const itemImagePath = ItemRegistry[itemID]["image"]
+    return <ItemCard id={itemID} tooltipDirection={tooltipDir} key={itemID} name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>
 }

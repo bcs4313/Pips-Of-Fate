@@ -1,5 +1,5 @@
 
-// architecture relies on the Inventory object to call setEngineState for item steps
+// architecture relies on the Inventory object to queue engine state changes for item steps
 // for items that modify the inventory itself a hook must be retrieved from the engine to
 // get the inventory context, getting access to its various public functions.
 export const ItemRegistry = {

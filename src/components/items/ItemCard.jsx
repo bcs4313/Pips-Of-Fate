@@ -1,6 +1,6 @@
 
 import { assetMap } from "../../utilities/assetMap"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Tooltip } from "reactstrap"
 import "./ItemCard.css"
 
@@ -10,21 +10,21 @@ import "./ItemCard.css"
 //@param description
 //@param imagePath
 //@param activeCallback
-export default function ItemCard({id, name, stacks, rarity, description, imagePath, activeCallback})
+export default function ItemCard({id, name, stacks, rarity, description, imagePath, tooltipDirection, activeCallback})
 {
     const [tooltipOpen, setTooltipOpen] = useState(false)
     const toggle = () => setTooltipOpen(!tooltipOpen)
 
-    const idStr = "itemicon-" + id
+    const idRef = useRef("itemicon-" + id + "-" + Math.floor(Math.random() * 1000000))
 
     return (<>
-        <div className="relative">
-            <img id={idStr} className="object-fill w-[128px]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
+        <div className="relative align-self-center">
+            <img id={idRef.current } className="object-fill w-[128px]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 
-            target={idStr} 
-            placement="right" 
+            target={idRef.current } 
+            placement={tooltipDirection}
             isOpen={tooltipOpen} 
-            autohide={false} 
+            autohide={true} 
             toggle={toggle}
             className="custom-tooltip-container" // Class for the main container
             innerClassName="custom-tooltip-inner" // Class for the content area
