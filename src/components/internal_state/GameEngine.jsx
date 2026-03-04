@@ -47,19 +47,61 @@ export function useGameEngine() {
         "getDiceAmount": _getDiceAmount,
         "setDiceAmount": _setDiceAmount,
         "setRolling": _setRolling,
-        "setEngineState": _setEngineState
+        "enqueueStateChange": _enqueueStateChange
     }
 
+    // queue system for asynchronous state changes
+    // engine steps and other updates MUST enter this queue
+    const stateQueue = useRef([])
+    const engineRunning = useRef(false)
+    const engineStateRef = useRef(engineState)
+
+    // prevent stale engineStates in the queue
+    useEffect(() => {
+        engineStateRef.current = engineState
+    }, [engineState])
+
+    // your stateful function should take in 3 arguments,
+    // engineState, inventoryInterface, hooks
+    async function _enqueueStateChange(statefulFunction) {
+        console.log("queueing function:")
+        console.log(statefulFunction)
+
+        stateQueue.current.push(statefulFunction)
+        if(engineRunning.current == true)
+        {
+            console.log("queue currently running: pushing event function to active queue")
+        }
+        else
+        {
+            console.log("engineState queue started")
+            engineRunning.current = true
+            let state = engineStateRef.current
+
+            // not running, begin the loop
+            while(stateQueue.current.length > 0)
+            {
+                const step = stateQueue.current.shift()
+
+                state = await step(state, InventoryInterface, engineHooks)
+                setEngineState(() => state)
+            }
+
+            console.log("end of queue state")
+            console.log(state)
+        }
+        engineRunning.current = false
+    }
+    // end of queue system
+
+    // useEffect reacting to a dice amount change
     useEffect(() => {
         console.log("Engine reacting to diceAmount:", diceAmount)
 
         setDiceValues(Array(diceAmount).fill(1))
     }, [diceAmount])
 
-    function _setEngineState(newState) {
-        setEngineState((prev) => newState)
-    }
-
+    // hook
     function _setDiceAmount(val) {
         setDiceAmount((prev) => {
             console.log("setting new die amount => " + prev + " " + val)
@@ -67,10 +109,12 @@ export function useGameEngine() {
         })
     }
 
+    // hook
     function _setRolling(val) {
         setRolling((prev) => val)
     }
 
+    // hook
     function _getDiceAmount(val) {
         return diceAmount
     }
@@ -170,7 +214,7 @@ export function useGameEngine() {
                 return newScore
                 })
 
-                if(rollSum + score >= quota) { EngineStepEndRound(engineState, InventoryInterface, engineHooks) }
+                if(rollSum + score >= quota) { _enqueueStateChange(EngineStepEndRound) }
             }, 400)
 
             setRollsLeft(prevRolls => {

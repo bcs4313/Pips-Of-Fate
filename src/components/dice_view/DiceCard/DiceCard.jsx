@@ -44,36 +44,38 @@ export default function DiceCard({rollState, diePosition}) {
     function freezeDice() {
         console.log("Freeze Dice Call")
         
-        const frozenDiceList = engine.engineState["frozenDice"]
-        let newDieList = [...frozenDiceList]
-        
-        if(frozenDiceList && frozenDiceList.includes(diePosition))
-        {   // case where you are unfreezing a die
-            const index = newDieList.indexOf(diePosition)
-            newDieList = frozenDiceList.filter(num => num !== diePosition)
-            const newState = {...engine.engineState, frozenDice:newDieList}
-
-            engine.hooks["setEngineState"](newState)
-            unfreezeAudioRef.current.currentTime = 0
-            unfreezeAudioRef.current.play()
-        }
-        else // case where you are trying to freeze a die
-        {
-            // first check if you even have a freeze to spend
-            if(engine.engineState["remainingFreezes"] <= 0)
-            {
-                invalidFreezeAudioRef.current.currentTime = 0
-                invalidFreezeAudioRef.current.play()
-                return
+        engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {            
+            const frozenDiceList = ENGINE_STATE["frozenDice"]
+            let newDieList = [...frozenDiceList]
+            
+            if(frozenDiceList && frozenDiceList.includes(diePosition))
+            {   // case where you are unfreezing a die
+                const index = newDieList.indexOf(diePosition)
+                newDieList = frozenDiceList.filter(num => num !== diePosition)
+                const newState = {...ENGINE_STATE, frozenDice:newDieList}
+                unfreezeAudioRef.current.currentTime = 0
+                unfreezeAudioRef.current.play()
+                return newState
             }
+            else // case where you are trying to freeze a die
+            {
+                // first check if you even have a freeze to spend
+                if(ENGINE_STATE["remainingFreezes"] <= 0)
+                {
+                    invalidFreezeAudioRef.current.currentTime = 0
+                    invalidFreezeAudioRef.current.play()
+                    return
+                }
 
-            newDieList = newDieList.concat(diePosition)
-            const newState = {...engine.engineState, frozenDice:newDieList, remainingFreezes: engine.engineState["remainingFreezes"]-1}
-            engine.hooks["setEngineState"](newState)
+                newDieList = newDieList.concat(diePosition)
+                const newState = {...ENGINE_STATE, frozenDice:newDieList, remainingFreezes: ENGINE_STATE["remainingFreezes"]-1}
 
-            freezeAudioRef.current.currentTime = 0
-            freezeAudioRef.current.play()
-        }
+                freezeAudioRef.current.currentTime = 0
+                freezeAudioRef.current.play()
+
+                return newState
+            }
+        })
     }
 
     function dieIsFrozen() {

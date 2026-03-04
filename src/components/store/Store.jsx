@@ -19,20 +19,24 @@ export default function Store() {
     const buyFreezePrice = 10 + (engine.engineState["freezesBought"]) * 10
 
     function acquireAdditionalDie(price) {
-        console.log("buy die call")
-        const diceAmount = engine.hooks["getDiceAmount"]()
-        const gold = engine.engineState["gold"]
-        console.log("gold = " + gold)
-        engine.hooks["setDiceAmount"](diceAmount+1)
-        engine.hooks["setEngineState"]({...engine.engineState, gold:(gold-price)})
+            engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
+            console.log("buy die call")
+            const diceAmount = HOOKS["getDiceAmount"]()
+            const gold = ENGINE_STATE["gold"]
+            console.log("gold = " + gold)
+            HOOKS["setDiceAmount"](diceAmount+1)
+            return {...engine.engineState, gold:(gold-price)}
+        })
     }
 
     function acquireAdditionalFreeze(price) {
-        console.log("buy freeze call")
-        const currentFreezes = engine.engineState["freezesBought"]
-        const gold = engine.engineState["gold"]
-        console.log("gold = " + gold)
-        engine.hooks["setEngineState"]({...engine.engineState, gold:(gold-price), freezesBought: currentFreezes+1, remainingFreezes: engine.engineState["remainingFreezes"]+1})
+        engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
+            console.log("buy freeze call")
+            const currentFreezes = ENGINE_STATE["freezesBought"]
+            const gold = ENGINE_STATE["gold"]
+            console.log("gold = " + gold)
+            return {...ENGINE_STATE, gold:(gold-price), freezesBought: currentFreezes+1, remainingFreezes: ENGINE_STATE["remainingFreezes"]+1}
+        })
     }
 
     return (

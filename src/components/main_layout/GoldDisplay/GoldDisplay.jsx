@@ -20,7 +20,6 @@ export default function GoldDisplay() {
         if(gold > lastRoundGold)
             return (gold - lastRoundGold) / gold
         else
-            console.log("negative round lastRound = " + lastRoundGold)
             return -(1 - gold/lastRoundGold)
     }
 
