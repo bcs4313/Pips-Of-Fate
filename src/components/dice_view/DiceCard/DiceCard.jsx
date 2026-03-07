@@ -1,5 +1,5 @@
 import "./DiceCard.css"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useUIBus } from "../../effects/UIBusContextProvider"
 
 // dice result imports
@@ -48,17 +48,19 @@ export default function DiceCard({rollState, diePosition}) {
     // dice: { list } a list of dice to flash
     // color { hex } (optional, default is green)
     const [flashing, setFlashing] = useState(false)
-    UIBus.subscribe("DIE_FLASH", (args) => {
-        if(!args.dice.includes(diePosition)) { return }
-        //const element = ref.current  
-        //const color = "#49e819"
-        //element.style.setProperty("--flash-color", color)
+    useEffect(() => {
+        UIBus.subscribe("DIE_FLASH", (args) => {
+            if(!args.dice.includes(diePosition)) { return }
+            //const element = ref.current  
+            //const color = "#49e819"
+            //element.style.setProperty("--flash-color", color)
 
-        setFlashing(true)
-        setTimeout(() => {
-            setFlashing(false)
-        }, 250)
-    })
+            setFlashing(true)
+            setTimeout(() => {
+                setFlashing(false)
+            }, 250)
+        })
+    }, [UIBus])
     // UI BUS SECTION
 
     function ConstructImgClass() {
