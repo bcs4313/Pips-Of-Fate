@@ -54,7 +54,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     }
 
     return (
-        <div className="relative align-self-center w-[auto] h-[auto] inline-block">
+        <div className="relative align-self-center w-[clamp(16px,16cqw,128px)] h-[clamp(16px,16cqw,128px)] inline-block">
             {attachStackCount()}
             <img id={idRef.current } className={ConstructImgClass()} alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 

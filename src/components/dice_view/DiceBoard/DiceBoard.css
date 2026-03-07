@@ -34,8 +34,8 @@ Button {
 }
 
 .inventory {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
-    width: 100%;
+    align-items: center;
 }
