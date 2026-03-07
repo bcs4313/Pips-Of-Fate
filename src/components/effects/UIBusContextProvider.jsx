@@ -1,4 +1,4 @@
-import { createContext, useRef } from "react"
+import { createContext, useRef, useContext } from "react"
 import { UIBus } from "./uiBus.js"
 
 export const uiBusContext = createContext(null)
@@ -12,4 +12,15 @@ export function UIBusProvider({ children })
             { children }
         </uiBusContext.Provider>
     )
+}
+
+export function useUIBus() {
+    const UIBus = useContext(uiBusContext)
+
+    if(!UIBus)
+    {
+        throw new Error("useUIBus must be used inside UIBusProvider")
+    }
+
+    return UIBus
 }

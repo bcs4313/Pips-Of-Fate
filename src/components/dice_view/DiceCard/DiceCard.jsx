@@ -1,5 +1,6 @@
 import "./DiceCard.css"
 import { useState, useRef } from "react"
+import { useUIBus } from "../../effects/UIBusContextProvider"
 
 // dice result imports
 import result1 from "../../../assets/diceview/DiceCard/roll-results/dice_result_01.png"
@@ -34,12 +35,40 @@ import { useEngine } from "../../internal_state/EngineContextProvider"
 //@param position {number} an integer that indicates where the die is positioned on the board
 export default function DiceCard({rollState, diePosition}) {
     const engine = useEngine()
+    const UIBus = useUIBus()
     const freezeAudioRef = useRef(new Audio(FreezeSound))
     const unfreezeAudioRef = useRef(new Audio(UnFreezeSound))
     const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
 
 
     // ALL VISUAL FX SECTION (Must subscribe to UIBus)
+
+    // DIE_FLASH (duration is fixed to 0.25 seconds for now, white)
+    // arguments:
+    // dice: { list } a list of dice to flash
+    // color { hex } (optional, default is green)
+    const [flashing, setFlashing] = useState(false)
+    UIBus.subscribe("DIE_FLASH", (args) => {
+        if(!args.dice.includes(diePosition)) { return }
+        const element = ref.current  
+        //const color = "#49e819"
+        //element.style.setProperty("--flash-color", color)
+        
+        setFlashing(true)
+        setTimeout(() => {
+            setFlashing(false)
+        }, 250)
+    })
+
+    function ConstructImgClass() {
+        let targetClass = "die"
+
+        targetClass += " flash-element" 
+
+        return targetClass
+    }
+
+    // END OF VISUAL FX SECTION
 
     // FREEZE SECTION
     const freezable = engine.engineState["freezesBought"] > 0 && engine.rollsLeft < 3 && (engine.engineState["remainingFreezes"] > 0 || engine.engineState["frozenDice"].includes(diePosition))
@@ -137,7 +166,7 @@ export default function DiceCard({rollState, diePosition}) {
         <h1 className="die-num">{rollState}</h1>
         { generateFreezeButton() }
         { generateFreezeOverlay() }
-        <img className="die" src={imgRef}/>
+        <img className={ConstructImgClass()} src={imgRef}/>
     </div>
     </>
     )

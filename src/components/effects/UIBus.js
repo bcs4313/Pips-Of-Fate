@@ -6,12 +6,13 @@ export class UIBus{
         this.listeners = {}
     }
 
-    subscribe(type, callback) {
-        if(!this.listeners[type]) this.listeners[type] = []
-        this.listeners[type].push(callback)
+    subscribe(event_name, callback) {
+        if(!this.listeners[event_name]) this.listeners[event_name] = []
+        this.listeners[event_name].push(callback)
     }
 
-    emit(type, payload) {
-        if(!this.listeners[type]) returnthis.listeners[type].forEach(cb => cb(payload))
+    emit(event_name, event_arguments) {
+        if(!this.listeners[event_name]) return
+        this.listeners[event_name].forEach(cb => cb(event_arguments))
     }
 }

@@ -1,3 +1,4 @@
+import { useUIBus } from "./../effects/UIBusContextProvider"
 
 // architecture relies on the Inventory object to queue engine state changes for item steps
 // for items that modify the inventory itself a hook must be retrieved from the engine to
@@ -27,9 +28,10 @@ export const ItemRegistry = {
         stackable: false,
         steps: {
             PRE_ROLL_RESULT: (engineState, hooks) => {
-                //return {...engineState, gold: engineState.gold + 5}
+                const uiBus = useUIBus()
+                uiBus.emit("DIE_FLASH")
             }
-        }
+        },
     }
 }
 
