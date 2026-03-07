@@ -42,7 +42,7 @@ export default function DiceCard({rollState, diePosition}) {
 
 
     // ALL VISUAL FX SECTION (Must subscribe to UIBus)
-
+    // UI BUS SECTION
     // DIE_FLASH (duration is fixed to 0.25 seconds for now, white)
     // arguments:
     // dice: { list } a list of dice to flash
@@ -59,6 +59,7 @@ export default function DiceCard({rollState, diePosition}) {
             setFlashing(false)
         }, 250)
     })
+    // UI BUS SECTION
 
     function ConstructImgClass() {
         let targetClass = "die"

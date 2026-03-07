@@ -2,6 +2,7 @@
 import { assetMap } from "../../utilities/assetMap"
 import { useState, useRef } from "react"
 import { Tooltip } from "reactstrap"
+import { useUIBus } from "./../effects/UIBusContextProvider"
 import "./ItemCard.css"
 
 //@param name
@@ -17,6 +18,31 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     const idRef = useRef("itemicon-" + id + "-" + Math.floor(Math.random() * 1000000))
 
+    // UI BUS SECTION
+    const UIBus = useUIBus()
+    // ITEM_FLASH (duration is fixed to 0.25 seconds for now, white)
+    const [flashing, setFlashing] = useState(false)
+    UIBus.subscribe("ITEM_FLASH", (args) => {
+        if(args.itemID !== id) { return }
+
+        setFlashing(true)
+        setTimeout(() => {
+            setFlashing(false)
+        }, 250)
+    })
+    // UI BUS SECTION
+
+    function ConstructImgClass() {
+        let targetClass = "object-fill w-[clamp(16px,16cqw,128px)]"
+
+        if(flashing)
+        {
+            targetClass += " flash-element" 
+        }
+
+        return targetClass
+    }
+
     function attachStackCount() {
         if(stacks > 1)
         {
@@ -28,7 +54,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     return (<>
         <div className="relative align-self-center">
             {attachStackCount()}
-            <img id={idRef.current } className="object-fill w-[clamp(16px,16cqw,128px)]" alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
+            <img id={idRef.current } className={ConstructImgClass()} alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 
             target={idRef.current } 
             placement={tooltipDirection}

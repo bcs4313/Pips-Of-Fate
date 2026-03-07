@@ -12,6 +12,10 @@ export const ItemRegistry = {
         stackable: true,
         steps: {
             END_ROUND: (engineState, InventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                UIBus.emit("ITEM_FLASH", {
+                    itemID: "shiny_coin"
+                })
                 return {...engineState, gold: engineState.gold + 5}
             }
         }
@@ -26,12 +30,9 @@ export const ItemRegistry = {
         stackable: false,
         steps: {
             PRE_ROLL_RESULT: async (engineState, inventoryInterface, hooks) => {
-                console.log("hooks:::")
-                console.log(hooks)
                 const UIBus = hooks["getUIBus"]()
                 const diceValues = hooks["getDiceValues"]()
                 const newDiceValues = [...diceValues]
-                console.log(newDiceValues)
                 for(let i = 0; i < newDiceValues.length; i++)
                 {
                     const val = newDiceValues[i]
@@ -42,6 +43,10 @@ export const ItemRegistry = {
 
                         UIBus.emit("DIE_FLASH", {
                             dice: [i]
+                        })
+                        
+                        UIBus.emit("ITEM_FLASH", {
+                            itemID: "beggars_candle"
                         })
                         hooks["setDiceValues"]([i], [6])
                     }

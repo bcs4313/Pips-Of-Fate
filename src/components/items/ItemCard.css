@@ -1,0 +1,21 @@
+
+.flash-element {
+    animation: glowing 0.25s linear infinite; /* */
+    color: #49e819; 
+    font-size: 24px;
+}
+
+@keyframes glowing {
+  0% {
+    filter: brightness(1);
+    box-shadow: 0 0 3px var(--flash-color, #49e819);
+  }
+  50% {
+        filter: brightness(10);
+    box-shadow: 0 0 10px var(--flash-color, #49e819);
+  }
+  100% {
+        filter: brightness(1);
+    box-shadow: 0 0 3px var(--flash-color, #49e819);
+  }
+}
