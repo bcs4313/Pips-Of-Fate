@@ -50,10 +50,10 @@ export default function DiceCard({rollState, diePosition}) {
     const [flashing, setFlashing] = useState(false)
     UIBus.subscribe("DIE_FLASH", (args) => {
         if(!args.dice.includes(diePosition)) { return }
-        const element = ref.current  
+        //const element = ref.current  
         //const color = "#49e819"
         //element.style.setProperty("--flash-color", color)
-        
+
         setFlashing(true)
         setTimeout(() => {
             setFlashing(false)
@@ -63,7 +63,10 @@ export default function DiceCard({rollState, diePosition}) {
     function ConstructImgClass() {
         let targetClass = "die"
 
-        targetClass += " flash-element" 
+        if(flashing)
+        {
+            targetClass += " flash-element" 
+        }
 
         return targetClass
     }

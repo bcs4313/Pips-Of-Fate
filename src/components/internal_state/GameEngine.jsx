@@ -9,6 +9,9 @@ import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 // inventory import
 import { useInventory } from "./../items/InventoryContextProvider.jsx"
 
+// UIBus import
+import { useUIBus } from "./../effects/UIBusContextProvider.jsx"
+
 // round step imports
 import EngineStepPreRollResults from "./Engine_Steps/EngineStepPreRollResults.jsx"
 import EngineStepEndRoll from "./Engine_Steps/EngineStepEndRoll.jsx"
@@ -44,11 +47,17 @@ export function useGameEngine() {
     // inventory
     const InventoryInterface = useInventory()
 
+    // UI Bus
+    const UIBus = useUIBus()
+
     // hooks
     const engineHooks = {
         "getDiceAmount": _getDiceAmount,
-        "setDiceAmount": _setDiceAmount,
-        "setRolling": _setRolling,
+        "setDiceAmount": _setDiceAmount, // not queue enforced
+        "setRolling": _setRolling, // not queue enforced
+        "getDiceValues": _getDiceValues,
+        "setDiceValues": _setDiceValues, // queue only
+        "getUIBus": _getUIBus,
         "enqueueStateChange": _enqueueStateChange
     }
 
@@ -84,6 +93,10 @@ export function useGameEngine() {
             {
                 const step = stateQueue.current.shift()
 
+                //console.log("calling step with hooks: ") 
+                //console.log(engineHooks)
+                //console.log("with function: ")
+                //console.log(step)
                 state = await step(state, InventoryInterface, engineHooks)
                 setEngineState(() => state)
             }
@@ -103,6 +116,11 @@ export function useGameEngine() {
     }, [diceAmount])
 
     // hook
+    function _getUIBus() {
+        return UIBus
+    }
+
+    // hook
     function _setDiceAmount(val) {
         setDiceAmount((prev) => {
             console.log("setting new die amount => " + prev + " " + val)
@@ -118,6 +136,28 @@ export function useGameEngine() {
     // hook
     function _getDiceAmount(val) {
         return diceAmount
+    }
+
+    // hook
+    function _getDiceValues(val) {
+        return diceValues
+    }
+
+    // hook
+    // utilizes a parallel list
+    //@param indexes { list } target die indexes to change
+    //@param values { list } target values to set
+    function _setDiceValues(indexes, values) {
+        _enqueueStateChange(() => {
+            setDiceValues((prev) => {
+                let newDiceValues = [...prev]
+                for(let i = 0; i < indexes.length; i++)
+                {
+                    newDiceValues[indexes[i]] = values[i]
+                }
+                return newDiceValues
+            })
+        })
     }
 
     function completeQuotaFX() {
@@ -219,7 +259,6 @@ export function useGameEngine() {
                 return newScore
                 })
                 if(rollSum + score >= parseInt(quota)) { 
-                    console.log("reached this line")
                     _enqueueStateChange(EngineStepEndRound) 
                 }
             }, 400)

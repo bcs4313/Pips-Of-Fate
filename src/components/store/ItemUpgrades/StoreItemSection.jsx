@@ -39,7 +39,7 @@ export default function StoreItemSection() {
             <div></div>
             <div className="flex flex-row justify-center">
                 <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
-                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
+                <ItemOffer itemid="beggars_candle" price={getPrice("beggars_candle")} />
                 <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
             </div>
             <div>

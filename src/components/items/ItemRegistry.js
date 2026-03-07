@@ -1,5 +1,3 @@
-import { useUIBus } from "./../effects/UIBusContextProvider"
-
 // architecture relies on the Inventory object to queue engine state changes for item steps
 // for items that modify the inventory itself a hook must be retrieved from the engine to
 // get the inventory context, getting access to its various public functions.
@@ -13,23 +11,43 @@ export const ItemRegistry = {
         image: "shiny_coin.png",
         stackable: true,
         steps: {
-            END_ROUND: (engineState, hooks) => {
+            END_ROUND: (engineState, InventoryInterface, hooks) => {
                 return {...engineState, gold: engineState.gold + 5}
             }
         }
     },
-    beggars_luck: {
-        id: "beggars_luck",
+    beggars_candle: {
+        id: "beggars_candle",
         basePrice: 25,
-        name: "Beggar's Luck",
+        name: "Beggar's Candle",
         rarity: "rare",
-        description: "If you roll a 1, turn it into a 6 instead",
-        image: "shiny_coin.png",
+        description: "If you roll a 1, the next roll is guaranteed to be a 6",
+        image: "beggars_candle.png",
         stackable: false,
         steps: {
-            PRE_ROLL_RESULT: (engineState, hooks) => {
-                const uiBus = useUIBus()
-                uiBus.emit("DIE_FLASH")
+            PRE_ROLL_RESULT: async (engineState, inventoryInterface, hooks) => {
+                console.log("hooks:::")
+                console.log(hooks)
+                const UIBus = hooks["getUIBus"]()
+                const diceValues = hooks["getDiceValues"]()
+                const newDiceValues = [...diceValues]
+                console.log(newDiceValues)
+                for(let i = 0; i < newDiceValues.length; i++)
+                {
+                    const val = newDiceValues[i]
+                    if(val == 1)
+                    {
+                        console.log("reacted to val = 1")
+                        newDiceValues[i] = 6
+
+                        UIBus.emit("DIE_FLASH", {
+                            dice: [i]
+                        })
+                        hooks["setDiceValues"]([i], [6])
+                    }
+                }
+
+                return {...engineState}
             }
         },
     }

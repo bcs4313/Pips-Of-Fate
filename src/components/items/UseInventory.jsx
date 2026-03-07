@@ -21,7 +21,7 @@ export default function useInventory() {
 
     // trigger item functions for all items linked to the stepIdentity, forwarding the current engine state
     // @param stepIdentity { string }
-    function forwardEngineStep(stepIdentity, prevEngineState) {
+    function forwardEngineStep(stepIdentity, prevEngineState, inventoryInterface, hooks) {
         //console.log("forwardEngineStep")
         const itemsSnapshot = {...items}
         let nextEngineState = {...prevEngineState}
@@ -38,7 +38,7 @@ export default function useInventory() {
             for(let i = 0; i < count; i++)
             {
                 //console.log("item callback -> " + itemID)
-                nextEngineState = callback(nextEngineState)
+                nextEngineState = callback(nextEngineState, inventoryInterface, hooks)
             }
         }
         return nextEngineState
