@@ -6,19 +6,22 @@ import Store from "./components/store/Store"
 import { Routes, Route } from "react-router-dom"
 import { EngineProvider } from "./components/internal_state/EngineContextProvider.jsx"
 import { InventoryProvider } from "./components/items/InventoryContextProvider.jsx"
+import { UIBusProvider } from "./components/effects/UIBusContext.jsx"
 
 function App() {
   return (
     <>
-      <InventoryProvider>
-        <EngineProvider>
-            <Header/>
-            <Routes>
-              <Route path="/" element={<WebsiteMain/>}/>
-              <Route path="/store" element={<Store/>}/>
-            </Routes>
-        </EngineProvider>
-      </InventoryProvider>
+      <UIBusProvider>
+        <InventoryProvider>
+          <EngineProvider>
+              <Header/>
+              <Routes>
+                <Route path="/" element={<WebsiteMain/>}/>
+                <Route path="/store" element={<Store/>}/>
+              </Routes>
+          </EngineProvider>
+        </InventoryProvider>
+      </UIBusProvider>
     </>
   )
 }

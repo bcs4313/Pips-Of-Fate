@@ -10,8 +10,8 @@ import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 import { useInventory } from "./../items/InventoryContextProvider.jsx"
 
 // round step imports
-import EngineStepPreRollResults from "./Engine_steps/EngineStepPreRollResults.jsx"
-import EngineStepEndRoll from "./Engine_Steps/EngineStepEndRound.jsx"
+import EngineStepPreRollResults from "./Engine_Steps/EngineStepPreRollResults.jsx"
+import EngineStepEndRoll from "./Engine_Steps/EngineStepEndRoll.jsx"
 import EngineStepEndRound from "./Engine_Steps/EngineStepEndRound.jsx"
 
 // The game engine consumes item activations and
@@ -76,7 +76,6 @@ export function useGameEngine() {
         }
         else
         {
-            console.log("engineState queue started")
             engineRunning.current = true
             let state = engineStateRef.current
 
@@ -192,7 +191,7 @@ export function useGameEngine() {
                 }
             }
 
-            _enqueueStateChange(EngineStepEndRoll) 
+            _enqueueStateChange(EngineStepPreRollResults) 
 
             setDiceValues(
                 () => newDiceValues
@@ -219,8 +218,10 @@ export function useGameEngine() {
                 }
                 return newScore
                 })
-
-                if(rollSum + score >= quota) { _enqueueStateChange(EngineStepEndRound) }
+                if(rollSum + score >= parseInt(quota)) { 
+                    console.log("reached this line")
+                    _enqueueStateChange(EngineStepEndRound) 
+                }
             }, 400)
 
             setRollsLeft(prevRolls => {

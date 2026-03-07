@@ -39,6 +39,9 @@ export default function DiceCard({rollState, diePosition}) {
     const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
 
 
+    // ALL VISUAL FX SECTION (Must subscribe to UIBus)
+
+    // FREEZE SECTION
     const freezable = engine.engineState["freezesBought"] > 0 && engine.rollsLeft < 3 && (engine.engineState["remainingFreezes"] > 0 || engine.engineState["frozenDice"].includes(diePosition))
 
     function freezeDice() {
@@ -98,7 +101,9 @@ export default function DiceCard({rollState, diePosition}) {
         }
         return <div className="absolute"/>
     }
+    // END OF FREEZE SECTION
 
+    // Image reference and return section:::
     let imgRef = result1;
     switch(rollState) {
         case 0:

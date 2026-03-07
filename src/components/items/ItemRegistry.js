@@ -12,7 +12,7 @@ export const ItemRegistry = {
         image: "shiny_coin.png",
         stackable: true,
         steps: {
-            END_ROLL: (engineState, hooks) => {
+            END_ROUND: (engineState, hooks) => {
                 return {...engineState, gold: engineState.gold + 5}
             }
         }
