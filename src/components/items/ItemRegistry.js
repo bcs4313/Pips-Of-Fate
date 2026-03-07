@@ -12,8 +12,22 @@ export const ItemRegistry = {
         image: "shiny_coin.png",
         stackable: true,
         steps: {
-            END_ROUND: (engineState, hooks) => {
+            END_ROLL: (engineState, hooks) => {
                 return {...engineState, gold: engineState.gold + 5}
+            }
+        }
+    },
+    beggars_luck: {
+        id: "beggars_luck",
+        basePrice: 25,
+        name: "Beggar's Luck",
+        rarity: "rare",
+        description: "If you roll a 1, turn it into a 6 instead",
+        image: "shiny_coin.png",
+        stackable: false,
+        steps: {
+            PRE_ROLL_RESULT: (engineState, hooks) => {
+                //return {...engineState, gold: engineState.gold + 5}
             }
         }
     }
