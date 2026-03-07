@@ -6,7 +6,7 @@
 
 .die {
     object-fit:contain;
-    height:clamp(25px, 20cqw,150px);
+    height:clamp(25px, 20cqw + 16px,150px);
 }
 
 .flash-element {

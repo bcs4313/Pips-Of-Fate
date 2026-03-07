@@ -55,6 +55,62 @@ export const ItemRegistry = {
                 return {...engineState}
             }
         },
+    },
+    d6: {
+        name: "D6",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 1.15 times more likely to roll a 6 on any dice",
+        image: "?",
+        stackable: true,
+    },
+    d5: {
+        name: "D5",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 1.25 times more likely to roll a 5 on any dice",
+        image: "?",
+        stackable: true,
+    },
+    d4: {
+        name: "D4",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 1.4 times more likely to roll a 4 on any dice",
+        image: "?",
+        stackable: true,
+    },
+    d3: {
+        name: "D3",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 1.6 times more likely to roll a 3 on any dice",
+        image: "?",
+        stackable: true,
+    },
+    d2: {
+        name: "D2",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 1.8 times more likely to roll a 2 on any dice",
+        image: "?",
+        stackable: true,
+    }, 
+    d1: {
+        name: "D1",
+        basePrice: 10,
+        rarity: "uncommon",
+        description: "You are 2 times more likely to roll a 1 on any dice",
+        image: "?",
+        stackable: true,
+    },
+    tundra: {
+        name: "Tundra",
+        basePrice: 100,
+        rarity: "legendary",
+        description: "freezing a dice freezes all other dice with the same value",
+        image: "?",
+        stackable: false,
     }
 }
 
