@@ -27,13 +27,13 @@ export default function DiceBoard() {
         {itemCards}
         <div className="rolling-container">
             <div className="dice-container">
-                <div className="dice-container">
+                <div className="dice-container @container">
                 {engine.diceValues.map((value, i) => (
                     <DiceCard key={i} diePosition={i} rollState={value}/>
                 ))}
             </div>
             </div>
-            <Button onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
+            <Button className="w-[clamp(50px,30cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
         </div>
     </div>)
 }

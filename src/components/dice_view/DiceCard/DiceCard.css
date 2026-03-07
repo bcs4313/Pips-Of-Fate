@@ -10,6 +10,5 @@
 
 .die {
     object-fit:contain;
-    height:150px;
-    width:150px;
+    height:clamp(25px, 20cqw,150px);
 }
