@@ -124,7 +124,7 @@ export default function DiceCard({rollState, diePosition}) {
     function generateFreezeButton() {
         if(freezable)
         {
-            return <img onClick={ freezeDice } className="w-[32px] ml-[105px] mt-[8px] border-2 rounded-xl border-cyan-400 absolute z-50 hover:cursor-pointer" src={ freezeIcon }/>
+            return <img onClick={ freezeDice } className="w-[40%] absolute top-0 right-0 border-2 rounded-xl border-cyan-400 absolute z-50 hover:cursor-pointer" src={ freezeIcon }/>
         }
         return <div className="absolute"/>
     }
@@ -168,11 +168,13 @@ export default function DiceCard({rollState, diePosition}) {
 
     return (
     <>
-    <div>
+    <div className="relative">
         <h1 className="die-num">{rollState}</h1>
-        { generateFreezeButton() }
         { generateFreezeOverlay() }
-        <img className={ConstructImgClass()} src={imgRef}/>
+        <div className="relative">
+            <img className={ConstructImgClass()} src={imgRef}/>
+            { generateFreezeButton() }
+        </div>
     </div>
     </>
     )
