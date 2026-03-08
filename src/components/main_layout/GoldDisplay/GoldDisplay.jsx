@@ -18,7 +18,7 @@ export default function GoldDisplay() {
 
 
         if(gold > lastRoundGold)
-            return (gold - lastRoundGold) / gold
+            return (gold - lastRoundGold) / lastRoundGold
         else
             return -(1 - gold/lastRoundGold)
     }
