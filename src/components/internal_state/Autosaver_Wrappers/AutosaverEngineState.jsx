@@ -6,26 +6,27 @@ import { useRoundNumber } from "./AutosaverRoundState.jsx"
 // this hook does NOT allow you to directly set percentdiff, it is private
 // for simplicity
 export function useEngineState() {
-    /*
-    const [gold, setGold] = useState(() => {
-        const savedGold = parseInt(localStorage.getItem("gold"))
-        return savedGold ? savedGold : 0
-    })
-
-    const [round, setRound] = useRoundNumber()
-    const [lastRound, setLastRound] = useState(round)
-    const [lastRoundGold, setLastRoundGold] = useState(gold)
-
-    const [percentDiff, setPercentDiff] = useState(() => {
-        const savedDiff = parseInt(localStorage.getItem("percentdiff"))
-        return savedDiff ? savedDiff : 0
+    const [engineState, setEngineState] = useState(() => {
+        const savedEngineState = localStorage.getItem("engineState")
+        if(savedEngineState != undefined) 
+        {
+            console.log("loading game... state is")
+            console.log(JSON.parse(savedEngineState))
+            return JSON.parse(savedEngineState)
+        }
+        return {
+            lastRoundGold:0,
+            gold: 0,
+            roundNum: 0,
+            freezesBought: 0,
+            remainingFreezes: 0,
+            frozenDice: [],
+        }
     })
 
     useEffect(() => {
-        localStorage.setItem("gold", gold)
-    }, [gold])
+        localStorage.setItem("engineState", JSON.stringify(engineState))
+    }, [engineState])
 
-
-    return [gold, setGold]
-    */
+    return [engineState, setEngineState]
 }

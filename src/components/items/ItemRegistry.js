@@ -6,7 +6,7 @@ import { assetMap } from "./../../utilities/assetMap"
 export const ItemRegistry = {
     shiny_coin: {
         id: "shiny_coin",
-        basePrice: 0,
+        basePrice: 10,
         name: "Shiny Coin",
         rarity: "common",
         description: "Earn an extra 5 gold per round",
@@ -60,7 +60,7 @@ export const ItemRegistry = {
     },
         russian_roulette: {
         id: "russian_roulette",
-        basePrice: 0,
+        basePrice: 25,
         name: "Russian Roulette",
         rarity: "rare",
         description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",

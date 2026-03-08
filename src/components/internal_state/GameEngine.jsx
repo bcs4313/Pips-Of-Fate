@@ -1,4 +1,5 @@
 import { useQuota, useScore, useRollsLeft, useDiceAmount } from "./Autosaver_Wrappers/AutosaverRoundState.jsx"
+import { useEngineState } from "./Autosaver_Wrappers/AutosaverEngineState.jsx"
 import StartRollSFX from "./../../assets/internal_state/RollStart.mp3"
 import FinishRollSFX from "./../../assets/internal_state/RollFinish.mp3"
 import { useRef, useState, useEffect } from "react"
@@ -35,14 +36,7 @@ export function useGameEngine() {
     const [rolling, setRolling] = useState(false);
 
     // engine steps and model
-    const [engineState, setEngineState] = useState({
-        lastRoundGold:0,
-        gold: 0,
-        roundNum: 0,
-        freezesBought: 0,
-        remainingFreezes: 0,
-        frozenDice: [],
-    })
+    const [engineState, setEngineState] = useEngineState()
 
     // inventory
     const InventoryInterface = useInventory()
@@ -79,13 +73,13 @@ export function useGameEngine() {
     // engineState, inventoryInterface, hooks
     // it MUST return the engineState
     async function _enqueueStateChange(statefulFunction) {
-        console.log("queueing function:")
-        console.log(statefulFunction)
+        //console.log("queueing function:")
+        //console.log(statefulFunction)
 
         stateQueue.current.push(statefulFunction)
         if(engineRunning.current == true)
         {
-            console.log("queue currently running: pushing event function to active queue")
+            //console.log("queue currently running: pushing event function to active queue")
         }
         else
         {
@@ -105,8 +99,8 @@ export function useGameEngine() {
                 setEngineState(() => state)
             }
 
-            console.log("end of queue state")
-            console.log(state)
+            //console.log("end of queue state")
+            //console.log(state)
         }
         engineRunning.current = false
     }
