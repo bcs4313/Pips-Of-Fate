@@ -1,10 +1,12 @@
+import { assetMap } from "./../../utilities/assetMap"
+
 // architecture relies on the Inventory object to queue engine state changes for item steps
 // for items that modify the inventory itself a hook must be retrieved from the engine to
 // get the inventory context, getting access to its various public functions.
 export const ItemRegistry = {
     shiny_coin: {
         id: "shiny_coin",
-        basePrice: 10,
+        basePrice: 0,
         name: "Shiny Coin",
         rarity: "common",
         description: "Earn an extra 5 gold per round",
@@ -64,7 +66,8 @@ export const ItemRegistry = {
         description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",
         image: "russian_roulette.png",
         stackable: false,
-        active: (engineState, inventoryInterface, hooks) => {
+        active: async (engineState, inventoryInterface, hooks) => {
+            console.log("russian roulette: activate")
             let outcome = Math.floor(Math.random() * 6) + 1
             const UIBus = hooks["getUIBus"]()
             UIBus.emit("ITEM_FLASH", {
@@ -74,12 +77,21 @@ export const ItemRegistry = {
             if(outcome === 6)
             {
                 // GAME OVER
+                const audio = new Audio(assetMap["items/sounds_unique/ShootGun.mp3"])
+                audio.play()
+
+                await new Promise((resolve, reject) => setTimeout(() => resolve("done"), 1000))
+
                 hooks["forceGameOver"]()
                 return {...engineState}
             } 
             else
             {
-                const newGold = Math.floor(engineState.gold * 1.5)
+                const audio = new Audio(assetMap["items/sounds_unique/EmptyGun.mp3"])
+                audio.play()
+                const newGold = Math.ceil(engineState.gold * 1.5)
+                hooks["setScore"](Math.ceil(hooks["getScore"]() * 1.5))
+
                 return {...engineState, gold: newGold}
             }
         }

@@ -57,6 +57,8 @@ export function useGameEngine() {
         "setRolling": _setRolling, // not queue enforced
         "getDiceValues": _getDiceValues,
         "setDiceValues": _setDiceValues, // queue only
+        "setScore": _setScore, // queue only
+        "getScore": _getScore,
         "forceGameOver": _forceGameOver,
         "getUIBus": _getUIBus,
         "enqueueStateChange": _enqueueStateChange,
@@ -73,8 +75,9 @@ export function useGameEngine() {
         engineStateRef.current = engineState
     }, [engineState])
 
-    // your stateful function should take in 3 arguments,
+    // your stateful function can in 3 arguments,
     // engineState, inventoryInterface, hooks
+    // it MUST return the engineState
     async function _enqueueStateChange(statefulFunction) {
         console.log("queueing function:")
         console.log(statefulFunction)
@@ -154,7 +157,7 @@ export function useGameEngine() {
     //@param indexes { list } target die indexes to change
     //@param values { list } target values to set
     function _setDiceValues(indexes, values) {
-        _enqueueStateChange(() => {
+        _enqueueStateChange((engineState) => {
             setDiceValues((prev) => {
                 let newDiceValues = [...prev]
                 for(let i = 0; i < indexes.length; i++)
@@ -163,8 +166,25 @@ export function useGameEngine() {
                 }
                 return newDiceValues
             })
+            return engineState
         })
     }
+
+    // hook
+    function _setScore(val) {
+        console.log(val)
+        _enqueueStateChange((engineState) => {
+            setScore(() => val)
+            return engineState
+        })
+    }
+
+    // hook
+    function _getScore() {
+        console.log("get score called")
+        return score
+    }
+
 
     function completeQuotaFX() {
         let winAudio = new Audio(QuotaCompleteAudio)
@@ -173,6 +193,8 @@ export function useGameEngine() {
     }
 
     function gameOver() {
+        setRolling(() => true)
+        setRollsLeft(() => 0)
         let loseAudio = new Audio(LoseAudio)
         loseAudio.play()
         setTimeout(function() {

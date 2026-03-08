@@ -3,6 +3,7 @@ import { assetMap } from "../../utilities/assetMap"
 import { useState, useRef, useEffect } from "react"
 import { Tooltip } from "reactstrap"
 import { useUIBus } from "./../effects/UIBusContextProvider"
+import { ItemRegistry } from "./ItemRegistry"
 import "./ItemCard.css"
 
 //@param name

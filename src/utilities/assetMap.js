@@ -1,4 +1,4 @@
-const assets = import.meta.glob('/src/assets/**/*.{png,jpg,svg}', { eager: true });
+const assets = import.meta.glob('/src/assets/**/*.{png,jpg,svg,mp3}', { eager: true });
 
 export const assetMap = Object.fromEntries(
   Object.entries(assets).map(([path, module]) => {

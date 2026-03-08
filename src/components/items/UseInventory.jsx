@@ -10,6 +10,7 @@ export default function useInventory() {
     // an object consisting of item ids as keys and integer values
     // as stack counts
     const [items, setItems] = useItems()
+
     // add an item id to the item list.
     function addItem(itemID) {
         setItems((prev) => {
@@ -28,16 +29,11 @@ export default function useInventory() {
 
         for(const [itemID, count] of Object.entries(itemsSnapshot)) {
             const steps = ItemRegistry[itemID].steps
+            if(!steps) { continue }
             const callback = steps[stepIdentity]
-            //console.log("item steps: ")
-            //console.log(steps)
-            //console.log("stepIdentity: ")
-            //console.log(stepIdentity)
-            //console.log("itemID: " + itemID + " count: " + count + " callback: " + callback)
             if(!callback) { continue }
             for(let i = 0; i < count; i++)
             {
-                //console.log("item callback -> " + itemID)
                 nextEngineState = callback(nextEngineState, inventoryInterface, hooks)
             }
         }
@@ -47,54 +43,51 @@ export default function useInventory() {
     function createPassiveItemCards() 
     {
         const itemCardList = []
+        const itemIDList = []
         for(const [itemID, count] of Object.entries(items))
         {
             if(ItemRegistry[itemID].active == undefined)
             {
-                itemCardList.push(buildItemCard(itemID, count, "right", false))
+                itemCardList.push(buildItemCard(itemID, count, "right"))
+                itemIDList.push(itemID)
             }
         }
-        return itemCardList
+        return [itemCardList, itemIDList]
     }
 
     
     function createActiveItemCards() 
     {
         const itemCardList = []
+        const itemIDList = []
         for(const [itemID, count] of Object.entries(items))
         {
             if(ItemRegistry[itemID].active != undefined)
             {
-                itemCardList.push(buildItemCard(itemID, count, "left", true))
+                itemCardList.push(buildItemCard(itemID, count, "left"))
+                itemIDList.push(itemID)
             }
         }
-        return itemCardList
+        return [itemCardList, itemIDList]
     }
 
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
         "addItem": addItem,
-        "createCards": createPassiveItemCards,
+        "createPassiveCards": createPassiveItemCards,
+        "createActiveCards": createActiveItemCards,
     }
 
     return inventoryInterface
 }
 
-export function buildItemCard(itemID, count, tooltipDir, isActive) {
+export function buildItemCard(itemID, count, tooltipDir) {
     const itemName = ItemRegistry[itemID]["name"]
     const itemRarity = ItemRegistry[itemID]["rarity"]
     const itemDescription = ItemRegistry[itemID]["description"]
     const itemImagePath = ItemRegistry[itemID]["image"]
-
-    const clickAction = function() {}
-    const extraClasses = ""
-    if(isActive)
-    {
-        clickAction = ItemRegistry[itemID]["active"]
-        extraClasses ="hover:cursor-pointer"
-    }
     
-    return <ItemCard className={extraClasses} onClick={clickAction} 
+    return <ItemCard 
     id={itemID} tooltipDirection={tooltipDir} key={itemID} name={itemName} 
     stacks={count} rarity={itemRarity} description={itemDescription} 
     imagePath={itemImagePath}/>
