@@ -57,11 +57,12 @@ export function useGameEngine() {
         "setRolling": _setRolling, // not queue enforced
         "getDiceValues": _getDiceValues,
         "setDiceValues": _setDiceValues, // queue only
+        "forceGameOver": _forceGameOver,
         "getUIBus": _getUIBus,
-        "enqueueStateChange": _enqueueStateChange
+        "enqueueStateChange": _enqueueStateChange,
     }
 
-    // queue system for asynchronous state changes
+    // queue system for asynchronous state changes //
     // engine steps and other updates MUST enter this queue
     const stateQueue = useRef([])
     const engineRunning = useRef(false)
@@ -106,7 +107,7 @@ export function useGameEngine() {
         }
         engineRunning.current = false
     }
-    // end of queue system
+    // end of queue system //
 
     // useEffect reacting to a dice amount change
     useEffect(() => {
@@ -141,6 +142,11 @@ export function useGameEngine() {
     // hook
     function _getDiceValues(val) {
         return diceValues
+    }
+
+    // hook
+    function _forceGameOver() {
+        gameOver()
     }
 
     // hook

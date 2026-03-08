@@ -40,7 +40,7 @@ export default function StoreItemSection() {
             <div className="flex flex-row justify-center">
                 <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
                 <ItemOffer itemid="beggars_candle" price={getPrice("beggars_candle")} />
-                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
+                <ItemOffer itemid="russian_roulette" price={getPrice("russian_roulette")} />
             </div>
             <div>
                 <Button className={getRerollButtonStyle()}>

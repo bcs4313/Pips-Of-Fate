@@ -44,31 +44,58 @@ export default function useInventory() {
         return nextEngineState
     }
 
-    function createItemCards() 
+    function createPassiveItemCards() 
     {
         const itemCardList = []
         for(const [itemID, count] of Object.entries(items))
         {
-            itemCardList.push(buildItemCard(itemID, count, "right"))
+            if(ItemRegistry[itemID].active == undefined)
+            {
+                itemCardList.push(buildItemCard(itemID, count, "right", false))
+            }
         }
         return itemCardList
     }
 
-    const cards = createItemCards()
+    
+    function createActiveItemCards() 
+    {
+        const itemCardList = []
+        for(const [itemID, count] of Object.entries(items))
+        {
+            if(ItemRegistry[itemID].active != undefined)
+            {
+                itemCardList.push(buildItemCard(itemID, count, "left", true))
+            }
+        }
+        return itemCardList
+    }
 
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
         "addItem": addItem,
-        "createCards": createItemCards,
+        "createCards": createPassiveItemCards,
     }
 
     return inventoryInterface
 }
 
-export function buildItemCard(itemID, count, tooltipDir) {
+export function buildItemCard(itemID, count, tooltipDir, isActive) {
     const itemName = ItemRegistry[itemID]["name"]
     const itemRarity = ItemRegistry[itemID]["rarity"]
     const itemDescription = ItemRegistry[itemID]["description"]
     const itemImagePath = ItemRegistry[itemID]["image"]
-    return <ItemCard id={itemID} tooltipDirection={tooltipDir} key={itemID} name={itemName} stacks={count} rarity={itemRarity} description={itemDescription} imagePath={itemImagePath}/>
+
+    const clickAction = function() {}
+    const extraClasses = ""
+    if(isActive)
+    {
+        clickAction = ItemRegistry[itemID]["active"]
+        extraClasses ="hover:cursor-pointer"
+    }
+    
+    return <ItemCard className={extraClasses} onClick={clickAction} 
+    id={itemID} tooltipDirection={tooltipDir} key={itemID} name={itemName} 
+    stacks={count} rarity={itemRarity} description={itemDescription} 
+    imagePath={itemImagePath}/>
 }

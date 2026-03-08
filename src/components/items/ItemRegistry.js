@@ -56,62 +56,34 @@ export const ItemRegistry = {
             }
         },
     },
-    d6: {
-        name: "D6",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 1.15 times more likely to roll a 6 on any dice",
-        image: "?",
-        stackable: true,
-    },
-    d5: {
-        name: "D5",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 1.25 times more likely to roll a 5 on any dice",
-        image: "?",
-        stackable: true,
-    },
-    d4: {
-        name: "D4",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 1.4 times more likely to roll a 4 on any dice",
-        image: "?",
-        stackable: true,
-    },
-    d3: {
-        name: "D3",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 1.6 times more likely to roll a 3 on any dice",
-        image: "?",
-        stackable: true,
-    },
-    d2: {
-        name: "D2",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 1.8 times more likely to roll a 2 on any dice",
-        image: "?",
-        stackable: true,
-    }, 
-    d1: {
-        name: "D1",
-        basePrice: 10,
-        rarity: "uncommon",
-        description: "You are 2 times more likely to roll a 1 on any dice",
-        image: "?",
-        stackable: true,
-    },
-    tundra: {
-        name: "Tundra",
-        basePrice: 100,
-        rarity: "legendary",
-        description: "freezing a dice freezes all other dice with the same value",
-        image: "?",
+        russian_roulette: {
+        id: "russian_roulette",
+        basePrice: 0,
+        name: "Russian Roulette",
+        rarity: "rare",
+        description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",
+        image: "russian_roulette.png",
         stackable: false,
-    }
+        active: (engineState, inventoryInterface, hooks) => {
+            let outcome = Math.floor(Math.random() * 6) + 1
+            const UIBus = hooks["getUIBus"]()
+            UIBus.emit("ITEM_FLASH", {
+                itemID: "russian_roulette"
+            })
+
+            if(outcome === 6)
+            {
+                // GAME OVER
+                hooks["forceGameOver"]()
+                return {...engineState}
+            } 
+            else
+            {
+                const newGold = Math.floor(engineState.gold * 1.5)
+                return {...engineState, gold: newGold}
+            }
+        }
+    },
 }
 
 // valid step examples:
