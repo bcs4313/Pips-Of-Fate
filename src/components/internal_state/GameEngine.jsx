@@ -174,7 +174,17 @@ export function useGameEngine() {
     function _setScore(val) {
         console.log(val)
         _enqueueStateChange((engineState) => {
-            setScore(() => val)
+            setScore(() => {
+            if(val >= quota)
+            {   
+                setQuota(() => Math.floor(quota*1.1) + 1)
+                setRollsLeft(() => 3)
+                completeQuotaFX()
+                _enqueueStateChange(EngineStepEndRound) 
+                return 0
+            }
+                return val
+            })
             return engineState
         })
     }
