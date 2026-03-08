@@ -71,11 +71,16 @@ export default function useInventory() {
         return [itemCardList, itemIDList]
     }
 
+    function clearInventory() {
+        setItems(() => [])
+    }
+
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
         "addItem": addItem,
         "createPassiveCards": createPassiveItemCards,
         "createActiveCards": createActiveItemCards,
+        "clear": clearInventory
     }
 
     return inventoryInterface

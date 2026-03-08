@@ -208,6 +208,7 @@ export function useGameEngine() {
         let loseAudio = new Audio(LoseAudio)
         loseAudio.play()
         setTimeout(function() {
+            InventoryInterface.clear()
             setRolling(() => false)
             setQuota(() => 6)
             setScore(() => 0)
