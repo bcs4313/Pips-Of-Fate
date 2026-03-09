@@ -86,8 +86,6 @@ export default function StoreItemSection() {
     }
 
     useEffect(() => {
-        console.log("offers")
-        console.log(offers)
         let newOffers = []
         for(let i = 0; i < offers.length; i++)
         {
@@ -95,12 +93,17 @@ export default function StoreItemSection() {
             let newOffer = <ItemOffer itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
             newOffers.push(newOffer)
         }
-
-        console.log("offer components:")
-        console.log(newOffers)
-
         setOfferComponents(newOffers)
     }, [offers]) 
+
+    useEffect(() => {
+        if(offers.length == 0)
+        {
+            setOffers(() => {
+                return generateRollOffers()
+            })
+        }
+    }, [])
 
     return(
     <div className="@container w-[100%] mt-[10px] h-[auto] bg-[var(--bs-gray-800)]">
