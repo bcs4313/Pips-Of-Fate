@@ -21,18 +21,35 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     // UI BUS SECTION
     const UIBus = useUIBus()
-    // ITEM_FLASH (duration is fixed to 0.25 seconds for now, white)
     const [flashing, setFlashing] = useState(false)
     useEffect(() => {
-        UIBus.subscribe("ITEM_FLASH", (args) => {
+        // ITEM_FLASH (duration is fixed to 0.25 seconds for now, white)
+        //@param { itemID } req
+        const flashCallback = (args) => {
             if(args.itemID !== id) { return }
-
+            console.log("flash")
             setFlashing(true)
             setTimeout(() => {
                 setFlashing(false)
             }, 250)
-        })
-    }, [UIBus, id])
+        }
+        UIBus.subscribe("ITEM_FLASH", flashCallback)
+
+        // ITEM_FLOATINGTEXT a wavy text effect that floats to the top of the screen
+        // used to display extra info from an item as it actives
+        //@param { itemID } req
+        //@param { msg } req
+        const floatingCallback = (args) => {
+            if(args.itemID !== id) { return }
+        }
+        UIBus.subscribe("ITEM_FLOATING_TEXT", floatingCallback)
+
+        // cleanup
+        return () => {
+            UIBus.unsubscribe("ITEM_FLASH", flashCallback)
+            UIBus.unsubscribe("ITEM_FLOATING_TEXT", floatingCallback)
+        }
+    }, [UIBus])
     // UI BUS SECTION
 
     function ConstructImgClass() {

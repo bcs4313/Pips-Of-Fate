@@ -6,9 +6,16 @@ export class UIBus{
         this.listeners = {}
     }
 
+    // localIdentity is used 
     subscribe(event_name, callback) {
         if(!this.listeners[event_name]) this.listeners[event_name] = []
         this.listeners[event_name].push(callback)
+    }
+
+    unsubscribe(event_name, callback) {
+        this.listeners[event_name] = this.listeners[event_name].filter((func) => {
+            return func !== callback
+        })
     }
 
     emit(event_name, event_arguments) {

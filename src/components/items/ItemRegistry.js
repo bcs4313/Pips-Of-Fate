@@ -112,6 +112,11 @@ export const ItemRegistry = {
                     UIBus.emit("ITEM_FLASH", {
                         itemID: "pot_of_gold"
                     })
+
+                    UIBus.emit("ITEM_FLOATING_TEXT", {
+                        itemID: "pot_of_gold",
+                        msg: "ur mom"
+                    })
                 }
                 hooks["addScore"](engineState.gold * 0.1)
                 return engineState
