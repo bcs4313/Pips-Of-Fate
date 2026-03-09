@@ -1,15 +1,17 @@
 import ItemOffer from "./ItemOffer"
 import { Button } from "reactstrap"
-import { useIsPortrait } from "./../../../utilities/useIsPortrait"
-import { ItemRegistry } from "./../../items/ItemRegistry"
-import { useState, useRef } from "react"
+import { useIsPortrait } from "../../../utilities/useIsPortrait"
+import { ItemRegistry } from "../../items/ItemRegistry"
+import { useState, useRef, useEffect } from "react"
 import Reroll from "./../../../assets/items/sounds_unique/Reroll.mp3"
 import InvalidBuy from "./../../../assets/store/InvalidBuy.mp3"
-import { useEngine } from "./../../internal_state/EngineContextProvider"
+import { useEngine } from "../../internal_state/EngineContextProvider"
+import { useItemOffers } from "../../internal_state/autosaver_wrappers/AutosaverItemOffers"
 
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
-    const [offers, setOffers] = useState(generateRollOffers())
+    const [offers, setOffers] = useItemOffers()
+    const [offerComponents, setOfferComponents] = useState()
     const rerollAudio = useRef(new Audio(Reroll))
     const invalidBuyAudio = useRef(new Audio(InvalidBuy))
     const engine = useEngine()
@@ -71,8 +73,7 @@ export default function StoreItemSection() {
         {
             const selectedIndex = Math.floor(Math.random() * availableItems.length)
             const selectedID = availableItems[selectedIndex]
-            let newOffer = <ItemOffer itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
-            newOffers.push(newOffer)
+            newOffers.push(selectedID)
             availableItems = availableItems.filter((item) => {
                 if(item === selectedID)
                 {
@@ -84,13 +85,30 @@ export default function StoreItemSection() {
         return newOffers
     }
 
+    useEffect(() => {
+        console.log("offers")
+        console.log(offers)
+        let newOffers = []
+        for(let i = 0; i < offers.length; i++)
+        {
+            const selectedID = offers[i]
+            let newOffer = <ItemOffer itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
+            newOffers.push(newOffer)
+        }
+
+        console.log("offer components:")
+        console.log(newOffers)
+
+        setOfferComponents(newOffers)
+    }, [offers]) 
+
     return(
     <div className="@container w-[100%] mt-[10px] h-[auto] bg-[var(--bs-gray-800)]">
         <h1 className="text-white">Item Shop:</h1>
         <div className={getStoreContainerClass()}>
             <div></div>
             <div className="flex flex-row justify-center">
-                {offers}
+                {offerComponents}
             </div>
             <div>
                 <Button onClick={reroll} className={getRerollButtonStyle()}>

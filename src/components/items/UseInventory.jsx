@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { ItemRegistry } from "./ItemRegistry"
-import { useItems } from "./../internal_state/Autosaver_Wrappers/AutosaverItems"
+import { useItems } from "../internal_state/autosaver_wrappers/AutosaverItems"
 import ItemCard from "./ItemCard"
 
 // Items are assigned to specifc engine step ids, of which they check

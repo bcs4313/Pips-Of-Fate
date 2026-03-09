@@ -1,5 +1,5 @@
-import { useQuota, useScore, useRollsLeft, useDiceAmount } from "./Autosaver_Wrappers/AutosaverRoundState.jsx"
-import { useEngineState } from "./Autosaver_Wrappers/AutosaverEngineState.jsx"
+import { useQuota, useScore, useRollsLeft, useDiceAmount } from "./autosaver_wrappers/AutosaverRoundState.jsx"
+import { useEngineState } from "./autosaver_wrappers/AutosaverEngineState.jsx"
 import StartRollSFX from "./../../assets/internal_state/RollStart.mp3"
 import FinishRollSFX from "./../../assets/internal_state/RollFinish.mp3"
 import { useRef, useState, useEffect } from "react"
@@ -14,9 +14,9 @@ import { useInventory } from "./../items/InventoryContextProvider.jsx"
 import { useUIBus } from "../vfx/UIBusContextProvider.jsx"
 
 // round step imports
-import EngineStepPreRollResults from "./Engine_Steps/EngineStepPreRollResults.jsx"
-import EngineStepEndRoll from "./Engine_Steps/EngineStepEndRoll.jsx"
-import EngineStepEndRound from "./Engine_Steps/EngineStepEndRound.jsx"
+import EngineStepPreRollResults from "./engine_steps/EngineStepPreRollResults.jsx"
+import EngineStepEndRoll from "./engine_steps/EngineStepEndRoll.jsx"
+import EngineStepEndRound from "./engine_steps/EngineStepEndRound.jsx"
 
 // The game engine consumes item activations and
 // the roll function from the dice board

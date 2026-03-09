@@ -1,5 +1,5 @@
 import { Button } from 'reactstrap'
-import BuyComponent from "./AttributeUpgrades/AttUBuyComponent"
+import BuyComponent from "./attribute_upgrades/AttUBuyComponent"
 import NavigationBar from "./../main_layout/NavigationBar.jsx"
 import "./Store.css"
 
@@ -8,7 +8,7 @@ import ExtraDiceImg from "./../../assets/store/ExtraDiceUpgrade.png"
 import FrozenDiceImg from "./../../assets/store/FrozenDiceUpgrade.png"
 
 // other components
-import StoreItemSection from "./ItemUpgrades/StoreItemSection"
+import StoreItemSection from "./item_upgrades/StoreItemSection.jsx"
 
 // context level
 import { useEngine } from "./../internal_state/EngineContextProvider.jsx"

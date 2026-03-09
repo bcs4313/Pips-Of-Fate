@@ -1,4 +1,4 @@
-import { buildItemCard } from "./../../items/UseInventory"
+import { buildItemCard } from "../../items/UseInventory"
 import { Button } from "reactstrap"
 import { useRef } from "react"
 import { useEngine } from "../../internal_state/EngineContextProvider"
