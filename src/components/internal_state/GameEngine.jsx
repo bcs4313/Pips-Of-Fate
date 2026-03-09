@@ -11,7 +11,7 @@ import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 import { useInventory } from "./../items/InventoryContextProvider.jsx"
 
 // UIBus import
-import { useUIBus } from "./../effects/UIBusContextProvider.jsx"
+import { useUIBus } from "../vfx/UIBusContextProvider.jsx"
 
 // round step imports
 import EngineStepPreRollResults from "./Engine_Steps/EngineStepPreRollResults.jsx"
@@ -171,7 +171,6 @@ export function useGameEngine() {
 
     // hook
     function _addScore(val) {
-        console.log(val)
         _enqueueStateChange((engineState) => {
             setScore((prev) => {
                 return val+prev
@@ -272,7 +271,7 @@ export function useGameEngine() {
             const rollSum = newDiceValues.reduce((a,b)=>a+b,0);
 
             // update score
-            setScore((prev) => { return prev + rollSum; })
+            setScore((prev) => { return parseFloat((prev + rollSum).toFixed(1)); })
             await _enqueueStateChange(EngineStepEndRoll) 
 
             // computation for gameover, quota completion, and allowing rolls is done in a useEffect below
@@ -300,7 +299,6 @@ export function useGameEngine() {
         if(!roundEnding.current)
         {
             roundEnding.current = true
-            console.log("endRoundAwait")
             await _enqueueStateChange(EngineStepEndRound) 
             setRolling(() => false)
             setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)

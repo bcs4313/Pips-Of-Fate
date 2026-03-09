@@ -1,6 +1,6 @@
 import "./DiceCard.css"
 import { useState, useRef, useEffect } from "react"
-import { useUIBus } from "../../effects/UIBusContextProvider"
+import { useUIBus } from "../../vfx/UIBusContextProvider"
 
 // dice result imports
 import result1 from "../../../assets/diceview/DiceCard/roll-results/dice_result_01.png"

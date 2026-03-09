@@ -101,7 +101,7 @@ export const ItemRegistry = {
         basePrice: 20,
         name: "Pot of Gold",
         rarity: "rare",
-        description: "Every roll adds 10% of your current gold to the score, rounded up.",
+        description: "Every roll adds 5% of your current gold to the score, rounded up.",
         image: "pot_of_gold.png",
         stackable: true,
         steps: {
@@ -115,10 +115,10 @@ export const ItemRegistry = {
 
                     UIBus.emit("ITEM_FLOATING_TEXT", {
                         itemID: "pot_of_gold",
-                        msg: "ur mom"
+                        msg: "+" + (engineState.gold * 0.05).toFixed(1),
                     })
                 }
-                hooks["addScore"](engineState.gold * 0.1)
+                hooks["addScore"](engineState.gold * 0.05)
                 return engineState
             }
         }

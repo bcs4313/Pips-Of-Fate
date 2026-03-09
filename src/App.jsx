@@ -6,7 +6,7 @@ import Store from "./components/store/Store"
 import { Routes, Route } from "react-router-dom"
 import { EngineProvider } from "./components/internal_state/EngineContextProvider.jsx"
 import { InventoryProvider } from "./components/items/InventoryContextProvider.jsx"
-import { UIBusProvider } from "./components/effects/UIBusContextProvider.jsx"
+import { UIBusProvider } from "./components/vfx/UIBusContextProvider.jsx"
 
 function App() {
   return (

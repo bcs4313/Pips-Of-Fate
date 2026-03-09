@@ -2,9 +2,12 @@
 import { assetMap } from "../../utilities/assetMap"
 import { useState, useRef, useEffect } from "react"
 import { Tooltip } from "reactstrap"
-import { useUIBus } from "./../effects/UIBusContextProvider"
+import { useUIBus } from "../vfx/UIBusContextProvider"
 import { ItemRegistry } from "./ItemRegistry"
 import "./ItemCard.css"
+
+// VFX
+import FloatingItemText from "./../vfx/item_vfx/FloatingItemText"
 
 //@param name
 //@param stacks
@@ -22,12 +25,12 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     // UI BUS SECTION
     const UIBus = useUIBus()
     const [flashing, setFlashing] = useState(false)
+    const [floatingTextComps, setFloatingTextComps] = useState([])
     useEffect(() => {
         // ITEM_FLASH (duration is fixed to 0.25 seconds for now, white)
         //@param { itemID } req
         const flashCallback = (args) => {
             if(args.itemID !== id) { return }
-            console.log("flash")
             setFlashing(true)
             setTimeout(() => {
                 setFlashing(false)
@@ -41,6 +44,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
         //@param { msg } req
         const floatingCallback = (args) => {
             if(args.itemID !== id) { return }
+            addTextComp(args.msg)
         }
         UIBus.subscribe("ITEM_FLOATING_TEXT", floatingCallback)
 
@@ -50,6 +54,23 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
             UIBus.unsubscribe("ITEM_FLOATING_TEXT", floatingCallback)
         }
     }, [UIBus])
+
+    
+    function addTextComp(msg) {
+        setFloatingTextComps((prev) => {
+            let newTextComps = [...prev]
+            let UIKey = Math.random() * Number.MAX_SAFE_INTEGER
+            newTextComps.push(<FloatingItemText message={msg} key={UIKey} />)
+            return newTextComps
+        })
+        setTimeout(() => {
+            setFloatingTextComps((prev) => {
+                let newArr = [...prev]
+                newArr.shift()
+                return [...newArr]
+            })
+        }, 5000)
+    }
     // UI BUS SECTION
 
     function ConstructImgClass() {
@@ -73,6 +94,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     return (
         <div className="relative align-self-center w-[clamp(16px,16cqw,128px)] h-[clamp(16px,16cqw,128px)] inline-block">
+            {floatingTextComps}
             {attachStackCount()}
             <img id={idRef.current } className={ConstructImgClass()} alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 
