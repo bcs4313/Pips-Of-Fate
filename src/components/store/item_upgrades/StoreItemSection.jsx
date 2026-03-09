@@ -44,8 +44,9 @@ export default function StoreItemSection() {
 
     // simply pick 3 items from the item registry and plop them in
     function reroll() {
+        const curRerollPrice = parseInt(engine.engineState["rerollPrice"])
         engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
-            if(ENGINE_STATE["gold"] >= 5)
+            if(ENGINE_STATE["gold"] >= curRerollPrice)
             {
                 rerollAudio.current.currentTime = 0
                 rerollAudio.current.play()
@@ -55,7 +56,7 @@ export default function StoreItemSection() {
                 console.log("buy reroll call")
                 const gold = ENGINE_STATE["gold"]
                 console.log("gold = " + gold)
-                return {...ENGINE_STATE, gold:(gold-5)}
+                return {...ENGINE_STATE, gold:(gold-curRerollPrice), rerollPrice: curRerollPrice+2.5}
             }
             else
             {
@@ -87,10 +88,20 @@ export default function StoreItemSection() {
 
     useEffect(() => {
         let newOffers = []
+        let buyCallback = function(curID) {
+            console.log("buy callback")
+            console.log(curID)
+            setOffers((prev) => {
+                return prev.filter((prevID) => {
+                    return prevID != curID
+                })
+            })
+        }
+
         for(let i = 0; i < offers.length; i++)
         {
             const selectedID = offers[i]
-            let newOffer = <ItemOffer itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
+            let newOffer = <ItemOffer buyCallback={buyCallback} itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
             newOffers.push(newOffer)
         }
         setOfferComponents(newOffers)
@@ -116,7 +127,7 @@ export default function StoreItemSection() {
             <div>
                 <Button onClick={reroll} className={getRerollButtonStyle()}>
                     <h2 className="att-cost-text text-[15cqw]! mb-0 inline">Reroll</h2>
-                    <strong className="text-[var(--bs-yellow)] text-[15cqw] pl-[10cqw]">$5</strong>
+                    <strong className="text-[var(--bs-yellow)] text-[15cqw] pl-[10cqw]">${engine.engineState["rerollPrice"]}</strong>
                 </Button>
             </div>
         </div>

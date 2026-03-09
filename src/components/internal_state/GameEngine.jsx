@@ -200,7 +200,7 @@ export function useGameEngine() {
         setTimeout(function() {
             InventoryInterface.clear()
             setRolling(() => false)
-            setQuota(() => 6)
+            setQuota(() => 5)
             setScore(() => 0)
             setRollsLeft(() => 3)
             setDiceAmount(() => 1)
@@ -212,6 +212,7 @@ export function useGameEngine() {
                     freezesBought: 0,
                     remainingFreezes:0,
                     frozenDice: [],
+                    rerollPrice:5,
                 }
             })
         }, 4000) 

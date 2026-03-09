@@ -21,6 +21,7 @@ export function useEngineState() {
             freezesBought: 0,
             remainingFreezes: 0,
             frozenDice: [],
+            rerollPrice:5,
         }
     })
 

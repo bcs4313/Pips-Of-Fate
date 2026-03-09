@@ -6,7 +6,7 @@ import { useInventory } from "../../items/InventoryContextProvider"
 import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
 import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
 
-export default function ItemOffer({itemid, price, optionalOnBuyFunction})
+export default function ItemOffer({itemid, price, buyCallback})
 {
     const engine = useEngine()
     const inventory = useInventory()
@@ -27,7 +27,8 @@ export default function ItemOffer({itemid, price, optionalOnBuyFunction})
             })
 
             inventory.addItem(itemid)
-
+            
+            buyCallback(itemid)
             console.log("Item bought: " + itemid+ " for " + price + " gold")
         }
         else

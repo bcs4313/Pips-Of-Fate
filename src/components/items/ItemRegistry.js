@@ -6,7 +6,7 @@ import { assetMap } from "./../../utilities/assetMap"
 export const ItemRegistry = {
     shiny_coin: {
         id: "shiny_coin",
-        basePrice: 10,
+        basePrice: 7.5,
         name: "Shiny Coin",
         rarity: "common",
         description: "Earn an extra 2.5 gold per round",
@@ -24,7 +24,7 @@ export const ItemRegistry = {
     },
     beggars_candle: {
         id: "beggars_candle",
-        basePrice: 20,
+        basePrice: 15,
         name: "Beggar's Candle",
         rarity: "rare",
         description: "If you roll a 1, the next roll is guaranteed to be a 6",
@@ -60,7 +60,7 @@ export const ItemRegistry = {
     },
         russian_roulette: {
         id: "russian_roulette",
-        basePrice: 15,
+        basePrice: 10,
         name: "Russian Roulette",
         rarity: "uncommon",
         description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",
@@ -98,10 +98,10 @@ export const ItemRegistry = {
     },
     pot_of_gold: {
         id: "pot_of_gold",
-        basePrice: 20,
+        basePrice: 15,
         name: "Pot of Gold",
         rarity: "rare",
-        description: "Every roll adds 5% of your current gold to the score, rounded up.",
+        description: "Every roll adds 10% of your current gold to the score, rounded up.",
         image: "pot_of_gold.png",
         stackable: true,
         steps: {
@@ -115,10 +115,10 @@ export const ItemRegistry = {
 
                     UIBus.emit("ITEM_FLOATING_TEXT", {
                         itemID: "pot_of_gold",
-                        msg: "+" + (engineState.gold * 0.05).toFixed(1),
+                        msg: "+" + (engineState.gold * 0.1).toFixed(1),
                     })
                 }
-                hooks["addScore"](engineState.gold * 0.05)
+                hooks["addScore"](engineState.gold * 0.1)
                 return engineState
             }
         }
