@@ -9,7 +9,7 @@ export const ItemRegistry = {
         basePrice: 10,
         name: "Shiny Coin",
         rarity: "common",
-        description: "Earn an extra 2 gold per round",
+        description: "Earn an extra 2.5 gold per round",
         image: "shiny_coin.png",
         stackable: true,
         steps: {
@@ -18,7 +18,7 @@ export const ItemRegistry = {
                 UIBus.emit("ITEM_FLASH", {
                     itemID: "shiny_coin"
                 })
-                return {...engineState, gold: engineState.gold + 2}
+                return {...engineState, gold: engineState.gold + 2.5}
             }
         }
     },
