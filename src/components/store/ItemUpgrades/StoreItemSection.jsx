@@ -38,9 +38,9 @@ export default function StoreItemSection() {
         <div className={getStoreContainerClass()}>
             <div></div>
             <div className="flex flex-row justify-center">
-                <ItemOffer itemid="shiny_coin" price={getPrice("shiny_coin")} />
-                <ItemOffer itemid="beggars_candle" price={getPrice("beggars_candle")} />
-                <ItemOffer itemid="russian_roulette" price={getPrice("russian_roulette")} />
+                <ItemOffer itemid="shiny_coin" price={0} />
+                <ItemOffer itemid="pot_of_gold" price={0} />
+                <ItemOffer itemid="russian_roulette" price={0} />
             </div>
             <div>
                 <Button className={getRerollButtonStyle()}>

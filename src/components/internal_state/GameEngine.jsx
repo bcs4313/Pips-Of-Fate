@@ -51,7 +51,7 @@ export function useGameEngine() {
         "setRolling": _setRolling, // not queue enforced
         "getDiceValues": _getDiceValues,
         "setDiceValues": _setDiceValues, // queue only
-        "setScore": _setScore, // queue only
+        "addScore": _addScore, // queue only
         "getScore": _getScore,
         "forceGameOver": _forceGameOver,
         "getUIBus": _getUIBus,
@@ -76,41 +76,46 @@ export function useGameEngine() {
         //console.log("queueing function:")
         //console.log(statefulFunction)
 
-        stateQueue.current.push(statefulFunction)
-        if(engineRunning.current == true)
-        {
-            //console.log("queue currently running: pushing event function to active queue")
-        }
-        else
-        {
-            engineRunning.current = true
-            let state = engineStateRef.current
-
-            // not running, begin the loop
-            while(stateQueue.current.length > 0)
+        return new Promise(async (resolve, reject) => {
+            stateQueue.current.push(statefulFunction)
+            if(engineRunning.current == true)
             {
-                const step = stateQueue.current.shift()
-
-                //console.log("calling step with hooks: ") 
-                //console.log(engineHooks)
-                //console.log("with function: ")
-                //console.log(step)
-                state = await step(state, InventoryInterface, engineHooks)
-                setEngineState(() => state)
+                //console.log("queue currently running: pushing event function to active queue")
             }
+            else
+            {
+                engineRunning.current = true
+                let state = engineStateRef.current
 
-            //console.log("end of queue state")
-            //console.log(state)
-        }
-        engineRunning.current = false
+                // not running, begin the loop
+                while(stateQueue.current.length > 0)
+                {
+                    const step = stateQueue.current.shift()
+                    state = await step(state, InventoryInterface, engineHooks)
+                    setEngineState(() => state)
+                }
+
+            }
+            engineRunning.current = false
+            resolve()
+        })
     }
     // end of queue system //
 
     // useEffect reacting to a dice amount change
     useEffect(() => {
         console.log("Engine reacting to diceAmount:", diceAmount)
+        
+        let newDiceValues = Array(diceAmount).fill(1)
+        for(let i = 0; i < diceValues.length; i++)
+        {
+            if(i < newDiceValues.length)
+            {
+                newDiceValues[i] = diceValues[i]
+            }
+        }
 
-        setDiceValues(Array(diceAmount).fill(1))
+        setDiceValues(newDiceValues)
     }, [diceAmount])
 
     // hook
@@ -165,19 +170,11 @@ export function useGameEngine() {
     }
 
     // hook
-    function _setScore(val) {
+    function _addScore(val) {
         console.log(val)
         _enqueueStateChange((engineState) => {
-            setScore(() => {
-            if(val >= quota)
-            {   
-                setQuota(() => Math.floor(quota*1.1) + 1)
-                setRollsLeft(() => 3)
-                completeQuotaFX()
-                _enqueueStateChange(EngineStepEndRound) 
-                return 0
-            }
-                return val
+            setScore((prev) => {
+                return val+prev
             })
             return engineState
         })
@@ -221,7 +218,7 @@ export function useGameEngine() {
         }, 4000) 
     }
 
-    function rollDice() {
+    async function rollDice() {
         // roll animation phase
         if(rolling) { return }
 
@@ -245,7 +242,7 @@ export function useGameEngine() {
         startRollSFX.current.play();
 
         // roll completion
-        setTimeout(function() {
+        setTimeout(async function() {
             finishRollSFX.current.currentTime = 0
             finishRollSFX.current.play();
             //console.log("animation done")
@@ -264,11 +261,11 @@ export function useGameEngine() {
                 }
             }
 
-            _enqueueStateChange(EngineStepPreRollResults) 
+            await _enqueueStateChange(EngineStepPreRollResults) 
 
             setDiceValues(
                 () => newDiceValues
-            )
+            ) 
 
             console.log("Roll Result: " + newDiceValues)
 
@@ -276,42 +273,42 @@ export function useGameEngine() {
 
             // update score
             setScore((prev) => { return prev + rollSum; })
-            _enqueueStateChange(EngineStepEndRoll) 
+            await _enqueueStateChange(EngineStepEndRoll) 
 
-            // quota updates a little after setting score
-            setTimeout(function() {
-                setScore((prev) => {
-                let newScore = prev
-                if(newScore >= quota)
-                {
-                    setQuota(() => Math.floor(quota*1.1) + 1)
-                    setRollsLeft(() => 3)
-                    completeQuotaFX()
-                    return 0;
-                }
-                return newScore
-                })
-                if(rollSum + score >= parseInt(quota)) { 
-                    _enqueueStateChange(EngineStepEndRound) 
-                }
-            }, 400)
-
-            setRollsLeft(prevRolls => {
-                const newRollsLeft = prevRolls - 1
-                const newScore = score + rollSum
-                if(newRollsLeft <= 0 && newScore < quota)
-                {
-                    console.log("GAME OVER: " + newScore + " quota = " + quota)
-                    gameOver()
-                    return 0
-                }
-                else if (newScore < quota) 
-                {
-                   setRolling(() => false)
-                }
-                return newRollsLeft 
-            })
+            // computation for gameover, quota completion, and allowing rolls is done in a useEffect below
+            setRollsLeft(prevRolls => (prevRolls-1))
         }, 300)
+    }
+
+    useEffect(() => {
+        if(rollsLeft <= 0 && score < quota)
+        {
+            console.log("GAME OVER: " + score + " quota = " + quota)
+            gameOver()
+        }
+        else if (score >= quota){
+            endRoundAwait()
+        }
+        else
+        {
+            setRolling(() => false)
+        }
+    }, [rollsLeft, score, quota])
+
+    const roundEnding = useRef(false)
+    async function endRoundAwait() {
+        if(!roundEnding.current)
+        {
+            roundEnding.current = true
+            console.log("endRoundAwait")
+            await _enqueueStateChange(EngineStepEndRound) 
+            setRolling(() => false)
+            setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
+            setRollsLeft(() => 3)
+            setScore(0)
+            completeQuotaFX()
+            roundEnding.current = false
+        }
     }
 
     return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState, hooks: engineHooks}

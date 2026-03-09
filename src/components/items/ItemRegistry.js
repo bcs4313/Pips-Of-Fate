@@ -9,7 +9,7 @@ export const ItemRegistry = {
         basePrice: 10,
         name: "Shiny Coin",
         rarity: "common",
-        description: "Earn an extra 5 gold per round",
+        description: "Earn an extra 2 gold per round",
         image: "shiny_coin.png",
         stackable: true,
         steps: {
@@ -18,13 +18,13 @@ export const ItemRegistry = {
                 UIBus.emit("ITEM_FLASH", {
                     itemID: "shiny_coin"
                 })
-                return {...engineState, gold: engineState.gold + 5}
+                return {...engineState, gold: engineState.gold + 2}
             }
         }
     },
     beggars_candle: {
         id: "beggars_candle",
-        basePrice: 25,
+        basePrice: 20,
         name: "Beggar's Candle",
         rarity: "rare",
         description: "If you roll a 1, the next roll is guaranteed to be a 6",
@@ -60,9 +60,9 @@ export const ItemRegistry = {
     },
         russian_roulette: {
         id: "russian_roulette",
-        basePrice: 25,
+        basePrice: 15,
         name: "Russian Roulette",
-        rarity: "rare",
+        rarity: "uncommon",
         description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",
         image: "russian_roulette.png",
         stackable: false,
@@ -90,12 +90,34 @@ export const ItemRegistry = {
                 const audio = new Audio(assetMap["items/sounds_unique/EmptyGun.mp3"])
                 audio.play()
                 const newGold = Math.ceil(engineState.gold * 1.5)
-                hooks["setScore"](Math.ceil(hooks["getScore"]() * 1.5))
+                hooks["addScore"](Math.ceil(hooks["getScore"]() * 0.5))
 
                 return {...engineState, gold: newGold}
             }
-        }
+        },
     },
+    pot_of_gold: {
+        id: "pot_of_gold",
+        basePrice: 20,
+        name: "Pot of Gold",
+        rarity: "rare",
+        description: "Every roll adds 10% of your current gold to the score, rounded up.",
+        image: "pot_of_gold.png",
+        stackable: true,
+        steps: {
+           PRE_ROLL_RESULT: (engineState, InventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                if(engineState.gold != 0)
+                {
+                    UIBus.emit("ITEM_FLASH", {
+                        itemID: "pot_of_gold"
+                    })
+                }
+                hooks["addScore"](engineState.gold * 0.1)
+                return engineState
+            }
+        }
+    }
 }
 
 // valid step examples:
