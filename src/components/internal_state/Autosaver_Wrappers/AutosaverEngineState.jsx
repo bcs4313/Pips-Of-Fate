@@ -24,7 +24,8 @@ export function useEngineState() {
             rerollPrice:5,
             itemOffers:[],
             baseRolls:3,
-            totalUpgradesBought:0
+            totalUpgradesBought:0,
+            flatGoldUpgradesBought:0
         }
     })
 

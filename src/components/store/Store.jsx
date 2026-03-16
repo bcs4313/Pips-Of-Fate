@@ -19,9 +19,6 @@ import { useState } from "react"
 export default function Store() {
     const engine = useEngine()
 
-    // buy prices
-    const buyGoldPrice = 10
-
     function getDieAmountPrice() {
         const basePrice = 15
         const selfBuyIncrease = (engine["hooks"]["getDiceAmount"]()-1) * 2.5
@@ -37,11 +34,18 @@ export default function Store() {
         return basePrice + selfBuyIncrease + generalBuyIncrease
     }
 
-    
     function getExtraRollPrice() {
         const basePrice = 20
-        const selfBuyIncrease = (10*Math.pow((engine.engineState["baseRolls"]-2), 1.5))
+        const selfBuyIncrease = (10 * Math.pow((engine.engineState["baseRolls"]-2), 1.5))
         const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 5
+        console.log(basePrice + selfBuyIncrease + generalBuyIncrease)
+        return basePrice + selfBuyIncrease + generalBuyIncrease
+    }
+
+    function getExtraGoldIncomePrice() {
+        const basePrice = 10
+        const selfBuyIncrease = 5 * engine.engineState["flatGoldUpgradesBought"]
+        const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 2.5
         return basePrice + selfBuyIncrease + generalBuyIncrease
     }
 
@@ -78,6 +82,15 @@ export default function Store() {
         })
     }
 
+    function acquireGoldIncome(price) {
+        engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
+            console.log("buy gold income call")
+            const gold = ENGINE_STATE["gold"]
+            console.log("gold = " + gold)
+            return {...ENGINE_STATE, gold:(gold-price), flatGoldUpgradesBought:ENGINE_STATE["flatGoldUpgradesBought"]+1}
+        })
+    }
+
     return (
         <main className="main-cont">
             <div className="background-wrapper">
@@ -95,7 +108,7 @@ export default function Store() {
                     Dice can be unfrozen for free."/>
                     <BuyComponent title="+1 Roll" price={Math.floor(getExtraRollPrice())} upgradefunction={ acquireAdditionalRoll }
                     imgPath={ExtraRollImg} description="Have an extra roll to meet quota every round (applies next round)."/>
-                   <BuyComponent title="Gold Income" price={Math.floor(buyGoldPrice)} upgradefunction={ acquireAdditionalRoll }
+                   <BuyComponent title="Gold Income" price={Math.floor(getExtraGoldIncomePrice())} upgradefunction={ acquireGoldIncome }
                     imgPath={MoreGoldImg} description="Make an extra 2.5 gold per round"/>
                 </div>
             </div>
