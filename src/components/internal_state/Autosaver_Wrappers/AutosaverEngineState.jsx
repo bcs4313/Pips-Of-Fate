@@ -22,6 +22,7 @@ export function useEngineState() {
             remainingFreezes: 0,
             frozenDice: [],
             rerollPrice:5,
+            itemOffers:[]
         }
     })
 

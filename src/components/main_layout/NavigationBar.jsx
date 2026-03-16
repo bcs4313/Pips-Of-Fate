@@ -43,7 +43,7 @@ export default function NavigationBar({currentLocation}) {
 
     return (
     <>
-    <nav className="h-[100px] bg-[var(--bs-light)] grid justify-center grid-cols-[1fr_auto_auto_1fr] @container">
+    <nav className="h-[100px] z-1 bg-[var(--bs-light)] grid justify-center grid-cols-[1fr_auto_auto_1fr] @container">
         <GameDataDisplay/>
         <GoldDisplay/>
         {createSecondaryButton()}

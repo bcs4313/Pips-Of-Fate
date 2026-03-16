@@ -213,6 +213,7 @@ export function useGameEngine() {
                     remainingFreezes:0,
                     frozenDice: [],
                     rerollPrice:5,
+                    itemOffers:[]
                 }
             })
         }, 4000) 

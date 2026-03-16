@@ -21,6 +21,8 @@
     display:block;
     background-color:var(--bs-green);
     height:70px;
+    z-index:1;
+    position:relative;
 }
 
 .nav-top {

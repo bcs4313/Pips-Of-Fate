@@ -8,9 +8,9 @@ export default function QuotaDisplay({totalDiceScore, quotaRequired, rollsLeft})
     return (
         <div className="quota-parent">
             <div className="quota-row">
-                <strong className="quota-strong">Score: {totalDiceScore} </strong>
-                <strong className="quota-strong">Required Score: {quotaRequired} </strong>
-                <strong className="quota-strong">Rolls Remaining: {rollsLeft}</strong>
+                <strong className="quota-strong text-white">Score: {totalDiceScore} </strong>
+                <strong className="quota-strong text-white">Required Score: {quotaRequired} </strong>
+                <strong className="quota-strong text-white">Rolls Remaining: {rollsLeft}</strong>
             </div>
             <Progress className="quota-progress" animated="true" value={quotaProgressAmount}/>
         </div>

@@ -169,7 +169,7 @@ export default function DiceCard({rollState, diePosition}) {
     return (
     <>
     <div className="relative">
-        <h1 className="die-num">{rollState}</h1>
+        <h1 className="die-num text-white">{rollState}</h1>
         { generateFreezeOverlay() }
         <div className="relative">
             <img className={ConstructImgClass()} src={imgRef}/>
