@@ -204,6 +204,7 @@ export function useGameEngine() {
             setScore(() => 0)
             setRollsLeft(() => 3)
             setDiceAmount(() => 1)
+            localStorage.setItem("itemOffers", [])
             setEngineState(() => {
                 return {
                     lastRoundGold:0,
