@@ -10,7 +10,6 @@
 @keyframes floatUp {
     0% {
         transform: translateY(0);
-        color:lime;
     }
     100% {
         transform: translateY(-100vh);

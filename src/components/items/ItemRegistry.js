@@ -25,9 +25,9 @@ export const ItemRegistry = {
     beggars_candle: {
         runtime: {},  // stores state variables
         id: "beggars_candle",
-        basePrice: 10,
+        basePrice: 15,
         name: "Beggar's Candle",
-        rarity: "rare",
+        rarity: "uncommon",
         description: "If you roll a 1, the next roll is guaranteed to be a 6",
         image: "beggars_candle.png",
         stackable: false,
@@ -61,7 +61,7 @@ export const ItemRegistry = {
     },
     russian_roulette: {
         id: "russian_roulette",
-        basePrice: 10,
+        basePrice: 15,
         name: "Russian Roulette",
         rarity: "uncommon",
         description: "Activate: 1/6 chance to instantly lose, increase your current score and gold by 50%",
@@ -99,7 +99,7 @@ export const ItemRegistry = {
     },
     pot_of_gold: {
         id: "pot_of_gold",
-        basePrice: 15,
+        basePrice: 20,
         name: "Pot of Gold",
         rarity: "rare",
         description: "Every roll adds 10% of your current gold to the score.",
@@ -122,9 +122,46 @@ export const ItemRegistry = {
                 hooks["addScore"](engineState.gold * 0.1)
                 return engineState
             }
+        },
+    },
+    frozen_assets: {
+        id: "frozen_assets",
+        basePrice: 50,
+        name: "Frozen Assets",
+        rarity: "epic",
+        description: "After you roll, all frozen dice give 6 minus their die value in gold.",
+        image: "frozen_assets.png",
+        stackable: true,
+        steps: {
+        END_ROLL: (engineState, InventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                const diceValues = hooks["getDiceValues"]()
+                const frozenDice = engineState["frozenDice"]
+
+                let goldToGive = 0
+                frozenDice.forEach((dieIndex) => {
+                    goldToGive += 6 - diceValues[dieIndex]
+                })
+                console.log("goldToGive = " + goldToGive)
+                
+
+                if(goldToGive > 0)
+                {
+                    UIBus.emit("ITEM_FLASH", {
+                        itemID: "frozen_assets"
+                    })
+                    
+                    UIBus.emit("ITEM_FLOATING_TEXT", {
+                        itemID: "frozen_assets",
+                        color:"yellow-300!",
+                        msg: "+" + (goldToGive).toFixed(0) + " G",
+                    })
+                }
+
+                return  {...engineState, gold: engineState.gold+goldToGive}
+            }
         }
     }
-    
 }
 
 // valid step examples:

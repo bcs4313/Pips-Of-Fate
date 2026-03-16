@@ -44,7 +44,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
         //@param { msg } req
         const floatingCallback = (args) => {
             if(args.itemID !== id) { return }
-            addTextComp(args.msg)
+            addTextComp(args.msg, args.color)
         }
         UIBus.subscribe("ITEM_FLOATING_TEXT", floatingCallback)
 
@@ -56,11 +56,11 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     }, [UIBus])
 
     
-    function addTextComp(msg) {
+    function addTextComp(msg, color) {
         setFloatingTextComps((prev) => {
             let newTextComps = [...prev]
             let UIKey = Math.random() * Number.MAX_SAFE_INTEGER
-            newTextComps.push(<FloatingItemText message={msg} key={UIKey} />)
+            newTextComps.push(<FloatingItemText message={msg} color={color} key={UIKey} />)
             return newTextComps
         })
         setTimeout(() => {
@@ -92,6 +92,35 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
         return <></>
     }
 
+    function attachRarityText() {
+        let textClass = ""
+        switch(rarity.toLowerCase())
+        {
+            case "common":
+                textClass += "text-white!"
+                break
+            case "uncommon":
+                textClass += "text-green-500!"
+                break;
+            case "rare":
+                textClass += "text-cyan-500!"
+                break;
+            case "epic":
+                textClass += "text-purple-500!"
+                break;
+            case "legendary":
+                textClass += "text-yellow-500!"
+                break
+            case "mythic":
+                textClass += "text-red-500!"
+                break
+            default:
+                textClass += "text-white!"
+        }
+        textClass += " text-[1.3cqw]!"
+        return <h1 className={textClass}>{rarity}</h1>
+    }
+
     return (
         <div className="relative align-self-center w-[clamp(16px,16cqw,128px)] h-[clamp(16px,16cqw,128px)] inline-block">
             {floatingTextComps}
@@ -107,6 +136,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
             innerClassName="custom-tooltip-inner" // Class for the content area
             arrowClassName="custom-tooltip-arrow" // Class for the arrow
             >
+                {attachRarityText()}
                 <h4>{name}</h4>
                 <p>{description}</p>
             </Tooltip>
