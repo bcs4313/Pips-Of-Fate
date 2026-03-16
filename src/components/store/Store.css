@@ -1,11 +1,23 @@
+.store-background {
+    position:absolute;
+    top:-100vh;
+    left:-100vw;
+    width:200vw;
+    height:200vh;
+    z-index:0;
+    animation: background-scroller 15s linear infinite;
+    background-repeat:repeat;
+    background-image: url("./../../assets/store/GoldBackground.png")
+}
+
 .store-container {
     flex:1;
-    background-color:var(--bs-gray);
     overflow-y:scroll;
+    z-index:1;
 }
 
 .upgrades-container {
-    background-color:var(--bs-gray);
+    background-color:rgba(0, 187, 255, 0.2);
     display:flex;
     flex-flow:column;
     justify-content:center;

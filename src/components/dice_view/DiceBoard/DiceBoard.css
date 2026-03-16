@@ -16,7 +16,7 @@
     z-index:0;
     animation: background-scroller 15s linear infinite;
     background-repeat:repeat;
-    background-image: url("./../../../assets/diceview/DiceBoard/board_background.png")
+    background-image: url("./../../../assets/diceview/DiceBoard/BoardBackground.png")
 }
 
 @keyframes background-scroller {

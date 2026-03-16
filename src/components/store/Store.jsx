@@ -44,6 +44,7 @@ export default function Store() {
 
     return (
         <main>
+            <div className="store-background"></div>
             <div className="store-container">
                 <div className="upgrades-container">
                     <BuyComponent title="Extra Dice" price={buyDiePrice} upgradefunction={acquireAdditionalDie} 

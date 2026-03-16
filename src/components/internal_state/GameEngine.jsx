@@ -284,11 +284,14 @@ export function useGameEngine() {
     useEffect(() => {
         if(rollsLeft <= 0 && score < quota)
         {
-            console.log("GAME OVER: " + score + " quota = " + quota)
+            console.log("GAME OVER: " + score +  " quota = " + quota)
             gameOver()
         }
-        else if (score >= quota){
-            endRoundAwait()
+        else if (score >= quota && !roundEnding.current) {
+            setRolling(() => true)
+            setTimeout(() => {
+                endRoundAwait()
+            }, 500)
         }
         else
         {

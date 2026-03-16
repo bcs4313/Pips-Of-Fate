@@ -117,7 +117,7 @@ export default function StoreItemSection() {
     }, [])
 
     return(
-    <div className="@container w-[100%] mt-[10px] h-[auto] bg-[var(--bs-gray-800)]">
+    <div className="@container w-[100%] mt-[10px] h-[auto] bg-gray-800/50">
         <h1 className="text-white">Item Shop:</h1>
         <div className={getStoreContainerClass()}>
             <div></div>

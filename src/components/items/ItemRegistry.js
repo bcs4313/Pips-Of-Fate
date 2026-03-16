@@ -58,7 +58,7 @@ export const ItemRegistry = {
             }
         },
     },
-        russian_roulette: {
+    russian_roulette: {
         id: "russian_roulette",
         basePrice: 10,
         name: "Russian Roulette",
@@ -101,7 +101,7 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Pot of Gold",
         rarity: "rare",
-        description: "Every roll adds 10% of your current gold to the score, rounded up.",
+        description: "Every roll adds 10% of your current gold to the score.",
         image: "pot_of_gold.png",
         stackable: true,
         steps: {
