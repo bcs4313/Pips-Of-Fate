@@ -19,6 +19,13 @@
     background-image: url("./../../../assets/diceview/DiceBoard/BoardBackground.png")
 }
 
+.background-wrapper {
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+}
+
 @keyframes background-scroller {
     0% {
     }

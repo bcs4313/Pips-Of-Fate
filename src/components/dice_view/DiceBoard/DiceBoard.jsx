@@ -45,7 +45,9 @@ export default function DiceBoard() {
     // return the board layout
     return (
     <>
-    <div className="dice-board-background"></div>
+    <div className="background-wrapper">
+        <div className="dice-board-background"></div>
+    </div>
     <div className = "dice-board-main-panel">
         <QuotaDisplay totalDiceScore={engine.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
         <div className="grid grid-cols-[1fr_1fr_1fr] h-[100%] align-center">

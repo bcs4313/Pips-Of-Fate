@@ -7,6 +7,7 @@ import "./Store.css"
 import ExtraDiceImg from "./../../assets/store/ExtraDiceUpgrade.png"
 import FrozenDiceImg from "./../../assets/store/FrozenDiceUpgrade.png"
 import ExtraRollImg from "./../../assets/store/ExtraRollUpgrade.png"
+import MoreGoldImg from "./../../assets/store/GoldUpgrade.png"
 
 // other components
 import StoreItemSection from "./item_upgrades/StoreItemSection.jsx"
@@ -19,9 +20,7 @@ export default function Store() {
     const engine = useEngine()
 
     // buy prices
-    const buyDiePrice = 15 + (engine["hooks"]["getDiceAmount"]()-1) * 5
-    const buyFreezePrice = 10 + (engine.engineState["freezesBought"]) * 10
-    const buyRollPrice = Math.floor(20 + (10*Math.pow((engine.engineState["baseRolls"]-2), 2)))
+    const buyGoldPrice = 10
 
     function getDieAmountPrice() {
         const basePrice = 15
@@ -80,10 +79,14 @@ export default function Store() {
     }
 
     return (
-        <main>
-            <div className="store-background"></div>
+        <main className="main-cont">
+            <div className="background-wrapper">
+                <div className="store-background"></div>
+            </div>
             <div className="store-container">
                 <div className="upgrades-container">
+                    <StoreItemSection/>
+                    <h1 className="text-white">Stat Upgrades:</h1>
                     <BuyComponent title="Extra Dice" price={Math.floor(getDieAmountPrice())} upgradefunction={acquireAdditionalDie} 
                     imgPath={ExtraDiceImg} description="Get an additional die for each roll. 
                     Score higher and trigger items more often!"/>
@@ -92,7 +95,8 @@ export default function Store() {
                     Dice can be unfrozen for free."/>
                     <BuyComponent title="+1 Roll" price={Math.floor(getExtraRollPrice())} upgradefunction={ acquireAdditionalRoll }
                     imgPath={ExtraRollImg} description="Have an extra roll to meet quota every round (applies next round)."/>
-                    <StoreItemSection/>
+                   <BuyComponent title="Gold Income" price={Math.floor(buyGoldPrice)} upgradefunction={ acquireAdditionalRoll }
+                    imgPath={MoreGoldImg} description="Make an extra 2.5 gold per round"/>
                 </div>
             </div>
             <NavigationBar className="text-center" currentLocation="/store"/>

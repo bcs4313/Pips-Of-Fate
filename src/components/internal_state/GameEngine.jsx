@@ -216,6 +216,7 @@ export function useGameEngine() {
                     itemOffers:[],
                     baseRolls:3,
                     totalUpgradesBought:0,
+                    flatGoldUpgradesBought:0,
                 }
             })
         }, 4000) 
