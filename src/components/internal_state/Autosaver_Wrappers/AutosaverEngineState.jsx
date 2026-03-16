@@ -22,7 +22,9 @@ export function useEngineState() {
             remainingFreezes: 0,
             frozenDice: [],
             rerollPrice:5,
-            itemOffers:[]
+            itemOffers:[],
+            baseRolls:3,
+            totalUpgradesBought:0
         }
     })
 

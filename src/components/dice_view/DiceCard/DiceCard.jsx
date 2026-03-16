@@ -77,7 +77,7 @@ export default function DiceCard({rollState, diePosition}) {
     // END OF VISUAL FX SECTION
 
     // FREEZE SECTION
-    const freezable = engine.engineState["freezesBought"] > 0 && engine.rollsLeft < 3 && (engine.engineState["remainingFreezes"] > 0 || engine.engineState["frozenDice"].includes(diePosition))
+    const freezable = engine.engineState["freezesBought"] > 0 && engine.rollsLeft < engine.engineState["baseRolls"] && (engine.engineState["remainingFreezes"] > 0 || engine.engineState["frozenDice"].includes(diePosition))
 
     function freezeDice() {
         console.log("Freeze Dice Call")

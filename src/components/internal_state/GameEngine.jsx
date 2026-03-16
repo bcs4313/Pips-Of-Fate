@@ -75,7 +75,6 @@ export function useGameEngine() {
     async function _enqueueStateChange(statefulFunction) {
         //console.log("queueing function:")
         //console.log(statefulFunction)
-
         return new Promise(async (resolve, reject) => {
             stateQueue.current.push(statefulFunction)
             if(engineRunning.current == true)
@@ -202,7 +201,7 @@ export function useGameEngine() {
             setRolling(() => false)
             setQuota(() => 5)
             setScore(() => 0)
-            setRollsLeft(() => 3)
+            setRollsLeft(() => engineState.baseRolls)
             setDiceAmount(() => 1)
             localStorage.setItem("itemOffers", [])
             setEngineState(() => {
@@ -214,7 +213,9 @@ export function useGameEngine() {
                     remainingFreezes:0,
                     frozenDice: [],
                     rerollPrice:5,
-                    itemOffers:[]
+                    itemOffers:[],
+                    baseRolls:3,
+                    totalUpgradesBought:0,
                 }
             })
         }, 4000) 
@@ -308,7 +309,7 @@ export function useGameEngine() {
             await _enqueueStateChange(EngineStepEndRound) 
             setRolling(() => false)
             setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
-            setRollsLeft(() => 3)
+            setRollsLeft(() => engineState.baseRolls)
             setScore(0)
             completeQuotaFX()
             roundEnding.current = false

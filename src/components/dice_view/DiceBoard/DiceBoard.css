@@ -54,9 +54,20 @@ Button {
     justify-content:center;
 }
 
-.inventory {
+.inventory-left {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     align-items: center;
+    justify-content:start;
+    margin:3cqw;
+}
+
+.inventory-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content:end;
+    margin:3cqw;
 }
