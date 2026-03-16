@@ -12,7 +12,7 @@
 
 .store-container {
     flex:1;
-    overflow-y:scroll;
+    overflow-y:auto;
     z-index:1;
 }
 

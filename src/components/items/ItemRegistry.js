@@ -23,15 +23,16 @@ export const ItemRegistry = {
         }
     },
     beggars_candle: {
+        runtime: {},  // stores state variables
         id: "beggars_candle",
-        basePrice: 15,
+        basePrice: 10,
         name: "Beggar's Candle",
         rarity: "rare",
         description: "If you roll a 1, the next roll is guaranteed to be a 6",
         image: "beggars_candle.png",
         stackable: false,
         steps: {
-            PRE_ROLL_RESULT: async (engineState, inventoryInterface, hooks) => {
+            END_ROLL: async (engineState, inventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
                 const diceValues = hooks["getDiceValues"]()
                 const newDiceValues = [...diceValues]
