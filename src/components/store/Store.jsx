@@ -109,7 +109,7 @@ export default function Store() {
                     <BuyComponent title="+1 Roll" price={Math.floor(getExtraRollPrice())} upgradefunction={ acquireAdditionalRoll }
                     imgPath={ExtraRollImg} description="Have an extra roll to meet quota every round (applies next round)."/>
                    <BuyComponent title="Gold Income" price={Math.floor(getExtraGoldIncomePrice())} upgradefunction={ acquireGoldIncome }
-                    imgPath={MoreGoldImg} description="Make an extra 2.5 gold per round"/>
+                    imgPath={MoreGoldImg} description={"Make an extra 2.5 gold per round"}/>
                 </div>
             </div>
             <NavigationBar className="text-center" currentLocation="/store"/>
