@@ -1,5 +1,5 @@
 import { createContext, useRef, useContext } from "react"
-import { UIBus } from "./uiBus.js"
+import { UIBus } from "./UIBus.js"
 
 export const uiBusContext = createContext(null)
 

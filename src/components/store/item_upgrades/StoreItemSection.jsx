@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import Reroll from "./../../../assets/items/sounds_unique/Reroll.mp3"
 import InvalidBuy from "./../../../assets/store/InvalidBuy.mp3"
 import { useEngine } from "../../internal_state/EngineContextProvider"
-import { useItemOffers } from "./../internal_state/autosaver_wrappers/AutosaverItemOffers"
+import { useItemOffers } from "./../../internal_state/autosaver_wrappers/AutosaverItemOffers"
 
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
