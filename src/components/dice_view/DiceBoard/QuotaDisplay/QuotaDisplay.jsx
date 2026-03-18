@@ -8,10 +8,10 @@ export default function QuotaDisplay({totalDiceScore, quotaRequired, rollsLeft})
     const quotaProgressAmount = Math.min((totalDiceScore / quotaRequired) * 100, 100)
     const isPortrait = useIsPortrait()
 
-    let textScale = "[1.5cqi]"
+    let textScale = {"font-size":"3cqh"}
     if(isPortrait)
     {
-        textScale = "[2.5cqi]"
+        textScale = {"font-size":"2.5cqh"}
     }
 
     let quotaBarScale = "h-[3cqh]!"
@@ -20,12 +20,20 @@ export default function QuotaDisplay({totalDiceScore, quotaRequired, rollsLeft})
         quotaBarScale = "h-[2.5cqh]!"
     }
 
+    let extraPadding = "quota-row pl-[20%] pr-[20%]"
+    if(isPortrait)
+    {
+        extraPadding = "quota-row pl-[5%] pr-[5%]"
+    }
+
+    // there is no good reason as to why the text only accepts direct styling for the text size,
+    // but it still works. Do not change it.
     return (
         <div className="quota-parent @container">
-            <div className="quota-row">
-                <strong className={"quota-strong text-white text-" + textScale}>Score: {totalDiceScore} </strong>
-                <strong className={"quota-strong text-white text-" + textScale}>Required Score: {quotaRequired} </strong>
-                <strong className={"quota-strong text-white text-" + textScale}>Rolls Remaining: {rollsLeft}</strong>
+            <div className={extraPadding}> 
+                <strong style={textScale} className={"quota-strong text-white"}>Score: {totalDiceScore} </strong>
+                <strong style={textScale} className={"quota-strong text-white"}>Required Score: {quotaRequired} </strong>
+                <strong style={textScale} className={"quota-strong text-white"}>Rolls Remaining: {rollsLeft}</strong>
             </div>
             <Progress className={"quota-progress " + quotaBarScale} animated="true" value={quotaProgressAmount}/>
         </div>

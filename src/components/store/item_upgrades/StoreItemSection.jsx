@@ -7,6 +7,7 @@ import Reroll from "./../../../assets/items/sounds_unique/Reroll.mp3"
 import InvalidBuy from "./../../../assets/store/InvalidBuy.mp3"
 import { useEngine } from "../../internal_state/EngineContextProvider"
 import { useItemOffers } from "./../../internal_state/autosaver_wrappers/AutosaverItemOffers"
+import "./StoreItemSection.css"
 
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
@@ -30,11 +31,11 @@ export default function StoreItemSection() {
     function getRerollButtonStyle() {
         if(!isPortrait)
         {
-            return "w-[20cqw]! float-top @container"
+            return "w-[20cqw]! text-center @container"
         }
         else
         {
-            return "h-[6cqh]! w-[20cqw]! float-top @container"
+            return "h-[6cqh]! text-center w-[20cqw]! @container"
         }
     }
 
@@ -117,17 +118,16 @@ export default function StoreItemSection() {
     }, [])
 
     return(
-    <div className="@container w-[100%] mt-[10px] h-[auto] bg-gray-800/50">
+    <div className="@container w-[100%] mt-[10px] h-[auto] bg-gray-800/50 ">
         <h1 className="text-white">Item Shop:</h1>
         <div className={getStoreContainerClass()}>
             <div></div>
             <div className="flex flex-row justify-center">
                 {offerComponents}
             </div>
-            <div>
-                <Button onClick={reroll} className={getRerollButtonStyle()}>
-                    <h2 className="att-cost-text text-[15cqw]! mb-0 inline">Reroll</h2>
-                    <strong className="text-[var(--bs-yellow)] text-[15cqw] pl-[10cqw]">${engine.engineState["rerollPrice"]}</strong>
+            <div className="purchase-bar @container">
+                <Button onClick={reroll} className="reroll-cost-btn">
+                    <h2 className="att-cost-text mb-0">Reroll: <span className="text-yellow-300">${engine.engineState["rerollPrice"]}</span></h2>
                 </Button>
             </div>
         </div>
