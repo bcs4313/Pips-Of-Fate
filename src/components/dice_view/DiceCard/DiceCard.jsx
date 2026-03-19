@@ -49,17 +49,18 @@ export default function DiceCard({rollState, diePosition}) {
     // color { hex } (optional, default is green)
     const [flashing, setFlashing] = useState(false)
     useEffect(() => {
-        UIBus.subscribe("DIE_FLASH", (args) => {
+        const flashCallback = (args) => {
             if(!args.dice.includes(diePosition)) { return }
-            //const element = ref.current  
-            //const color = "#49e819"
-            //element.style.setProperty("--flash-color", color)
-
             setFlashing(true)
             setTimeout(() => {
                 setFlashing(false)
             }, 250)
-        })
+        }
+        UIBus.subscribe("DIE_FLASH", flashCallback)
+        // cleanup
+        return () => {
+            UIBus.unsubscribe("DIE_FLASH", flashCallback)
+        }
     }, [UIBus])
     // UI BUS SECTION
 

@@ -64,6 +64,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
         return () => {
             UIBus.unsubscribe("ITEM_FLASH", flashCallback)
             UIBus.unsubscribe("ITEM_FLOATING_TEXT", floatingCallback)
+            UIBus.unsubscribe("ITEM_FADING_TEXT", fadingCallback)
         }
     }, [UIBus])
 
