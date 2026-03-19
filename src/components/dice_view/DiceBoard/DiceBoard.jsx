@@ -51,6 +51,10 @@ export default function DiceBoard() {
 
     attachActiveItemListeners()
 
+    // we want a square pattern
+    const diceCount = engine.diceValues.length;
+    const cols = Math.ceil(Math.sqrt(diceCount));
+
     // return the board layout
     return (
     <>
@@ -61,9 +65,9 @@ export default function DiceBoard() {
         <QuotaDisplay totalDiceScore={engine.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
         <div className="grid grid-cols-[1fr_1fr_1fr] h-[100%] align-center">
             <div className="inventory-left">{passiveItemCards}</div>
-            <div className="rolling-container">
-                <div className="dice-container">
-                    <div className="dice-container @container">
+            <div className="rolling-container @container">
+                <div>
+                    <div style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }} className="dice-container @container">
                         {engine.diceValues.map((value, i) => (
                             <DiceCard key={i} diePosition={i} rollState={value} freezeAudioRef={freezeAudioRef} 
                             invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>

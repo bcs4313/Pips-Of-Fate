@@ -160,7 +160,7 @@ export default function DiceCard({rollState, diePosition, freezeAudioRef, unfree
 
     return (
     <>
-    <div className="relative">
+    <div className="relative dice-card">
         <h1 className="die-num text-white">{rollState}</h1>
         { generateFreezeOverlay() }
         <div className="relative">
