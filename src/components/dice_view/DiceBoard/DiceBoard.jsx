@@ -74,7 +74,7 @@ export default function DiceBoard() {
                         ))}
                     </div>
                 </div>
-                <Button className="w-[clamp(50px,30cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
+                <Button className="w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
             </div>
             <div className="inventory-right">{activeItemCards}</div>
         </div>
