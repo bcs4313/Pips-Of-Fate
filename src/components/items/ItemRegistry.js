@@ -161,7 +161,42 @@ export const ItemRegistry = {
                 return  {...engineState, gold: engineState.gold+goldToGive}
             }
         }
-    }
+    },
+    cardboard_box: {
+        id: "cardboard_box",
+        basePrice: 10,
+        name: "Cardboard Box",
+        rarity: "common",
+        description: "At the end of each roll, store 20% of your score. Click on the box to empty it onto your current score. SCORE = 10",
+        image: "russian_roulette.png",
+        stackable: false,
+        steps: {
+            END_ROLL: (engineState, InventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                const diceValues = hooks["getDiceValues"]()
+                const itemData = InventoryInterface.getItemData()
+                const currentScore = itemData["cardboard_box.score"] ? parseFloat(parseFloat(itemData["cardboard_box.score"]).toFixed(1)) : 0
+                console.log("before")
+                console.log(itemData)
+                console.log("current game score = " + hooks["getScore"]())
+                itemData["cardboard_box.score"] = currentScore + hooks["getScore"]()
+                InventoryInterface.setItemData(itemData)
+                console.log(itemData)
+                console.log("after")
+                return  {...engineState}
+            }
+        },
+        active: async (engineState, inventoryInterface, hooks) => {
+            console.log("cardboard box : activate")
+            const UIBus = hooks["getUIBus"]()
+            const itemData = inventoryInterface.getItemData()
+            console.log(itemData)
+            UIBus.emit("ITEM_FLASH", {
+                itemID: "russian_roulette"
+            })
+            return  {...engineState}
+        },
+    },
 }
 
 // valid step examples:

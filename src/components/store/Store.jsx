@@ -38,7 +38,6 @@ export default function Store() {
         const basePrice = 20
         const selfBuyIncrease = (10 * Math.pow((engine.engineState["baseRolls"]-2), 1.5))
         const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 5
-        console.log(basePrice + selfBuyIncrease + generalBuyIncrease)
         return basePrice + selfBuyIncrease + generalBuyIncrease
     }
 

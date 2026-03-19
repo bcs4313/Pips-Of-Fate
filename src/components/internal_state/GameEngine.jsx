@@ -180,7 +180,6 @@ export function useGameEngine() {
 
     // hook
     function _getScore() {
-        console.log("get score called")
         return score
     }
 
@@ -277,12 +276,14 @@ export function useGameEngine() {
 
             // update score
             setScore((prev) => { return parseFloat((prev + rollSum).toFixed(1)); })
-            await _enqueueStateChange(EngineStepEndRoll) 
+            awaitEndRollEngineStep.current = true
 
             // computation for gameover, quota completion, and allowing rolls is done in a useEffect below
             setRollsLeft(prevRolls => (prevRolls-1))
         }, 300)
     }
+
+    const awaitEndRollEngineStep  = useRef(false)
 
     useEffect(() => {
         if(rollsLeft <= 0 && score < quota)
@@ -299,6 +300,14 @@ export function useGameEngine() {
         else
         {
             setRolling(() => false)
+        }
+
+        // end roll call
+        if(awaitEndRollEngineStep.current == true)
+        {
+            awaitEndRollEngineStep.current = false
+            console.log("EngineStepEndRoll Call")
+            _enqueueStateChange(EngineStepEndRoll) 
         }
     }, [rollsLeft, score, quota])
 

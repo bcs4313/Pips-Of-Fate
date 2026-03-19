@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ItemRegistry } from "./ItemRegistry"
 import { useItems } from "../internal_state/autosaver_wrappers/AutosaverItems"
+import { useItemData } from "../internal_state/autosaver_wrappers/AutosaverItemData"
 import ItemCard from "./ItemCard"
 
 // Items are assigned to specifc engine step ids, of which they check
@@ -10,6 +11,7 @@ export default function useInventory() {
     // an object consisting of item ids as keys and integer values
     // as stack counts
     const [items, setItems] = useItems()
+    const [itemData, setItemData] = useItemData()
 
     // add an item id to the item list.
     function addItem(itemID) {
@@ -38,6 +40,18 @@ export default function useInventory() {
             }
         }
         return nextEngineState
+    }
+
+    // used for storage of local fields in the ItemRegistry
+    function _setItemData(itemData) {
+        setItemData(() => {
+            return {...itemData}
+        })
+    }
+
+    // used for retrieval of local fields in the ItemRegistry
+    function _getItemData() {
+        return itemData
     }
 
     function createPassiveItemCards() 
@@ -73,6 +87,7 @@ export default function useInventory() {
 
     function clearInventory() {
         setItems(() => [])
+        setItemData(() => {})
     }
 
     const inventoryInterface = {
@@ -80,7 +95,9 @@ export default function useInventory() {
         "addItem": addItem,
         "createPassiveCards": createPassiveItemCards,
         "createActiveCards": createActiveItemCards,
-        "clear": clearInventory
+        "clear": clearInventory,
+        "setItemData":_setItemData,
+        "getItemData":_getItemData,
     }
 
     return inventoryInterface
