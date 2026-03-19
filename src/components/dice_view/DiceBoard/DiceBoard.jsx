@@ -3,15 +3,24 @@ import { Button } from 'reactstrap';
 import DiceCard from "./../DiceCard/DiceCard.jsx"
 import QuotaDisplay from "./QuotaDisplay/QuotaDisplay.jsx"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef} from "react"
 import { useInventory } from "./../../items/InventoryContextProvider.jsx"
 import { ItemRegistry } from "./../../items/ItemRegistry"
+
+// sound imports
+import FreezeSound from "../../../assets/diceview/DiceCard/FreezeSound.mp3"
+import UnFreezeSound from "../../../assets/diceview/DiceCard/UnFreezeSound.mp3"
+import InvalidFreezeSound from "../../../assets/diceview/DiceCard/InvalidFreeze.mp3"
 
 export default function DiceBoard() {
     const engine = useEngine(1)
     const inventory = useInventory()
     const [passiveItemCards, passiveItemIds] = inventory.createPassiveCards() 
     let [activeItemCards, activeItemIds] = inventory.createActiveCards() 
+
+    const freezeAudioRef = useRef(new Audio(FreezeSound))
+    const unfreezeAudioRef = useRef(new Audio(UnFreezeSound))
+    const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
     
     function getRollButtonColor() {
         if(engine.rollsLeft <= 0 && engine.score < engine.quota)
@@ -56,7 +65,8 @@ export default function DiceBoard() {
                 <div className="dice-container">
                     <div className="dice-container @container">
                         {engine.diceValues.map((value, i) => (
-                            <DiceCard key={i} diePosition={i} rollState={value}/>
+                            <DiceCard key={i} diePosition={i} rollState={value} freezeAudioRef={freezeAudioRef} 
+                            invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
                         ))}
                     </div>
                 </div>

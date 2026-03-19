@@ -5,8 +5,6 @@ export default function FloatingItemText({ message, color}) {
     {
         color = "green"
     }
-
-    console.log("color = " + color)
     
     return <div className="relative @container">
         <strong style={{"color":color}} className="text-floating absolute">{message}</strong>

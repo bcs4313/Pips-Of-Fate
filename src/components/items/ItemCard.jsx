@@ -70,8 +70,6 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     
     function addFloatingTextComp(msg, color) {
-        console.log("added floating text")
-        console.log("float color = " + color)
         setFloatingTextComps((prev) => {
             let newTextComps = [...prev]
             let UIKey = Math.random() * Number.MAX_SAFE_INTEGER

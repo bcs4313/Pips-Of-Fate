@@ -176,7 +176,7 @@ export const ItemRegistry = {
                 const UIBus = hooks["getUIBus"]()
                 const itemData = InventoryInterface.getItemData()
                 const currentBoxScore = itemData["cardboard_box.score"] ? parseFloat(parseFloat(itemData["cardboard_box.score"]).toFixed(1)) : 0
-                const newBoxScore = currentBoxScore + Math.floor(hooks["getScore"]()*0.1)
+                const newBoxScore = currentBoxScore + Math.floor(hooks["getScore"]()*0.2)
                 UIBus.emit("ITEM_FADING_TEXT", {
                     itemID: "cardboard_box",
                     color:"cyan",

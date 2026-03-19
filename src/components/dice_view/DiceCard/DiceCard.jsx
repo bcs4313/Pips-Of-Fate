@@ -13,11 +13,6 @@ import result6 from "../../../assets/diceview/DiceCard/roll-results/dice_result_
 // dice animation imports
 import rollAnim from "../../../assets/diceview/DiceCard/roll-animation/roll.gif"
 
-// sound imports
-import FreezeSound from "../../../assets/diceview/DiceCard/FreezeSound.mp3"
-import UnFreezeSound from "../../../assets/diceview/DiceCard/UnFreezeSound.mp3"
-import InvalidFreezeSound from "../../../assets/diceview/DiceCard/InvalidFreeze.mp3"
-
 // icon imports
 import freezeIcon from "../../../assets/diceview/DiceCard/FreezeIcon.png"
 
@@ -33,13 +28,9 @@ import { useEngine } from "../../internal_state/EngineContextProvider"
 // 1-6 = resting on the roll result from 1 to 6
 //@param {boolean} freezable attaches a icon to the die that makes it freeze and unfreeze
 //@param position {number} an integer that indicates where the die is positioned on the board
-export default function DiceCard({rollState, diePosition}) {
+export default function DiceCard({rollState, diePosition, freezeAudioRef, unfreezeAudioRef, invalidFreezeAudioRef}) {
     const engine = useEngine()
     const UIBus = useUIBus()
-    const freezeAudioRef = useRef(new Audio(FreezeSound))
-    const unfreezeAudioRef = useRef(new Audio(UnFreezeSound))
-    const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
-
 
     // ALL VISUAL FX SECTION (Must subscribe to UIBus)
     // UI BUS SECTION
