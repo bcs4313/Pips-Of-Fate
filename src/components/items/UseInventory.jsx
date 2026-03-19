@@ -22,6 +22,11 @@ export default function useInventory() {
         })
     }
 
+    function hasItem(itemID)
+    {
+        return Object.keys(items).includes(itemID)
+    }
+
     // trigger item functions for all items linked to the stepIdentity, forwarding the current engine state
     // @param stepIdentity { string }
     function forwardEngineStep(stepIdentity, prevEngineState, inventoryInterface, hooks) {
@@ -93,6 +98,7 @@ export default function useInventory() {
     const inventoryInterface = {
         "forwardStep": forwardEngineStep,
         "addItem": addItem,
+        "hasItem": hasItem,
         "createPassiveCards": createPassiveItemCards,
         "createActiveCards": createActiveItemCards,
         "clear": clearInventory,

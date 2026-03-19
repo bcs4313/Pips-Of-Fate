@@ -8,6 +8,7 @@ import InvalidBuy from "./../../../assets/store/InvalidBuy.mp3"
 import { useEngine } from "../../internal_state/EngineContextProvider"
 import { useItemOffers } from "./../../internal_state/autosaver_wrappers/AutosaverItemOffers"
 import "./StoreItemSection.css"
+import { useInventory } from "./../../items/InventoryContextProvider.jsx"
 
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
@@ -16,6 +17,7 @@ export default function StoreItemSection() {
     const rerollAudio = useRef(new Audio(Reroll))
     const invalidBuyAudio = useRef(new Audio(InvalidBuy))
     const engine = useEngine()
+    const inventoryInterface = useInventory()
 
     function getStoreContainerClass() {
         if(!isPortrait)
@@ -71,11 +73,20 @@ export default function StoreItemSection() {
     function generateRollOffers() {
         let newOffers = []
         let availableItems = Object.keys(ItemRegistry)
-        for(let i = 0; i < 3; i++)
+        let itemsToOffer = 3
+
+        while(itemsToOffer > 0 && availableItems.length != 0)
         {
             const selectedIndex = Math.floor(Math.random() * availableItems.length)
             const selectedID = availableItems[selectedIndex]
-            newOffers.push(selectedID)
+
+            // case where we don't push a non-stackable item that is already owned
+            if(ItemRegistry[selectedID].stackable == true || !inventoryInterface["hasItem"](selectedID))
+            {
+                newOffers.push(selectedID)
+                itemsToOffer -= 1
+            }
+
             availableItems = availableItems.filter((item) => {
                 if(item === selectedID)
                 {
@@ -84,6 +95,8 @@ export default function StoreItemSection() {
                 return true
             })
         }
+        console.log(newOffers)
+
         return newOffers
     }
 

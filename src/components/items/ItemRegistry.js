@@ -104,7 +104,7 @@ export const ItemRegistry = {
         rarity: "rare",
         description: "Every roll adds 10% of your current gold to the score.",
         image: "pot_of_gold.png",
-        stackable: true,
+        stackable: false,
         steps: {
            PRE_ROLL_RESULT: (engineState, InventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
@@ -132,7 +132,7 @@ export const ItemRegistry = {
         rarity: "epic",
         description: "After you roll, all frozen dice give 6 minus their die value in gold.",
         image: "frozen_assets.png",
-        stackable: true,
+        stackable: false,
         steps: {
         END_ROLL: (engineState, InventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
