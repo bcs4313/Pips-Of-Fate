@@ -117,6 +117,7 @@ export const ItemRegistry = {
                     UIBus.emit("ITEM_FLOATING_TEXT", {
                         itemID: "pot_of_gold",
                         msg: "+" + (engineState.gold * 0.1).toFixed(1),
+                        color:"lime",
                     })
                 }
                 hooks["addScore"](engineState.gold * 0.1)
@@ -153,7 +154,7 @@ export const ItemRegistry = {
                     
                     UIBus.emit("ITEM_FLOATING_TEXT", {
                         itemID: "frozen_assets",
-                        color:"yellow-300!",
+                        color:"yellow",
                         msg: "+" + (goldToGive).toFixed(0) + " G",
                     })
                 }
@@ -167,22 +168,22 @@ export const ItemRegistry = {
         basePrice: 10,
         name: "Cardboard Box",
         rarity: "common",
-        description: "At the end of each roll, store 20% of your score. Click on the box to empty it onto your current score. SCORE = 10",
-        image: "russian_roulette.png",
+        description: "At the end of each roll, store 20% of your score in this item. Click on the box to empty it onto your current score.",
+        image: "cardboard_box.png",
         stackable: false,
         steps: {
             END_ROLL: (engineState, InventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
-                const diceValues = hooks["getDiceValues"]()
                 const itemData = InventoryInterface.getItemData()
-                const currentScore = itemData["cardboard_box.score"] ? parseFloat(parseFloat(itemData["cardboard_box.score"]).toFixed(1)) : 0
-                console.log("before")
-                console.log(itemData)
-                console.log("current game score = " + hooks["getScore"]())
-                itemData["cardboard_box.score"] = currentScore + hooks["getScore"]()
+                const currentBoxScore = itemData["cardboard_box.score"] ? parseFloat(parseFloat(itemData["cardboard_box.score"]).toFixed(1)) : 0
+                const newBoxScore = currentBoxScore + Math.floor(hooks["getScore"]()*0.1)
+                UIBus.emit("ITEM_FADING_TEXT", {
+                    itemID: "cardboard_box",
+                    color:"cyan",
+                    msg: "Storage: " + newBoxScore,
+                })
+                itemData["cardboard_box.score"] = currentBoxScore + Math.floor(hooks["getScore"]()*0.2)
                 InventoryInterface.setItemData(itemData)
-                console.log(itemData)
-                console.log("after")
                 return  {...engineState}
             }
         },
@@ -190,10 +191,19 @@ export const ItemRegistry = {
             console.log("cardboard box : activate")
             const UIBus = hooks["getUIBus"]()
             const itemData = inventoryInterface.getItemData()
-            console.log(itemData)
+            const amount = itemData["cardboard_box.score"]
             UIBus.emit("ITEM_FLASH", {
-                itemID: "russian_roulette"
+                itemID: "cardboard_box"
             })
+            itemData["cardboard_box.score"] = 0
+
+            const audio = new Audio(assetMap["items/sounds_unique/OpenBox.mp3"])
+            audio.play()
+            inventoryInterface.setItemData({...itemData})
+
+            await new Promise((resolve, reject) => setTimeout(() => resolve("done"), 1000))
+
+            hooks["addScore"](amount)
             return  {...engineState}
         },
     },

@@ -7,7 +7,8 @@ import { ItemRegistry } from "./ItemRegistry"
 import "./ItemCard.css"
 
 // VFX
-import FloatingItemText from "./../vfx/item_vfx/FloatingItemText"
+import FloatingItemText from "../vfx/item_vfx/FloatingItemText/FloatingItemText"
+import FadingItemText from "../vfx/item_vfx/FadingItemText/FadingItemText"
 
 //@param name
 //@param stacks
@@ -26,6 +27,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     const UIBus = useUIBus()
     const [flashing, setFlashing] = useState(false)
     const [floatingTextComps, setFloatingTextComps] = useState([])
+    const [fadingTextComps, setFadingTextComps] = useState({})
     useEffect(() => {
         // ITEM_FLASH (duration is fixed to 0.25 seconds for now, white)
         //@param { itemID } req
@@ -44,9 +46,19 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
         //@param { msg } req
         const floatingCallback = (args) => {
             if(args.itemID !== id) { return }
-            addTextComp(args.msg, args.color)
+            addFloatingTextComp(args.msg, args.color)
         }
         UIBus.subscribe("ITEM_FLOATING_TEXT", floatingCallback)
+
+        // ITEM_FLOATINGTEXT a wavy text effect that floats to the top of the screen
+        // used to display extra info from an item as it actives
+        //@param { itemID } req
+        //@param { msg } req
+        const fadingCallback = (args) => {
+            if(args.itemID !== id) { return }
+            addFadingTextComp(args.msg, args.color, args.itemID)
+        }
+        UIBus.subscribe("ITEM_FADING_TEXT", fadingCallback)
 
         // cleanup
         return () => {
@@ -56,7 +68,9 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     }, [UIBus])
 
     
-    function addTextComp(msg, color) {
+    function addFloatingTextComp(msg, color) {
+        console.log("added floating text")
+        console.log("float color = " + color)
         setFloatingTextComps((prev) => {
             let newTextComps = [...prev]
             let UIKey = Math.random() * Number.MAX_SAFE_INTEGER
@@ -70,6 +84,17 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
                 return [...newArr]
             })
         }, 5000)
+    }
+
+    // fading text comps replace themselves, fading very slowly
+    function addFadingTextComp(msg, color, item_id) {
+        console.log("added fading text")
+        setFadingTextComps((prev) => {
+            let newTextComps = {...prev}
+            let UIKey = Math.random() * Number.MAX_SAFE_INTEGER
+            newTextComps[item_id] = <FadingItemText message={msg} color={color} key={UIKey} />
+            return newTextComps
+        })
     }
     // UI BUS SECTION
 
@@ -124,6 +149,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     return (
         <div className="relative align-self-center w-[clamp(16px,16cqw,128px)] h-[clamp(16px,16cqw,128px)] inline-block">
             {floatingTextComps}
+            {Object.values(fadingTextComps)}
             {attachStackCount()}
             <img id={idRef.current } className={ConstructImgClass()} alt={imagePath} src={assetMap["items/images_unique/" + imagePath]}/>
             <Tooltip 

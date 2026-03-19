@@ -1,0 +1,21 @@
+
+.text-fading {
+    position:absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    animation: itemTextFadeAway 5s forwards;
+    animation-delay: 0.01s;
+    font-size:auto;
+    text-wrap: nowrap;
+    z-index:10;
+}
+
+@keyframes itemTextFadeAway {
+    0% {
+        opacity:1.0;
+    }
+    100% {
+        opacity:0.0;
+    }
+}

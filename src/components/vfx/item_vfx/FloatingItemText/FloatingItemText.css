@@ -1,18 +1,19 @@
 
 .text-floating {
     position: absolute;
-    animation: floatUp 3s ease-in forwards;
+    animation: itemTextFloatUp 3s ease-in forwards;
     animation-delay: 0.01s;
     font-size:20cqw;
     z-index:10;
+    top: 80%;
+    left: 50%;
 }
 
-@keyframes floatUp {
+@keyframes itemTextFloatUp {
     0% {
-        transform: translateY(0);
+        transform: translate(-50%, -80%);
     }
     100% {
         transform: translateY(-100vh);
-        color:white;
     }
 }

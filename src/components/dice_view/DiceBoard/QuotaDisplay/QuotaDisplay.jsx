@@ -8,10 +8,10 @@ export default function QuotaDisplay({totalDiceScore, quotaRequired, rollsLeft})
     const quotaProgressAmount = Math.min((totalDiceScore / quotaRequired) * 100, 100)
     const isPortrait = useIsPortrait()
 
-    let textScale = {"font-size":"3cqh"}
+    let textScale = {"fontSize":"3cqh"}
     if(isPortrait)
     {
-        textScale = {"font-size":"2.5cqh"}
+        textScale = {"fontSize":"2.5cqh"}
     }
 
     let quotaBarScale = "h-[3cqh]!"

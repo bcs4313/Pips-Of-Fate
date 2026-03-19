@@ -102,7 +102,7 @@ export default function StoreItemSection() {
         for(let i = 0; i < offers.length; i++)
         {
             const selectedID = offers[i]
-            let newOffer = <ItemOffer key={itemid} buyCallback={buyCallback} itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
+            let newOffer = <ItemOffer key={i} buyCallback={buyCallback} itemid={selectedID} price={ItemRegistry[selectedID]["basePrice"]}/>
             newOffers.push(newOffer)
         }
         setOfferComponents(newOffers)
