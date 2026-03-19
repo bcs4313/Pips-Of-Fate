@@ -191,7 +191,7 @@ export const ItemRegistry = {
             console.log("cardboard box : activate")
             const UIBus = hooks["getUIBus"]()
             const itemData = inventoryInterface.getItemData()
-            const amount = itemData["cardboard_box.score"]
+            let amount = itemData["cardboard_box.score"]
             UIBus.emit("ITEM_FLASH", {
                 itemID: "cardboard_box"
             })
