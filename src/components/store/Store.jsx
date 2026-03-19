@@ -4,10 +4,10 @@ import NavigationBar from "./../main_layout/NavigationBar.jsx"
 import "./Store.css"
 
 // basic buy img imports
-import ExtraDiceImg from "./../../assets/store/ExtraDiceUpgrade.png"
-import FrozenDiceImg from "./../../assets/store/FrozenDiceUpgrade.png"
-import ExtraRollImg from "./../../assets/store/ExtraRollUpgrade.png"
-import MoreGoldImg from "./../../assets/store/GoldUpgrade.png"
+import ExtraDiceImg from "./../../../public/store/ExtraDiceUpgrade.png"
+import FrozenDiceImg from "./../../../public/store/FrozenDiceUpgrade.png"
+import ExtraRollImg from "./../../../public/store/ExtraRollUpgrade.png"
+import MoreGoldImg from "./../../../public/store/GoldUpgrade.png"
 
 // other components
 import StoreItemSection from "./item_upgrades/StoreItemSection.jsx"

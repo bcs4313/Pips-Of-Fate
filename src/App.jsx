@@ -18,6 +18,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<WebsiteMain/>}/>
                 <Route path="/store" element={<Store/>}/>
+                <Route path="/settings" element={<Store/>}/>
               </Routes>
           </EngineProvider>
         </InventoryProvider>

@@ -197,6 +197,11 @@ export const ItemRegistry = {
             })
             itemData["cardboard_box.score"] = 0
 
+            if(amount == null || amount == undefined)
+            {
+                amount = 0
+            }
+
             const audio = new Audio(assetMap["items/sounds_unique/OpenBox.mp3"])
             audio.play()
             inventoryInterface.setItemData({...itemData})
