@@ -127,7 +127,7 @@ export const ItemRegistry = {
     },
     frozen_assets: {
         id: "frozen_assets",
-        basePrice: 50,
+        basePrice: 30,
         name: "Frozen Assets",
         rarity: "epic",
         description: "After you roll, all frozen dice give 6 minus their die value in gold.",
@@ -191,7 +191,7 @@ export const ItemRegistry = {
             console.log("cardboard box : activate")
             const UIBus = hooks["getUIBus"]()
             const itemData = inventoryInterface.getItemData()
-            const amount = itemData["cardboard_box.score"]
+            let amount = itemData["cardboard_box.score"]
             UIBus.emit("ITEM_FLASH", {
                 itemID: "cardboard_box"
             })
