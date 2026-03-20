@@ -1,5 +1,5 @@
 import { Button } from "reactstrap"
-//import "./NavigationBar.css"
+import "./NavigationBar.css"
 import { useNavigate } from "react-router-dom"
 import GoldDisplay from "./GoldDisplay/GoldDisplay.jsx"
 import GameDataDisplay from "./GameDataDisplay/GameDataDisplay.jsx"
@@ -23,20 +23,26 @@ export default function NavigationBar({currentLocation}) {
             case "/store":
                 return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
                 break;
+            case "/settings":
+                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
+                break;
             default:
                 return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
                 break;
         }
     }
 
-    function createDangerButton() {
+    function createSettingsButton() {
         switch(currentLocation)
         {
             case "/store":
                 return (<></>)
                 break;
+            case "/settings":
+                return (<></>)
+                break;
             default:
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={deleteSave} color="danger">Delete Save and Restart</Button>)
+                return (<Button className="text-white settings-button h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("settings")} color="info">Settings</Button>)
                 break;
         }
     }
@@ -47,7 +53,7 @@ export default function NavigationBar({currentLocation}) {
         <GameDataDisplay/>
         <GoldDisplay/>
         {createSecondaryButton()}
-        {createDangerButton()}
+        {createSettingsButton()}
         <div></div>
     </nav>
     </>)

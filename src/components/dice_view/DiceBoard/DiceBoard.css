@@ -19,6 +19,10 @@
     background-image: url("./../../../assets/diceview/DiceBoard/BoardBackground.png")
 }
 
+.roll-button {
+    background-color:#4fd1c5!important;
+}
+
 .background-wrapper {
     position:fixed;
     inset:0;

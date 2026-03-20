@@ -4,11 +4,92 @@ main {
     flex-direction:column;
 }
 
+
+.settings-board-background {
+    position:absolute;
+    top:-100vh;
+    left:-100vw;
+    width:200vw;
+    height:200vh;
+    z-index:0;
+    animation: background-scroller 15s linear infinite;
+    background-repeat:repeat;
+    background-image: url("./../../assets/settings/SettingsBackground.png")
+}
+
+
 .settings-container
 {
     height:100%;
     width:100%;
-    background-color:gray;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    container-type:size;
+    z-index:1;
+}
+
+.setting-container-top
+{
+    font-family: "Datatype", monospace;
+     font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: bold;
+    font-variation-settings:"wdth" 300;
+    flex-grow:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    container-type:size;
+    display:flex;
+    flex-direction:row;
+}
+
+.setting-container
+{
+    flex-grow:4;
+    background-color:rgba(80, 120, 80, 255);
+    border-radius:2em;
+    opacity:90%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    container-type:size;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+}
+
+.delete-setting-container
+{
+    flex-grow:1;
+    justify-content:center;
+    container-type:size;
+    width:100%;
+    margin-bottom:10px;
+}
+
+
+.setting-singular {
+    text-align: center;
+    flex-grow:1;
+}
+
+.settings-text-container {
+    display:flex;
+    align-items:center;
+    margin:1cqw;
+}
+
+.setting-label {
+  font-family: "Datatype", monospace;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:"wdth" 100;
+  color:white;
+  text-wrap:nowrap;
 }
 
 /*********** Baseline, reset styles ***********/
@@ -17,7 +98,7 @@ input[type="range"] {
   appearance: none;
   background: transparent;
   cursor: pointer;
-  width: 32rem;
+  width: 100%;
 }
 
 /* Removes default focus */
@@ -27,46 +108,53 @@ input[type="range"]:focus {
 
 /******** Chrome, Safari, Opera and Edge Chromium styles ********/
 /* slider track */
-input[type="range"]::-webkit-slider-runnable-track {
-  background-color: #264653;
-  border-radius: 0.5rem;
-  height: 1rem;
-}
 
 /* slider thumb */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  margin-top: -4px; /* Centers thumb on the track */
-  background-color: #00ff2a;
+  background-color: #2fb846;
   border-radius: 0.5rem;
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 11cqh;
+  width: 11cqh;
 }
 
 input[type="range"]:focus::-webkit-slider-thumb {
-  outline: 3px solid #00ff2a;
+  outline: 3px solid #2fb846;
   outline-offset: 0.125rem;
 }
 
 /*********** Firefox styles ***********/
 /* slider track */
-input[type="range"]::-moz-range-track {
-  background-color: #264653;
-  border-radius: 0.5rem;
-  height: 1rem;
-}
-
 /* slider thumb */
 input[type="range"]::-moz-range-thumb {
-  background-color: #00ff2a;
+  background-color: #2fb846;
   border: none; /*Removes extra border that FF applies*/
   border-radius: 0.5rem;
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 11cqh;
+  width: 11cqh;
 }
 
 input[type="range"]:focus::-moz-range-thumb{
-  outline: 3px solid #00ff2a;
+  outline: 3px solid #2fb846;
   outline-offset: 0.125rem;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  width: 100%;
+
+  --value: 50; /* default */
+
+  height: 10cqh;
+  border-radius: 0.5rem;
+
+  background: linear-gradient(
+    to right,
+    #3fe25a 0%,
+    #3fe25a calc(var(--value) * 1%),
+    #264653 calc(var(--value) * 1%),
+    #264653 100%
+  );
 }

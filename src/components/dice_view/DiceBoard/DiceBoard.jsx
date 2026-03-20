@@ -72,7 +72,7 @@ export default function DiceBoard() {
                         invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
                     ))}
                 </div>
-                <Button className="w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
+                <Button className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
             </div>
             <div className="inventory-right">{activeItemCards}</div>
         </div>
