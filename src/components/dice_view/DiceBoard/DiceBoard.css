@@ -41,10 +41,8 @@ Button {
 }
 .dice-container {
     display: grid;
-    gap: 20px;
     width: 100%;
     height: 100cqh;
-    max-width: 600px;
     margin-top:10%;
     flex-shrink:1;
 }
@@ -56,7 +54,6 @@ Button {
     flex-flow:column;
     justify-content:center;
     container-type:size;
-    height:calc(100% - 70px);
 }
 
 .inventory-left {

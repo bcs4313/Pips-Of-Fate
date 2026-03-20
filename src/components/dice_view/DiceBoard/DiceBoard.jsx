@@ -66,13 +66,11 @@ export default function DiceBoard() {
         <div className="grid grid-cols-[1fr_1fr_1fr] h-[100%] align-center">
             <div className="inventory-left">{passiveItemCards}</div>
             <div className="rolling-container @container">
-                <div>
-                    <div style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }} className="dice-container @container">
-                        {engine.diceValues.map((value, i) => (
-                            <DiceCard key={i} diePosition={i} rollState={value} freezeAudioRef={freezeAudioRef} 
-                            invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
-                        ))}
-                    </div>
+                <div style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }} className="dice-container @container">
+                    {engine.diceValues.map((value, i) => (
+                        <DiceCard key={i} diePosition={i} rollState={value} freezeAudioRef={freezeAudioRef} 
+                        invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
+                    ))}
                 </div>
                 <Button className="w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
             </div>
