@@ -1,0 +1,12 @@
+main {
+    height:calc(100% - 70px);
+    display:flex;
+    flex-direction:column;
+}
+
+.settings-container
+{
+    height:100%;
+    width:100%;
+    background-color:gray;
+}

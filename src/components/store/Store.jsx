@@ -44,8 +44,7 @@ export default function Store() {
     function getExtraGoldIncomePrice() {
         const basePrice = 10
         const selfBuyIncrease = 5 * engine.engineState["flatGoldUpgradesBought"]
-        const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 2.5
-        return basePrice + selfBuyIncrease + generalBuyIncrease
+        return basePrice + selfBuyIncrease
     }
 
     function acquireAdditionalDie(price) {
