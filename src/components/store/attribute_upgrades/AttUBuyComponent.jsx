@@ -1,7 +1,7 @@
 import "./AttUBuyComponent.css"
 import { Button } from 'reactstrap'
-import InvalidBuyAudio from "./../../../../public/store/InvalidBuy.mp3"
-import ValidBuyAudio from "./../../../../public/store/SuccessfulBuy.mp3"
+import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
+import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
 import { useRef } from "react"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
 

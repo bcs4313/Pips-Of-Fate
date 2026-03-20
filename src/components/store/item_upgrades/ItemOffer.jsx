@@ -3,8 +3,8 @@ import { Button } from "reactstrap"
 import { useRef } from "react"
 import { useEngine } from "../../internal_state/EngineContextProvider"
 import { useInventory } from "../../items/InventoryContextProvider"
-import InvalidBuyAudio from "./../../../../public/store/InvalidBuy.mp3"
-import ValidBuyAudio from "./../../../../public/store/SuccessfulBuy.mp3"
+import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
+import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
 
 export default function ItemOffer({itemid, price, buyCallback})
 {
