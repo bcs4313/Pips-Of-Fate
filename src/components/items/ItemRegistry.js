@@ -28,11 +28,11 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Beggar's Candle",
         rarity: "uncommon",
-        description: "If you roll a 1, the next roll is guaranteed to be a 6",
+        description: "Turn every 1 you roll into a 6",
         image: "beggars_candle.png",
         stackable: false,
         steps: {
-            END_ROLL: async (engineState, inventoryInterface, hooks) => {
+            POST_ROLL_RESULT: async (engineState, inventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
                 const diceValues = hooks["getDiceValues"]()
                 const newDiceValues = [...diceValues]
@@ -54,7 +54,9 @@ export const ItemRegistry = {
                         hooks["setDiceValues"]([i], [6])
                     }
                 }
-
+                console.log("my new dice values: (beggars candle)")
+                console.log(newDiceValues)
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 return {...engineState}
             }
         },
@@ -209,6 +211,76 @@ export const ItemRegistry = {
             await new Promise((resolve, reject) => setTimeout(() => resolve("done"), 1000))
 
             hooks["addScore"](amount)
+            return  {...engineState}
+        },
+    },
+    furnace : {
+        id: "furnace",
+        basePrice: 15,
+        name: "Furnace",
+        rarity: "Uncommon",
+        description: "Activate to sacrifice a roll. Permanently gain +5% more score per roll (additive). Current multiplier: (1x)",
+        image: "furnace.png",
+        stackable: false,
+        steps: {
+        },
+        steps: {
+            START_ROLL: (engineState, inventoryInterface, hooks) => {
+                console.log("START_ROLL")
+                const itemData = inventoryInterface.getItemData() 
+                console.log(itemData)
+                itemData["furnace.prevScore"] = hooks["getScore"]()
+                inventoryInterface.setItemData(itemData)
+                return  {...engineState}
+            },
+            END_ROLL: (engineState, inventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                const itemData = inventoryInterface.getItemData()
+                const prevScore = itemData["furnace.prevScore"] ? parseFloat(parseFloat(itemData["furnace.prevScore"]).toFixed(2)) : 0
+                const scoreDifference = hooks["getScore"]() - prevScore
+                const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0
+                const amount = (parseFloat(scoreDifference) * parseFloat(currentScoreMultiplier))
+                console.log("adding...")
+                console.log(prevScore)
+                console.log(currentScoreMultiplier)
+                console.log(amount)
+                hooks["addScore"](amount)
+                UIBus.emit("ITEM_FLOATING_TEXT", {
+                    itemID: "furnace",
+                    color:"orange",
+                    msg: "+" + amount,
+                })
+                return  {...engineState}
+            }
+        },
+        active: async (engineState, inventoryInterface, hooks) => {
+            const UIBus = hooks["getUIBus"]()
+            const itemData = inventoryInterface.getItemData()
+            const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0
+            const newMult = currentScoreMultiplier + 0.05
+
+            console.log("current score mult: " + currentScoreMultiplier)
+            console.log("new mult = " + newMult)
+            UIBus.emit("ITEM_FLOATING_TEXT", {
+                itemID: "furnace",
+                color:"orange",
+                msg: "Multiplier +0.05x",
+            })
+            UIBus.emit("ITEM_FADING_TEXT", {
+                itemID: "furnace",
+                color:"cyan",
+                msg: "Current multiplier: " + newMult.toFixed(2),
+            })
+            UIBus.emit("ITEM_FLASH", {
+                itemID: "furnace"
+            })
+
+            const audio = new Audio(assetMap["items/sounds_unique/FurnaceBurn.mp3"])
+            audio.play()
+
+            itemData["furnace.multiplier"] = newMult.toFixed(2)
+            inventoryInterface.setItemData(itemData)
+            hooks["addRolls"](-1)
             return  {...engineState}
         },
     },

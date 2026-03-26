@@ -25,10 +25,10 @@ export default function DiceBoard() {
     function getRollButtonColor() {
         if(engine.rollsLeft <= 0 && engine.score < engine.quota)
         {
-            return "danger"
+            return "#c73232"
         }
 
-        return "primary";
+        return "#4fd1c5";
     }
 
     function attachActiveItemListeners() {
@@ -72,7 +72,7 @@ export default function DiceBoard() {
                         invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
                     ))}
                 </div>
-                <Button className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color={getRollButtonColor()}>Roll</Button>
+                <Button style={{"background-color":getRollButtonColor()}}className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color="">Roll</Button>
             </div>
             <div className="inventory-right">{activeItemCards}</div>
         </div>
