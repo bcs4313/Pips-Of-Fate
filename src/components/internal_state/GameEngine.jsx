@@ -301,12 +301,12 @@ export function useGameEngine() {
 
     async function ScoringStep() {
         await _enqueueStateChange(EngineStepPostRollResults) 
-        console.log("Roll Result: " + diceValues)
+        //console.log("Roll Result: " + diceValues)
 
         _enqueueStateChange((engineState) => {
-            console.log("enqueue final scoring")
-            console.log("i see...")
-            console.log(diceValues)
+            //console.log("enqueue final scoring")
+            //console.log("i see...")
+            //console.log(diceValues)
             // update score
             const rollSum = diceValues.reduce((a,b)=>a+b,0);
             setScore((prev) => { return parseFloat((prev + rollSum).toFixed(1)); })
@@ -326,6 +326,7 @@ export function useGameEngine() {
         }
         else if (score >= quota && !roundEnding.current) {
             setRolling(() => true)
+            roundEnding.current = true
             setTimeout(() => {
                 endRoundAwait()
             }, 500)
@@ -346,17 +347,18 @@ export function useGameEngine() {
 
     const roundEnding = useRef(false)
     async function endRoundAwait() {
-        if(!roundEnding.current)
-        {
-            roundEnding.current = true
-            await _enqueueStateChange(EngineStepEndRound) 
-            setRolling(() => false)
-            setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
-            setRollsLeft(() => engineState.baseRolls)
-            setScore(0)
-            completeQuotaFX()
-            roundEnding.current = false
-        }
+await _enqueueStateChange(EngineStepEndRound) 
+        setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
+        setRollsLeft(() => engineState.baseRolls)
+        setScore(0)
+        completeQuotaFX()
+        setRolling(() => false)
+        roundEnding.current = false
+        //setTimeout(() => {
+            //   completeQuotaFX()
+        //    setRolling(() => false)
+            //   roundEnding.current = false
+            //}, 500)
     }
 
     return { rollDice, rolling, diceValues, score, quota, rollsLeft, engineState, hooks: engineHooks}

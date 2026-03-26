@@ -25,9 +25,9 @@ export const ItemRegistry = {
     beggars_candle: {
         runtime: {},  // stores state variables
         id: "beggars_candle",
-        basePrice: 15,
+        basePrice: 10,
         name: "Beggar's Candle",
-        rarity: "uncommon",
+        rarity: "common",
         description: "Turn every 1 you roll into a 6",
         image: "beggars_candle.png",
         stackable: false,
@@ -56,7 +56,7 @@ export const ItemRegistry = {
                 }
                 console.log("my new dice values: (beggars candle)")
                 console.log(newDiceValues)
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                //await new Promise(resolve => setTimeout(resolve, 1000));
                 return {...engineState}
             }
         },
@@ -104,7 +104,7 @@ export const ItemRegistry = {
         basePrice: 20,
         name: "Pot of Gold",
         rarity: "rare",
-        description: "Every roll adds 10% of your current gold to the score.",
+        description: "Every roll adds 20% of your current gold to the score. +1 gold per roll.",
         image: "pot_of_gold.png",
         stackable: false,
         steps: {
@@ -122,10 +122,13 @@ export const ItemRegistry = {
                         color:"lime",
                     })
                 }
-                hooks["addScore"](engineState.gold * 0.1)
+                hooks["addScore"](engineState.gold * 0.2)
                 return engineState
+            },
+            END_ROLL: (engineState, InventoryInterface, hooks) => {
+                return  {...engineState, gold: engineState.gold+1}
             }
-        },
+        }
     },
     frozen_assets: {
         id: "frozen_assets",
@@ -240,15 +243,11 @@ export const ItemRegistry = {
                 const scoreDifference = hooks["getScore"]() - prevScore
                 const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0
                 const amount = (parseFloat(scoreDifference) * parseFloat(currentScoreMultiplier))
-                console.log("adding...")
-                console.log(prevScore)
-                console.log(currentScoreMultiplier)
-                console.log(amount)
                 hooks["addScore"](amount)
                 UIBus.emit("ITEM_FLOATING_TEXT", {
                     itemID: "furnace",
                     color:"orange",
-                    msg: "+" + amount,
+                    msg: "+" + amount.toFixed(),
                 })
                 return  {...engineState}
             }
@@ -269,7 +268,7 @@ export const ItemRegistry = {
             UIBus.emit("ITEM_FADING_TEXT", {
                 itemID: "furnace",
                 color:"cyan",
-                msg: "Current multiplier: " + newMult.toFixed(2),
+                msg: "Current multiplier: " + (newMult.toFixed(2)+1),
             })
             UIBus.emit("ITEM_FLASH", {
                 itemID: "furnace"

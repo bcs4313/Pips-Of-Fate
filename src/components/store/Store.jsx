@@ -36,9 +36,9 @@ export default function Store() {
     }
 
     function getExtraRollPrice() {
-        const basePrice = 20
-        const selfBuyIncrease = (10 * Math.pow((engine.engineState["baseRolls"]-2), 1.5))
-        const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 5
+        const basePrice = 15
+        const selfBuyIncrease = (10 * Math.pow((engine.engineState["baseRolls"]-2), 1.6))
+        const generalBuyIncrease = engine.engineState["totalUpgradesBought"] * 2
         return basePrice + selfBuyIncrease + generalBuyIncrease
     }
 
