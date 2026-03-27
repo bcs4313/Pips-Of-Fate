@@ -3,21 +3,23 @@ import { Button } from "reactstrap"
 import { useIsPortrait } from "../../../utilities/useIsPortrait"
 import { ItemRegistry } from "../../items/ItemRegistry"
 import { useState, useRef, useEffect } from "react"
-import Reroll from "./../../../assets/items/sounds_unique/Reroll.mp3"
-import InvalidBuy from "./../../../assets/store/InvalidBuy.mp3"
 import { useEngine } from "../../internal_state/EngineContextProvider"
 import { useItemOffers } from "./../../internal_state/autosaver_wrappers/AutosaverItemOffers"
 import "./StoreItemSection.css"
 import { useInventory } from "./../../items/InventoryContextProvider.jsx"
 
+import { useSoundChannel } from "./../../../utilities/soundManagerProvider.jsx"
+
 export default function StoreItemSection() {
     const isPortrait = useIsPortrait()
     const [offers, setOffers] = useItemOffers()
     const [offerComponents, setOfferComponents] = useState()
-    const rerollAudio = useRef(new Audio(Reroll))
-    const invalidBuyAudio = useRef(new Audio(InvalidBuy))
     const engine = useEngine()
     const inventoryInterface = useInventory()
+
+    const [load, play] = useSoundChannel()
+    load("InvalidBuy")
+    load("Reroll")
 
     function getStoreContainerClass() {
         if(!isPortrait)
@@ -51,8 +53,7 @@ export default function StoreItemSection() {
         engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
             if(ENGINE_STATE["gold"] >= curRerollPrice)
             {
-                rerollAudio.current.currentTime = 0
-                rerollAudio.current.play()
+                play("Reroll")
                 setOffers(() => {
                     return generateRollOffers()
                 })
@@ -63,8 +64,8 @@ export default function StoreItemSection() {
             }
             else
             {
-                invalidBuyAudio.current.currentTime = 0
-                invalidBuyAudio.current.play()
+                play("InvalidBuy")
+                console.log("Can't buy Reroll! price is " + curRerollPrice)
                 return {...ENGINE_STATE}
             }
         })

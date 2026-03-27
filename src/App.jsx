@@ -8,10 +8,12 @@ import { Routes, Route } from "react-router-dom"
 import { EngineProvider } from "./components/internal_state/EngineContextProvider.jsx"
 import { InventoryProvider } from "./components/items/InventoryContextProvider.jsx"
 import { UIBusProvider } from "./components/vfx/UIBusContextProvider.jsx"
+import { SoundProvider } from "./utilities/soundManagerProvider.jsx"
 
 function App() {
   return (
     <>
+      <SoundProvider>
       <UIBusProvider>
         <InventoryProvider>
           <EngineProvider>
@@ -24,6 +26,7 @@ function App() {
           </EngineProvider>
         </InventoryProvider>
       </UIBusProvider>
+      </SoundProvider>
     </>
   )
 }
