@@ -3,21 +3,20 @@ import { Button } from "reactstrap"
 import { useRef } from "react"
 import { useEngine } from "../../internal_state/EngineContextProvider"
 import { useInventory } from "../../items/InventoryContextProvider"
-import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
-import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
+import { useSoundChannel } from "./../../../utilities/soundManagerProvider"
 
 export default function ItemOffer({itemid, price, buyCallback})
 {
     const engine = useEngine()
     const inventory = useInventory()
-    const InvalidBuySFX = useRef(new Audio(InvalidBuyAudio))
-    const ValidBuySFX = useRef(new Audio(ValidBuyAudio))
-    
+    const [load, play] = useSoundChannel()
+    load("SuccessfulBuy")
+    load("InvalidBuy")
+
     function buyItem() {
         if(engine.engineState["gold"] >= price)
         {
-            ValidBuySFX.current.currentTime = 0
-            ValidBuySFX.current.play()
+            play("SuccessfulBuy")
             
             engine.hooks["enqueueStateChange"](function(ENGINE_STATE, INVENTORY_INTERFACE, HOOKS) {
                 console.log("buy item call")
@@ -33,8 +32,7 @@ export default function ItemOffer({itemid, price, buyCallback})
         }
         else
         {
-            InvalidBuySFX.current.currentTime = 0
-            InvalidBuySFX.current.play()
+            play("InvalidBuy")
             console.log("Can't buy the item! Price is: " + price + " for " + itemid)
         }
     }

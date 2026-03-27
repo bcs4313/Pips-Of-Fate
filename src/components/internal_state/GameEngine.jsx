@@ -1,10 +1,6 @@
 import { useQuota, useScore, useRollsLeft, useDiceAmount } from "./autosaver_wrappers/AutosaverRoundState.jsx"
 import { useEngineState } from "./autosaver_wrappers/AutosaverEngineState.jsx"
-import StartRollSFX from "./../../assets/internal_state/RollStart.mp3"
-import FinishRollSFX from "./../../assets/internal_state/RollFinish.mp3"
 import { useRef, useState, useEffect } from "react"
-import QuotaCompleteAudio from "./../../assets/internal_state/CompleteQuota.mp3"
-import LoseAudio from "./../../assets/internal_state/GameOver.mp3"
 import { ConfettiEffect } from "../main_layout/CanvasOverlay.jsx"
 
 // inventory import
@@ -20,13 +16,12 @@ import EngineStepPostRollResults from "./engine_steps/EngineStepPostRollResults.
 import EngineStepEndRoll from "./engine_steps/EngineStepEndRoll.jsx"
 import EngineStepEndRound from "./engine_steps/EngineStepEndRound.jsx"
 
+import { useSoundChannel } from "./../../utilities/soundManagerProvider.jsx"
+
 // The game engine consumes item activations and
 // the roll function from the dice board
 // @param {number} diceAmount the amount of dice to use in this roll
 export function useGameEngine() {
-    let startRollSFX = useRef(new Audio(StartRollSFX))
-    let finishRollSFX = useRef(new Audio(FinishRollSFX))
-
     // saved in storage via internal_state/Round_State
     const [diceAmount, setDiceAmount] = useDiceAmount()
     const [quota, setQuota ] = useQuota()
@@ -45,6 +40,13 @@ export function useGameEngine() {
 
     // UI Bus
     const UIBus = useUIBus()
+
+    // sound
+    const [load, play] = useSoundChannel()
+    load("RollStart")
+    load("RollFinish")
+    load("CompleteQuota")
+    load("GameOver")
 
     // hooks
     const engineHooks = {
@@ -196,16 +198,14 @@ export function useGameEngine() {
 
 
     function completeQuotaFX() {
-        let winAudio = new Audio(QuotaCompleteAudio)
         ConfettiEffect()
-        winAudio.play()
+        play("CompleteQuota")
     }
 
     function gameOver() {
         setRolling(() => true)
         setRollsLeft(() => 0)
-        let loseAudio = new Audio(LoseAudio)
-        loseAudio.play()
+        play("GameOver")
         setTimeout(function() {
             InventoryInterface.clear()
             setRolling(() => false)
@@ -254,13 +254,11 @@ export function useGameEngine() {
         }
         setDiceValues(() => diceAnimArr)
         setRolling(() => true)
-        startRollSFX.current.currentTime = 0
-        startRollSFX.current.play();
+        play("RollStart")
 
         // roll completion
         setTimeout(async function() {
-            finishRollSFX.current.currentTime = 0
-            finishRollSFX.current.play();
+            play("RollFinish")
             //console.log("animation done")
             let newDiceValues = []
             for(let i = 0; i < diceAmount; i++)

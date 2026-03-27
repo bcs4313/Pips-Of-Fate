@@ -22,15 +22,22 @@ import freezeOverlay from "../../../assets/diceview/DiceCard/FreezeOverlay.png"
 // engine link
 import { useEngine } from "../../internal_state/EngineContextProvider"
 
+import { useSoundChannel } from "./../../../utilities/soundManagerProvider.jsx"
+
 // a dice card is the core component of the scoring system
 //@param rollState is an integer that represents what the dice is doing
 // 0 = currently animating
 // 1-6 = resting on the roll result from 1 to 6
 //@param {boolean} freezable attaches a icon to the die that makes it freeze and unfreeze
 //@param position {number} an integer that indicates where the die is positioned on the board
-export default function DiceCard({rollState, diePosition, freezeAudioRef, unfreezeAudioRef, invalidFreezeAudioRef}) {
+export default function DiceCard({rollState, diePosition}) {
     const engine = useEngine()
     const UIBus = useUIBus()
+
+    const [load, play] = useSoundChannel()
+    load("FreezeSound")
+    load("InvalidFreeze")
+    load("UnFreezeSound")
 
     // ALL VISUAL FX SECTION (Must subscribe to UIBus)
     // UI BUS SECTION
@@ -83,8 +90,7 @@ export default function DiceCard({rollState, diePosition, freezeAudioRef, unfree
                 const index = newDieList.indexOf(diePosition)
                 newDieList = frozenDiceList.filter(num => num !== diePosition)
                 const newState = {...ENGINE_STATE, frozenDice:newDieList}
-                unfreezeAudioRef.current.currentTime = 0
-                unfreezeAudioRef.current.play()
+                play("UnFreezeSound")
                 return newState
             }
             else // case where you are trying to freeze a die
@@ -92,16 +98,14 @@ export default function DiceCard({rollState, diePosition, freezeAudioRef, unfree
                 // first check if you even have a freeze to spend
                 if(ENGINE_STATE["remainingFreezes"] <= 0)
                 {
-                    invalidFreezeAudioRef.current.currentTime = 0
-                    invalidFreezeAudioRef.current.play()
+                    play("InvalidFreeze")
                     return
                 }
 
                 newDieList = newDieList.concat(diePosition)
                 const newState = {...ENGINE_STATE, frozenDice:newDieList, remainingFreezes: ENGINE_STATE["remainingFreezes"]-1}
 
-                freezeAudioRef.current.currentTime = 0
-                freezeAudioRef.current.play()
+                play("FreezeSound")
 
                 return newState
             }

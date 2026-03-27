@@ -7,7 +7,7 @@ import { useRef } from "react"
 export function useSoundManager() {
     const globalVolume = useRef(0.5)
     const sounds = import.meta.glob("/src/assets/sounds/*.mp3")
-    console.log(sounds)
+    //console.log(sounds)
     const soundMap = useRef({})
 
     // takes a shortened .mp3 name and finds its path from the import.meta.glob list 

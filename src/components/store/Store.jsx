@@ -15,7 +15,6 @@ import StoreItemSection from "./item_upgrades/StoreItemSection.jsx"
 
 // context level
 import { useEngine } from "./../internal_state/EngineContextProvider.jsx"
-import { useState } from "react"
 
 export default function Store() {
     const engine = useEngine()
@@ -29,7 +28,7 @@ export default function Store() {
 
     
     function getFreezePrice() {
-        const basePrice = 15
+        const basePrice = 10
         const selfBuyIncrease = (engine.engineState["freezesBought"]) * 10
         const generalBuyIncrease =  engine.engineState["totalUpgradesBought"] * 2.5
         return basePrice + selfBuyIncrease + generalBuyIncrease

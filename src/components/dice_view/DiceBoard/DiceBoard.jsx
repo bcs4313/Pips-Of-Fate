@@ -7,21 +7,12 @@ import { useEffect, useState, useRef} from "react"
 import { useInventory } from "./../../items/InventoryContextProvider.jsx"
 import { ItemRegistry } from "./../../items/ItemRegistry"
 
-// sound imports
-import FreezeSound from "../../../assets/diceview/DiceCard/FreezeSound.mp3"
-import UnFreezeSound from "../../../assets/diceview/DiceCard/UnFreezeSound.mp3"
-import InvalidFreezeSound from "../../../assets/diceview/DiceCard/InvalidFreeze.mp3"
-
 export default function DiceBoard() {
     const engine = useEngine(1)
     const inventory = useInventory()
     const [passiveItemCards, passiveItemIds] = inventory.createPassiveCards() 
     let [activeItemCards, activeItemIds] = inventory.createActiveCards() 
 
-    const freezeAudioRef = useRef(new Audio(FreezeSound))
-    const unfreezeAudioRef = useRef(new Audio(UnFreezeSound))
-    const invalidFreezeAudioRef = useRef(new Audio(InvalidFreezeSound))
-    
     function getRollButtonColor() {
         if(engine.rollsLeft <= 0 && engine.score < engine.quota)
         {
@@ -68,8 +59,7 @@ export default function DiceBoard() {
             <div className="rolling-container @container">
                 <div style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }} className="dice-container @container">
                     {engine.diceValues.map((value, i) => (
-                        <DiceCard key={i} diePosition={i} rollState={value} freezeAudioRef={freezeAudioRef} 
-                        invalidFreezeAudioRef={invalidFreezeAudioRef} unfreezeAudioRef={unfreezeAudioRef}/>
+                        <DiceCard key={i} diePosition={i} rollState={value} />
                     ))}
                 </div>
                 <Button style={{"background-color":getRollButtonColor()}}className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color="">Roll</Button>

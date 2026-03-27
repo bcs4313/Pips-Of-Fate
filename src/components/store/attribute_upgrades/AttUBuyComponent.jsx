@@ -1,27 +1,25 @@
 import "./AttUBuyComponent.css"
 import { Button } from 'reactstrap'
-import InvalidBuyAudio from "./../../../assets/store/InvalidBuy.mp3"
-import ValidBuyAudio from "./../../../assets/store/SuccessfulBuy.mp3"
 import { useRef } from "react"
 import { useEngine } from "./../../internal_state/EngineContextProvider.jsx"
+import { useSoundChannel } from "./../../../utilities/soundManagerProvider.jsx"
 
 export default function AttUBuyComponent({ imgPath, price, title, description, upgradefunction}) {
-    const InvalidBuySFX = useRef(new Audio(InvalidBuyAudio))
-    const ValidBuySFX = useRef(new Audio(ValidBuyAudio))
     const engine = useEngine()
+    const [load, play] = useSoundChannel()
+    load("SuccessfulBuy")
+    load("InvalidBuy")
 
     function buyAtt() {
         if(engine.engineState["gold"] >= price)
         {
-            ValidBuySFX.current.currentTime = 0
-            ValidBuySFX.current.play()
+            play("SuccessfulBuy")
             upgradefunction(price)
             console.log("Upgrade bought: " + title + " for " + price + " gold")
         }
         else
         {
-            InvalidBuySFX.current.currentTime = 0
-            InvalidBuySFX.current.play()
+            play("InvalidBuy")
             console.log("Can't buy upgrade! Price is: " + price)
         }
     }
