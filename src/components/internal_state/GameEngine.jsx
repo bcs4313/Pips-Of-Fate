@@ -61,6 +61,7 @@ export function useGameEngine() {
         "forceGameOver": _forceGameOver,
         "getUIBus": _getUIBus,
         "enqueueStateChange": _enqueueStateChange,
+        "playSound": _playSound,
     }
 
     // queue system for asynchronous state changes //
@@ -108,7 +109,7 @@ export function useGameEngine() {
 
     // useEffect reacting to a dice amount change
     useEffect(() => {
-        console.log("Engine reacting to diceAmount:", diceAmount)
+        //console.log("Engine reacting to diceAmount:", diceAmount)
         
         let newDiceValues = Array(diceAmount).fill(1)
         for(let i = 0; i < diceValues.length; i++)
@@ -160,6 +161,11 @@ export function useGameEngine() {
     // hook
     function _forceGameOver() {
         gameOver()
+    }
+
+    // hook
+    function _playSound(audioName) {
+        play(audioName)
     }
 
     // hook

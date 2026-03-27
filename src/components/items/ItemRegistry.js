@@ -1,4 +1,5 @@
 import { assetMap } from "./../../utilities/assetMap"
+import { useSoundChannel } from "./../../utilities/soundManagerProvider"
 
 // architecture relies on the Inventory object to queue engine state changes for item steps
 // for items that modify the inventory itself a hook must be retrieved from the engine to
@@ -80,8 +81,7 @@ export const ItemRegistry = {
             if(outcome === 6)
             {
                 // GAME OVER
-                const audio = new Audio(assetMap["items/sounds_unique/ShootGun.mp3"])
-                audio.play()
+                hooks.playSound("ShootGun")
 
                 await new Promise((resolve, reject) => setTimeout(() => resolve("done"), 1000))
 
@@ -90,8 +90,7 @@ export const ItemRegistry = {
             } 
             else
             {
-                const audio = new Audio(assetMap["items/sounds_unique/EmptyGun.mp3"])
-                audio.play()
+                hooks.playSound("EmptyGun")
                 const newGold = Math.ceil(engineState.gold * 1.5)
                 hooks["addScore"](Math.ceil(hooks["getScore"]() * 0.5))
 
@@ -148,7 +147,7 @@ export const ItemRegistry = {
                 frozenDice.forEach((dieIndex) => {
                     goldToGive += 6 - diceValues[dieIndex]
                 })
-                console.log("goldToGive = " + goldToGive)
+                //console.log("goldToGive = " + goldToGive)
                 
 
                 if(goldToGive > 0)
@@ -207,8 +206,7 @@ export const ItemRegistry = {
                 amount = 0
             }
 
-            const audio = new Audio(assetMap["items/sounds_unique/OpenBox.mp3"])
-            audio.play()
+            hooks.playSound("OpenBox")
             inventoryInterface.setItemData({...itemData})
 
             await new Promise((resolve, reject) => setTimeout(() => resolve("done"), 1000))
@@ -274,8 +272,7 @@ export const ItemRegistry = {
                 itemID: "furnace"
             })
 
-            const audio = new Audio(assetMap["items/sounds_unique/FurnaceBurn.mp3"])
-            audio.play()
+            hooks.playSound("FurnaceBurn")
 
             itemData["furnace.multiplier"] = newMult.toFixed(2)
             inventoryInterface.setItemData(itemData)

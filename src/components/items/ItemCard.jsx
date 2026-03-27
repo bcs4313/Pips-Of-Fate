@@ -87,7 +87,6 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
 
     // fading text comps replace themselves, fading very slowly
     function addFadingTextComp(msg, color, item_id) {
-        console.log("added fading text")
         setFadingTextComps((prev) => {
             let newTextComps = {...prev}
             let UIKey = Math.random() * Number.MAX_SAFE_INTEGER
