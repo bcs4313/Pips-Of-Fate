@@ -10,25 +10,34 @@ export function useEngineState() {
     function saveUpToDate() {
         console.log("saveuptodatecall")
         const savedEngineState = JSON.parse(localStorage.getItem("engineState"))
-        const keysNeeded = ["diceValues", "score"]
-        const criticalKeys = ["lastRoundGold", "gold", "roundNum", "freezesBought", "remainingFreezes", "frozenDice","rerollPrice","itemOffers","baseRolls","totalUpgradesBought", "flatGoldUpgradesBought"]
-
+        if(savedEngineState == undefined) { return -1}
+        
         let returnCode = 1
-        keysNeeded.forEach((key) => {
-            if(savedEngineState[key] == null) 
-            {
-                returnCode = 0
-            }
-        })
+        try
+        {
+            const keysNeeded = ["diceValues", "score"]
+            const criticalKeys = ["lastRoundGold", "gold", "roundNum", "freezesBought", "remainingFreezes", "frozenDice","rerollPrice","itemOffers","baseRolls","totalUpgradesBought", "flatGoldUpgradesBought"]
 
-        criticalKeys.forEach((key) => {
-            if(savedEngineState[key] == null) 
-            {
-                console.log("null key == " + key)
-                returnCode = -1
-            }
-        })
-        console.log("up to date = " + returnCode)
+            keysNeeded.forEach((key) => {
+                if(savedEngineState[key] == null) 
+                {
+                    returnCode = 0
+                }
+            })
+
+            criticalKeys.forEach((key) => {
+                if(savedEngineState[key] == null) 
+                {
+                    console.log("null key == " + key)
+                    returnCode = -1
+                }
+            })
+            console.log("up to date = " + returnCode)
+        }
+        catch(e) {
+            console.log("save load error, resetting save: " + e)
+            return -1
+        }
         return returnCode
     }
 
