@@ -220,7 +220,7 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Furnace",
         rarity: "Uncommon",
-        description: "Activate to sacrifice a roll. Permanently gain +5% more score per roll (additive). Current multiplier: (1x)",
+        description: "+15% base multiplier to all rolls. Activate to sacrifice a roll. Permanently gain +5% more score per sacrifice (additive). Current multiplier: (1.15x)",
         image: "furnace.png",
         stackable: false,
         steps: {
@@ -253,7 +253,7 @@ export const ItemRegistry = {
         active: async (engineState, inventoryInterface, hooks) => {
             const UIBus = hooks["getUIBus"]()
             const itemData = inventoryInterface.getItemData()
-            const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0
+            const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0.15
             const newMult = currentScoreMultiplier + 0.05
 
             console.log("current score mult: " + currentScoreMultiplier)
@@ -280,6 +280,71 @@ export const ItemRegistry = {
             return  {...engineState}
         },
     },
+    uranium_rod: {
+        id: "uranium_rod",
+        basePrice: 15,
+        name: "Uranium Rod",
+        rarity: "uncommon",
+        description: "rolling a 3 applies 1 radiation stack to the die. Radiation: chance to get a 25% discount on a random attribute upgrade per roll (multiplicative). +2% chance per stack.",
+        image: "uranium_rod.png",
+        stackable: false,
+        steps: {
+            END_ROLL: (engineState, inventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                const itemData = inventoryInterface.getItemData()
+                return  {...engineState}
+            }
+        },
+    },
+    dumbbell: {
+        id: "dumbbell",
+        basePrice: 15,
+        name: "Dumbbell",
+        rarity: "uncommon",
+        description: "Gain +1 score every roll. Increase this gain by 1 every round.",
+        image: "dumbbell.png",
+        stackable: true,
+        steps: {
+            END_ROUND: (engineState, inventoryInterface, hooks) => {
+                console.log("end round dumbbell")
+                const UIBus = hooks["getUIBus"]()
+                const itemData = inventoryInterface.getItemData()
+                const currentStacks = itemData["dumbbell.scoreStacked"] ? parseFloat(parseFloat(itemData["dumbbell.scoreStacked"]).toFixed(1)) : 0
+
+                UIBus.emit("ITEM_FADING_TEXT", {
+                    itemID: "dumbbell",
+                    color:"cyan",
+                    msg: "Stacked Score: " + (parseInt(currentStacks)+1),
+                })
+
+                if(itemData["dumbbell.scoreStacked"] == undefined)
+                {
+                    itemData["dumbbell.scoreStacked"] = 1
+                }
+                else
+                {
+                    itemData["dumbbell.scoreStacked"] += 1
+                }
+                inventoryInterface.setItemData(itemData)
+                return engineState
+            },
+            END_ROLL: (engineState, inventoryInterface, hooks) => {
+                console.log("end roll dumbbell")
+                const UIBus = hooks["getUIBus"]()
+                const itemData = inventoryInterface.getItemData()
+                const currentStacks = itemData["dumbbell.scoreStacked"] ? parseInt(itemData["dumbbell.scoreStacked"]) : 0
+                
+                UIBus.emit("ITEM_FLOATING_TEXT", {
+                    itemID: "dumbbell",
+                    color:"lime",
+                    msg: "+" + currentStacks,
+                })
+
+                hooks["addScore"](currentStacks)
+                return  {...engineState}
+            }
+        },
+    }
 }
 
 // valid step examples:

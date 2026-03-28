@@ -258,7 +258,6 @@ export function useGameEngine() {
             }
         }
         await _enqueueStateChange((engineState) => {
-            console.log("enqueue rollDice set diceValues")
             return {...engineState, diceValues:diceAnimArr}
         })
         setRolling(() => true)
@@ -286,7 +285,6 @@ export function useGameEngine() {
             await _enqueueStateChange(EngineStepPreRollResults) 
 
             await _enqueueStateChange((engineState) => {
-                console.log("enqueue rollDice end diceValues")
                 return {...engineState, diceValues:newDiceValues}
             })
             awaitPreRollEngineStep.current = true

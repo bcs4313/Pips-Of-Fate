@@ -16,6 +16,7 @@ import rollAnim from "../../../assets/diceview/DiceCard/roll-animation/roll.gif"
 
 // icon imports
 import freezeIcon from "../../../assets/diceview/DiceCard/FreezeIcon.png"
+import radiationIcon from "../../../assets/diceview/DiceCard/RadiationIcon.png"
 
 // visual status imports
 import freezeOverlay from "../../../assets/diceview/DiceCard/FreezeOverlay.png"
@@ -141,6 +142,14 @@ export default function DiceCard({rollState, diePosition}) {
         }
         return <div className="absolute"/>
     }
+
+    function generateRadiationIcon() {
+        return <div className="w-[20%] flex flex-column absolute bottom-[63%] left-[5%] absolute z-50 hover:cursor-pointer">
+        <span className="text-[6cqh] z-50 text-orange-400 left-[12%] bottom-[80%]">10%</span>
+        <img className="" src={ radiationIcon }/>
+        </div>
+    }
+
     // END OF FREEZE SECTION
 
     function generateDieNumClasses() {
@@ -186,6 +195,7 @@ export default function DiceCard({rollState, diePosition}) {
     <div className="relative dice-card h-[100%]">
         <h1 className={"die-num text-white " +  generateDieNumClasses()}>{rollState}</h1>
         { generateFreezeOverlay() }
+        { generateRadiationIcon() }
         <img className={ConstructImgClass()} src={imgRef}/>
         { generateFreezeButton() }
     </div>
