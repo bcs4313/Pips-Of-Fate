@@ -1,6 +1,7 @@
 import "./DiceCard.css"
 import { useState, useRef, useEffect } from "react"
 import { useUIBus } from "../../vfx/UIBusContextProvider"
+import { useIsPortrait } from "./../../../utilities/useIsPortrait.jsx"
 
 // dice result imports
 import result1 from "../../../assets/diceview/DiceCard/roll-results/dice_result_01.png"
@@ -33,6 +34,7 @@ import { useSoundChannel } from "./../../../utilities/soundManagerProvider.jsx"
 export default function DiceCard({rollState, diePosition}) {
     const engine = useEngine()
     const UIBus = useUIBus()
+    const portraitMode = useIsPortrait()
 
     const [load, play] = useSoundChannel()
     load("FreezeSound")
@@ -120,7 +122,14 @@ export default function DiceCard({rollState, diePosition}) {
     function generateFreezeButton() {
         if(freezable)
         {
-            return <img onClick={ freezeDice } className="w-[40%] absolute top-0 right-0 border-2 rounded-xl border-cyan-400 absolute z-50 hover:cursor-pointer" src={ freezeIcon }/>
+            if(portraitMode)
+            {
+                return <img onClick={ freezeDice } className="w-[40%] absolute bottom-[53%] right-[5%] border-2 rounded-xl border-cyan-400 absolute z-50 hover:cursor-pointer" src={ freezeIcon }/>
+            }
+            else
+            {
+                return <img onClick={ freezeDice } className="w-[40%] absolute bottom-[53%] right-[5%] border-2 rounded-xl border-cyan-400 absolute z-50 hover:cursor-pointer" src={ freezeIcon }/>
+            }
         }
         return <div className="absolute"/>
     }
@@ -133,6 +142,17 @@ export default function DiceCard({rollState, diePosition}) {
         return <div className="absolute"/>
     }
     // END OF FREEZE SECTION
+
+    function generateDieNumClasses() {
+        if(portraitMode)
+        {
+            return "bottom-[61%]"
+        }
+        else
+        {
+            return "bottom-[81%]"
+        }
+    }
 
     // Image reference and return section:::
     let imgRef = result1;
@@ -164,7 +184,7 @@ export default function DiceCard({rollState, diePosition}) {
 
     return (
     <div className="relative dice-card h-[100%]">
-        <h1 className="die-num text-white">{rollState}</h1>
+        <h1 className={"die-num text-white " +  generateDieNumClasses()}>{rollState}</h1>
         { generateFreezeOverlay() }
         <img className={ConstructImgClass()} src={imgRef}/>
         { generateFreezeButton() }

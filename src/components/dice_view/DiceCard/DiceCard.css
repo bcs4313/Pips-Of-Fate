@@ -16,7 +16,6 @@
 .die-num {
     position: absolute;
     left: 50%;
-    bottom:81%;
     transform: translateX(-50%);
     color: white;
     font-weight: bold;
