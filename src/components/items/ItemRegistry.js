@@ -131,7 +131,7 @@ export const ItemRegistry = {
     },
     frozen_assets: {
         id: "frozen_assets",
-        basePrice: 30,
+        basePrice: 25,
         name: "Frozen Assets",
         rarity: "epic",
         description: "After you roll, all frozen dice give 6 minus their die value in gold.",

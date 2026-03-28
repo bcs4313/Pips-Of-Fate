@@ -39,9 +39,6 @@ export default function DiceCard({rollState, diePosition}) {
     load("InvalidFreeze")
     load("UnFreezeSound")
 
-    console.log("cardRender")
-    console.log("roll state = " + rollState + " diePosition = " + diePosition )
-
     // ALL VISUAL FX SECTION (Must subscribe to UIBus)
     // UI BUS SECTION
     // DIE_FLASH (duration is fixed to 0.25 seconds for now, white)

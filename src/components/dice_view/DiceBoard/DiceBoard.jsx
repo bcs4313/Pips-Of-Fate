@@ -14,7 +14,7 @@ export default function DiceBoard() {
     let [activeItemCards, activeItemIds] = inventory.createActiveCards() 
 
     function getRollButtonColor() {
-        if(engine.rollsLeft <= 0 && engine.score < engine.quota)
+        if(engine.rollsLeft <= 0 && engine.engineState.score < engine.quota)
         {
             return "#c73232"
         }
@@ -53,7 +53,7 @@ export default function DiceBoard() {
         <div className="dice-board-background"></div>
     </div>
     <div className = "dice-board-main-panel">
-        <QuotaDisplay totalDiceScore={engine.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
+        <QuotaDisplay totalDiceScore={engine.engineState.score} quotaRequired={engine.quota} rollsLeft={engine.rollsLeft}/>
         <div className="grid grid-cols-[1fr_1fr_1fr] h-[100%] align-center">
             <div className="inventory-left">{passiveItemCards}</div>
             <div className="rolling-container @container">

@@ -6,7 +6,7 @@ export default function EngineStepEndRound(engineState, inventoryInterface, hook
 
     // award gold, reset frozen die
     const newState = {...postItemEngineState, gold:postItemEngineState["gold"] + 5 + 2.5*(postItemEngineState["flatGoldUpgradesBought"]), 
-        frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"]}
+        frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"], score:0}
     newState["lastRoundGold"] = engineState["gold"]
 
     console.log("end_round")
