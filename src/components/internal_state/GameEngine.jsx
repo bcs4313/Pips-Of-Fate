@@ -249,7 +249,7 @@ export function useGameEngine() {
             // frozen dice case
             if(engineState.frozenDice && engineState.frozenDice.includes(i))
             {
-                diceAnimArr.push(diceValues[i]);
+                diceAnimArr.push(engineState.diceValues[i]);
             }
             else
             {
@@ -274,7 +274,7 @@ export function useGameEngine() {
                 // frozen dice case
                 if(engineState.frozenDice && engineState.frozenDice.includes(i))
                 {
-                    newDiceValues.push(diceValues[i]);
+                    newDiceValues.push(engineState.diceValues[i]);
                 }
                 else
                 {
