@@ -62,7 +62,7 @@ export default function DiceBoard() {
                         <DiceCard key={i} diePosition={i} rollState={value} />
                     ))}
                 </div>
-                <Button style={{"background-color":getRollButtonColor()}}className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color="">Roll</Button>
+                <Button style={{"backgroundColor":getRollButtonColor()}}className="roll-button w-[clamp(50px,100cqw,300px)]!" onClick={engine.rollDice} active={!engine.rolling} color="">Roll</Button>
             </div>
             <div className="inventory-right">{activeItemCards}</div>
         </div>

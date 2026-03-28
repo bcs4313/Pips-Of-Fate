@@ -5,10 +5,13 @@ import { useRef } from "react"
 // load() preloads the audio object. It does nothing if the object already exists.
 // play() function calls load() if the Audio object isn't loaded, then plays
 export function useSoundManager() {
-    const globalVolume = useRef(0.5)
+    const globalVolume = useRef((localStorage.getItem("GameVolume") != undefined ? parseFloat(localStorage.getItem("GameVolume")) : 0.5))
     const sounds = import.meta.glob("/src/assets/sounds/*.mp3")
     //console.log(sounds)
     const soundMap = useRef({})
+
+    console.log("game volume is: ")
+    console.log(globalVolume.current)
 
     // takes a shortened .mp3 name and finds its path from the import.meta.glob list 
     function resolvePath(audioName) {
@@ -21,6 +24,12 @@ export function useSoundManager() {
         }
 
         return entry
+    }
+
+    function setGameVolume(value) {
+        globalVolume.current = value
+        //console.log("volume is now " + value)
+        localStorage.setItem("GameVolume", value)
     }
 
     // retrieves a dynamic loader given an audio name, loading the Audio file and caching it to play
@@ -50,5 +59,5 @@ export function useSoundManager() {
         }
     }
 
-    return [load, play]
+    return [load, play, setGameVolume]
 }

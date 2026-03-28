@@ -3,15 +3,18 @@ import { useState } from "react"
 import "./GameSettings.css"
 import { Button } from "reactstrap"
 import { useIsPortrait } from "./../../utilities/useIsPortrait"
+import { useSoundChannel } from "./../../utilities/soundManagerProvider"
 
 export default function GameSettings()
 {
-    const [volumeDisplay, setVolumeDisplay] = useState(50)
+    const [volumeDisplay, setVolumeDisplay] = useState((localStorage.getItem("GameVolume") != undefined ? parseFloat(localStorage.getItem("GameVolume"))*100 : 50))
     const isPortrait = useIsPortrait()
+    const [load, play, setGameVolume] = useSoundChannel()
 
     function onChangeVolume(e) {
         setVolumeDisplay(e.currentTarget.value)
         e.target.style.setProperty('--value', e.currentTarget.value)
+        setGameVolume(e.currentTarget.value/100)
     }
 
     function deleteSave() {
@@ -60,7 +63,7 @@ export default function GameSettings()
                         <strong className={getTextSizeProps() + " text-white"}>{volumeDisplay}%</strong>
                         </div>
                     </div>
-                    <input onChange={onChangeVolume} type="range" id="vol" name="vol" min="0" max="100"></input>
+                    <input style={{"--value": + volumeDisplay}} onChange={onChangeVolume} value={volumeDisplay} type="range" id="vol" name="vol" min="0" max="100"></input>
                 </div>
             </div>
             <hr></hr>
