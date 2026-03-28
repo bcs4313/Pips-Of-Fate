@@ -6,13 +6,48 @@ import { useRoundNumber } from "./AutosaverRoundState.jsx"
 // this hook does NOT allow you to directly set percentdiff, it is private
 // for simplicity
 export function useEngineState() {
+
+    function saveUpToDate() {
+        console.log("saveuptodatecall")
+        const savedEngineState = JSON.parse(localStorage.getItem("engineState"))
+        const keysNeeded = ["diceValues", "score"]
+
+        let valid = true
+        keysNeeded.forEach((key) => {
+            console.log(key)
+            if(savedEngineState[key] == null) 
+            {
+                valid = false
+            }
+        })
+        console.log("up to date = " + valid)
+        return valid
+    }
+
     const [engineState, setEngineState] = useState(() => {
-        const savedEngineState = localStorage.getItem("engineState")
+        const savedEngineState = JSON.parse(localStorage.getItem("engineState"))
         if(savedEngineState != undefined) 
         {
-            console.log("loading game... state is")
-            console.log(JSON.parse(savedEngineState))
-            return JSON.parse(savedEngineState)
+            console.log("loading game... state is: " + saveUpToDate())
+            console.log(savedEngineState)
+
+            if(saveUpToDate() == false)
+            {
+                console.log("save out of date! attempting to load old information:")
+                const _score = localStorage.getItem("score")
+                const _diceValues = localStorage.getItem("diceValues")
+
+                if(_score)
+                {
+                    savedEngineState["score"] = parseFloat(_score)
+                }
+                if(_diceValues)
+                {
+                    savedEngineState["diceValues"] = JSON.parse(_diceValues)
+                }
+            }
+
+            return savedEngineState
         }
         return {
             lastRoundGold:0,

@@ -124,8 +124,6 @@ export function useGameEngine() {
         }
 
         engineState.diceValues = newDiceValues
-        console.log("diceAmount use effect set to =>> ")
-        console.log(engineState)
     }, [diceAmount])
 
     // hook
