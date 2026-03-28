@@ -18,7 +18,13 @@ export default function GameSettings()
     }
 
     function deleteSave() {
-        localStorage.clear()
+        localStorage.removeItem("itemData")
+        localStorage.removeItem("items")
+        localStorage.removeItem("quota")
+        localStorage.removeItem("rollsLeft")
+        localStorage.removeItem("score")
+        localStorage.removeItem("diceAmount")
+        localStorage.removeItem("engineState")
         location.assign("/")
     }
 
