@@ -34,15 +34,12 @@ export default function useInventory() {
         const itemsSnapshot = {...items}
         let nextEngineState = {...prevEngineState}
 
-        for(const [itemID, count] of Object.entries(itemsSnapshot)) {
+        for(const [itemID, stacks] of Object.entries(itemsSnapshot)) {
             const steps = ItemRegistry[itemID].steps
             if(!steps) { continue }
             const callback = steps[stepIdentity]
             if(!callback) { continue }
-            for(let i = 0; i < count; i++)
-            {
-                nextEngineState = callback(nextEngineState, inventoryInterface, hooks)
-            }
+            nextEngineState = callback(nextEngineState, inventoryInterface, hooks)
         }
         return nextEngineState
     }
@@ -57,6 +54,11 @@ export default function useInventory() {
     // used for retrieval of local fields in the ItemRegistry
     function _getItemData() {
         return itemData
+    }
+
+    // used for stackable items
+    function _getItemStacks(itemID) {
+        return items[itemID]
     }
 
     function createPassiveItemCards() 
@@ -104,6 +106,7 @@ export default function useInventory() {
         "clear": clearInventory,
         "setItemData":_setItemData,
         "getItemData":_getItemData,
+        "getItemStacks": _getItemStacks,
     }
 
     return inventoryInterface

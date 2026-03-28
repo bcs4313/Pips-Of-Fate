@@ -14,12 +14,13 @@ export const ItemRegistry = {
         image: "shiny_coin.png",
         stackable: true,
         steps: {
-            END_ROUND: (engineState, InventoryInterface, hooks) => {
+            END_ROUND: (engineState, inventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
+                const itemStacks = inventoryInterface.getItemStacks("dumbbell")
                 UIBus.emit("ITEM_FLASH", {
                     itemID: "shiny_coin"
                 })
-                return {...engineState, gold: engineState.gold + 2.5}
+                return {...engineState, gold: engineState.gold + (2.5*itemStacks)}
             }
         }
     },
@@ -239,7 +240,7 @@ export const ItemRegistry = {
                 const itemData = inventoryInterface.getItemData()
                 const prevScore = itemData["furnace.prevScore"] ? parseFloat(parseFloat(itemData["furnace.prevScore"]).toFixed(2)) : 0
                 const scoreDifference = hooks["getScore"]() - prevScore
-                const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0
+                const currentScoreMultiplier = itemData["furnace.multiplier"] ? parseFloat(parseFloat(itemData["furnace.multiplier"]).toFixed(2)) : 0.15
                 const amount = (parseFloat(scoreDifference) * parseFloat(currentScoreMultiplier))
                 hooks["addScore"](amount)
                 UIBus.emit("ITEM_FLOATING_TEXT", {
@@ -266,7 +267,7 @@ export const ItemRegistry = {
             UIBus.emit("ITEM_FADING_TEXT", {
                 itemID: "furnace",
                 color:"cyan",
-                msg: "Current multiplier: " + (newMult.toFixed(2)+1),
+                msg: "Current multiplier: " + (1+parseFloat(newMult.toFixed(2))) + "x",
             })
             UIBus.emit("ITEM_FLASH", {
                 itemID: "furnace"
@@ -310,30 +311,30 @@ export const ItemRegistry = {
                 const UIBus = hooks["getUIBus"]()
                 const itemData = inventoryInterface.getItemData()
                 const currentStacks = itemData["dumbbell.scoreStacked"] ? parseFloat(parseFloat(itemData["dumbbell.scoreStacked"]).toFixed(1)) : 0
-
+                const itemStacks = inventoryInterface.getItemStacks("dumbbell")
                 UIBus.emit("ITEM_FADING_TEXT", {
                     itemID: "dumbbell",
                     color:"cyan",
-                    msg: "Stacked Score: " + (parseInt(currentStacks)+1),
+                    msg: "Stacked Score: " + (parseInt(currentStacks)+itemStacks),
                 })
 
-                if(itemData["dumbbell.scoreStacked"] == undefined)
+                if(itemData["dumbbell.scoreStacked"] == undefined || itemData["dumbbell.scoreStacked"] == NaN)
                 {
-                    itemData["dumbbell.scoreStacked"] = 1
+                    itemData["dumbbell.scoreStacked"] = itemStacks
                 }
                 else
                 {
-                    itemData["dumbbell.scoreStacked"] += 1
+                    itemData["dumbbell.scoreStacked"] += itemStacks
                 }
                 inventoryInterface.setItemData(itemData)
                 return engineState
             },
-            END_ROLL: (engineState, inventoryInterface, hooks) => {
+            PRE_ROLL_RESULT: (engineState, inventoryInterface, hooks) => {
                 console.log("end roll dumbbell")
                 const UIBus = hooks["getUIBus"]()
                 const itemData = inventoryInterface.getItemData()
                 const currentStacks = itemData["dumbbell.scoreStacked"] ? parseInt(itemData["dumbbell.scoreStacked"]) : 0
-                
+
                 UIBus.emit("ITEM_FLOATING_TEXT", {
                     itemID: "dumbbell",
                     color:"lime",
