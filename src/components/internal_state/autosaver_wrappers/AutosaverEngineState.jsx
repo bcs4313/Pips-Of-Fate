@@ -25,7 +25,9 @@ export function useEngineState() {
             itemOffers:[],
             baseRolls:3,
             totalUpgradesBought:0,
-            flatGoldUpgradesBought:0
+            flatGoldUpgradesBought:0,
+            diceValues:[1],
+            score:0,
         }
     })
 

@@ -25,6 +25,7 @@ export default function GameSettings()
         localStorage.removeItem("score")
         localStorage.removeItem("diceAmount")
         localStorage.removeItem("engineState")
+        localStorage.removeItem("itemOffers")
         location.assign("/")
     }
 
