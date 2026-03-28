@@ -11,27 +11,36 @@ export function useEngineState() {
         console.log("saveuptodatecall")
         const savedEngineState = JSON.parse(localStorage.getItem("engineState"))
         const keysNeeded = ["diceValues", "score"]
+        const criticalKeys = ["lastRoundGold", "gold", "roundNum", "freezesBought", "remainingFreezes", "frozenDice","rerollPrice","itemOffers","baseRolls","totalUpgradesBought", "flatGoldUpgradesBought"]
 
-        let valid = true
+        let returnCode = 1
         keysNeeded.forEach((key) => {
-            console.log(key)
             if(savedEngineState[key] == null) 
             {
-                valid = false
+                returnCode = 0
             }
         })
-        console.log("up to date = " + valid)
-        return valid
+
+        criticalKeys.forEach((key) => {
+            if(savedEngineState[key] == null) 
+            {
+                console.log("null key == " + key)
+                returnCode = -1
+            }
+        })
+        console.log("up to date = " + returnCode)
+        return returnCode
     }
 
     const [engineState, setEngineState] = useState(() => {
         const savedEngineState = JSON.parse(localStorage.getItem("engineState"))
-        if(savedEngineState != undefined) 
+        const upToDate = saveUpToDate()
+        if(savedEngineState != undefined && upToDate != -1) 
         {
-            console.log("loading game... state is: " + saveUpToDate())
+            console.log("loading game... state is: " + upToDate)
             console.log(savedEngineState)
 
-            if(saveUpToDate() == false)
+            if(upToDate == 0)
             {
                 console.log("save out of date! attempting to load old information:")
                 const _score = localStorage.getItem("score")

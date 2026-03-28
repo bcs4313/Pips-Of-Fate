@@ -10,9 +10,6 @@ export function useSoundManager() {
     //console.log(sounds)
     const soundMap = useRef({})
 
-    console.log("game volume is: ")
-    console.log(globalVolume.current)
-
     // takes a shortened .mp3 name and finds its path from the import.meta.glob list 
     function resolvePath(audioName) {
         const entry = Object.keys(sounds).find(path =>
