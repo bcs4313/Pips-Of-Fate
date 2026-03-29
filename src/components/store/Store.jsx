@@ -19,6 +19,10 @@ import { useEngine } from "./../internal_state/EngineContextProvider.jsx"
 export default function Store() {
     const engine = useEngine()
 
+    function linearSum(n, start = 2.5) {
+    return n * (2 * start + (n - 1)) / 2;
+    }
+
     function getDieAmountPrice() {
         const basePrice = 15
         const selfBuyIncrease = (engine["hooks"]["getDiceAmount"]()-1) * 2.5
@@ -43,7 +47,7 @@ export default function Store() {
 
     function getExtraGoldIncomePrice() {
         const basePrice = 10
-        const selfBuyIncrease = 5 * engine.engineState["flatGoldUpgradesBought"]
+        const selfBuyIncrease = (5 * engine.engineState["flatGoldUpgradesBought"])+linearSum(engine.engineState["flatGoldUpgradesBought"])
         return basePrice + selfBuyIncrease
     }
 
@@ -107,7 +111,7 @@ export default function Store() {
                     <BuyComponent title="+1 Roll" price={Math.floor(getExtraRollPrice())} upgradefunction={ acquireAdditionalRoll }
                     imgPath={ExtraRollImg} description="Have an extra roll to meet quota every round (applies next round)."/>
                    <BuyComponent title="Gold Income" price={Math.floor(getExtraGoldIncomePrice())} upgradefunction={ acquireGoldIncome }
-                    imgPath={MoreGoldImg} description={"Make an extra 2.5 gold per round"}/>
+                    imgPath={MoreGoldImg} description={"Make an extra " + (2.5+engine.engineState["flatGoldUpgradesBought"]) + " gold per round - " + " total per round: " + (2.5+linearSum(engine.engineState["flatGoldUpgradesBought"]))}/>
                 </div>
             </div>
             <NavigationBar className="text-center" currentLocation="/store"/>

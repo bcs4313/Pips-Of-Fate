@@ -1,11 +1,16 @@
 import { useInventory } from "../../items/InventoryContextProvider"
 
 export default function EngineStepEndRound(engineState, inventoryInterface, hooks) {
+    function linearSum(n, start = 2.5) {
+    return n * (2 * start + (n - 1)) / 2;
+    }
+
     // trigger items under this step
     let postItemEngineState = inventoryInterface.forwardStep("END_ROUND", engineState, inventoryInterface, hooks)
 
+    
     // award gold, reset frozen die
-    const newState = {...postItemEngineState, gold:postItemEngineState["gold"] + 5 + 2.5*(postItemEngineState["flatGoldUpgradesBought"]), 
+    const newState = {...postItemEngineState, gold:postItemEngineState["gold"] + 5 + (linearSum(postItemEngineState["flatGoldUpgradesBought"])), 
         frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"], score:0}
     newState["lastRoundGold"] = engineState["gold"]
 

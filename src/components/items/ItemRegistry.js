@@ -56,8 +56,7 @@ export const ItemRegistry = {
                         hooks["setDiceValues"]([i], [6])
                     }
                 }
-                console.log("my new dice values: (beggars candle)")
-                console.log(newDiceValues)
+
                 //await new Promise(resolve => setTimeout(resolve, 1000));
                 return {...engineState}
             }
@@ -173,7 +172,7 @@ export const ItemRegistry = {
         basePrice: 10,
         name: "Cardboard Box",
         rarity: "common",
-        description: "At the end of each roll, store 20% of your score in this item. Click on the box to empty it onto your current score.",
+        description: "At the end of each roll, store 15% of your score in this item. Click on the box to empty it onto your current score.",
         image: "cardboard_box.png",
         stackable: false,
         steps: {
@@ -181,13 +180,13 @@ export const ItemRegistry = {
                 const UIBus = hooks["getUIBus"]()
                 const itemData = InventoryInterface.getItemData()
                 const currentBoxScore = itemData["cardboard_box.score"] ? parseFloat(parseFloat(itemData["cardboard_box.score"]).toFixed(1)) : 0
-                const newBoxScore = currentBoxScore + Math.floor(hooks["getScore"]()*0.2)
+                const newBoxScore = currentBoxScore + Math.floor(hooks["getScore"]()*0.15)
                 UIBus.emit("ITEM_FADING_TEXT", {
                     itemID: "cardboard_box",
                     color:"cyan",
                     msg: "Storage: " + newBoxScore,
                 })
-                itemData["cardboard_box.score"] = currentBoxScore + Math.floor(hooks["getScore"]()*0.2)
+                itemData["cardboard_box.score"] = currentBoxScore + Math.floor(hooks["getScore"]()*0.15)
                 InventoryInterface.setItemData(itemData)
                 return  {...engineState}
             }
@@ -221,7 +220,7 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Furnace",
         rarity: "Uncommon",
-        description: "+15% base multiplier to all rolls. Activate to sacrifice a roll. Permanently gain +5% more score per sacrifice (additive). Current multiplier: (1.15x)",
+        description: "+15% base multiplier to all rolls. Activate: sacrifice a roll. Permanently gain +5% more score per sacrifice (additive).",
         image: "furnace.png",
         stackable: false,
         steps: {
@@ -302,7 +301,7 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Dumbbell",
         rarity: "uncommon",
-        description: "Gain +1 score every roll. Increase this gain by 1 every round.",
+        description: "Gain +1 score on your first roll in the round. Increase this gain by 1 every round.",
         image: "dumbbell.png",
         stackable: true,
         steps: {
@@ -310,7 +309,7 @@ export const ItemRegistry = {
                 console.log("end round dumbbell")
                 const UIBus = hooks["getUIBus"]()
                 const itemData = inventoryInterface.getItemData()
-                const currentStacks = itemData["dumbbell.scoreStacked"] ? parseFloat(parseFloat(itemData["dumbbell.scoreStacked"]).toFixed(1)) : 0
+                const currentStacks = itemData["dumbbell.scoreStacked"] ? parseInt(itemData["dumbbell.scoreStacked"]) : 0
                 const itemStacks = inventoryInterface.getItemStacks("dumbbell")
                 UIBus.emit("ITEM_FADING_TEXT", {
                     itemID: "dumbbell",
@@ -318,7 +317,7 @@ export const ItemRegistry = {
                     msg: "Stacked Score: " + (parseInt(currentStacks)+itemStacks),
                 })
 
-                if(itemData["dumbbell.scoreStacked"] == undefined || itemData["dumbbell.scoreStacked"] == NaN)
+                if(itemData["dumbbell.scoreStacked"] == undefined || isNaN(itemData["dumbbell.scoreStacked"]))
                 {
                     itemData["dumbbell.scoreStacked"] = itemStacks
                 }
@@ -335,14 +334,59 @@ export const ItemRegistry = {
                 const itemData = inventoryInterface.getItemData()
                 const currentStacks = itemData["dumbbell.scoreStacked"] ? parseInt(itemData["dumbbell.scoreStacked"]) : 0
 
+                if((engineState.baseRolls) == hooks["getRollsLeft"]())
+                {
+                    UIBus.emit("ITEM_FLOATING_TEXT", {
+                        itemID: "dumbbell",
+                        color:"lime",
+                        msg: "+" + currentStacks,
+                    })
+
+                    hooks["addScore"](currentStacks)
+                }
+                return  {...engineState}
+            }
+        },
+    },
+    clover: {
+        id: "clover",
+        basePrice: 10,
+        name: "Green Clover",
+        rarity: "common",
+        description: "50% chance for any dice to roll +1 higher. Stacks apply their chance separately, potentially boosting a die multiple times.",
+        image: "clover.png",
+        stackable: true,
+        steps: {
+            POST_ROLL_RESULT: (engineState, inventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
+                const diceValues = hooks["getDiceValues"]()
+                const newDiceValues = [...diceValues]
+                const itemStacks = inventoryInterface.getItemStacks("clover")
+                let totalGain = 0
+                for(let s = 0; s < itemStacks; s++)
+                {
+                    for(let i = 0; i < newDiceValues.length; i++)
+                    {
+                        if(Math.random() < 0.5)
+                        {
+                            newDiceValues[i] += 1
+                            totalGain+=1
+                        }
+                    }
+                }
+
+                const indexes = Array.from({length: newDiceValues.length}, (_, i) => i)
+                hooks["setDiceValues"](indexes, newDiceValues)
+
                 UIBus.emit("ITEM_FLOATING_TEXT", {
-                    itemID: "dumbbell",
+                    itemID: "clover",
                     color:"lime",
-                    msg: "+" + currentStacks,
+                    msg: "+" + totalGain,
                 })
 
-                hooks["addScore"](currentStacks)
-                return  {...engineState}
+
+                //await new Promise(resolve => setTimeout(resolve, 1000));
+                return {...engineState}
             }
         },
     }

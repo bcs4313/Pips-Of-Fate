@@ -53,6 +53,7 @@ export function useGameEngine() {
         "setRolling": _setRolling, // not queue enforced
         "getDiceValues": _getDiceValues,
         "setDiceValues": _setDiceValues, // queue only
+        "getRollsLeft":_getRollsLeft,
         "addScore": _addScore, // queue only
         "getScore": _getScore,
         "addRolls": _addRolls,
@@ -160,6 +161,12 @@ export function useGameEngine() {
             return prev + val
         })
     }
+
+        // hook
+    function _getRollsLeft() {
+        return rollsLeft
+    }
+
 
     // hook
     function _forceGameOver() {
