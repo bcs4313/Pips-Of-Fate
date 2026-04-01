@@ -6,4 +6,5 @@
   height: 100vh;
   z-index: 1000;         /* above other content */
   pointer-events: none;  /* allow clicks to pass through */
+  background:transparent;
 }
