@@ -285,13 +285,34 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Uranium Rod",
         rarity: "uncommon",
-        description: "rolling a 3 applies 1 radiation stack to the die. Radiation: chance to get a 25% discount on a random attribute upgrade per roll (multiplicative). +2% chance per stack.",
+        description: "Rolling a 3 applies 1 radiation stack to the die.",
         image: "uranium_rod.png",
         stackable: false,
         steps: {
             END_ROLL: (engineState, inventoryInterface, hooks) => {
-                const UIBus = hooks["getUIBus"]()
-                const itemData = inventoryInterface.getItemData()
+                const rads = engineState["radiationStacks"]
+                const diceValues = hooks["getDiceValues"]()
+                console.log("uranium rod trigger")
+                console.log(diceValues)
+
+                let threeCount = diceValues.reduce((accum, value) => {
+                    if(value == 3)
+                    {
+                        accum += 1
+                    }
+                    return accum
+                }, 0)
+
+                console.log("accum = " + threeCount)
+                
+                if(rads == undefined)
+                {
+                    engineState["radiationStacks"] = threeCount
+                } 
+                else
+                {
+                    engineState["radiationStacks"] = parseInt(engineState["radiationStacks"]) + threeCount
+                }
                 return  {...engineState}
             }
         },
