@@ -145,7 +145,7 @@ export default function DiceCard({rollState, diePosition}) {
 
     function generateRadiationIcon() {
         return <div className="w-[20%] flex flex-column absolute bottom-[63%] left-[5%] absolute z-50 hover:cursor-pointer">
-        <span className="text-[6cqh] z-50 text-orange-400 left-[12%] bottom-[80%]">10%</span>
+        <span className="text-[6cqh] z-50 text-orange-400 left-[12%] bottom-[80%]">1</span>
         <img className="" src={ radiationIcon }/>
         </div>
     }
