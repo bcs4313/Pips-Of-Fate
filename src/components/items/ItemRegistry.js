@@ -404,7 +404,7 @@ export const ItemRegistry = {
         basePrice: 10,
         name: "Green Clover",
         rarity: "common",
-        description: "50% chance for any dice to roll +1 higher. Stacks apply their chance separately, potentially boosting a die multiple times.",
+        description: "50% chance for any dice to roll +2 higher. Stacks apply their chance separately, potentially boosting a die multiple times.",
         image: "clover.png",
         stackable: true,
         steps: {
@@ -420,8 +420,8 @@ export const ItemRegistry = {
                     {
                         if(Math.random() < 0.5)
                         {
-                            newDiceValues[i] += 1
-                            totalGain+=1
+                            newDiceValues[i] += 2
+                            totalGain+=2
                         }
                     }
                 }
