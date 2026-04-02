@@ -425,7 +425,8 @@ export const ItemRegistry = {
                         }
                     }
                 }
-
+                console.log("new dice values ")
+                console.log(newDiceValues)
                 const indexes = Array.from({length: newDiceValues.length}, (_, i) => i)
                 hooks["setDiceValues"](indexes, newDiceValues)
 

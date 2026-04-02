@@ -183,7 +183,8 @@ export function useGameEngine() {
     //@param indexes { list } target die indexes to change
     //@param values { list } target values to set
     async function _setDiceValues(indexes, values) {
-        await _enqueueStateChange((engineState) => {
+        await _enqueueStateChange((_engineState) => {
+            console.log(engineState.diceValues)
             let prev = [...engineState.diceValues]
             let newDiceValues = [...prev]
             for(let i = 0; i < indexes.length; i++)
