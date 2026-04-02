@@ -16,7 +16,7 @@ export const ItemRegistry = {
         steps: {
             END_ROUND: (engineState, inventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
-                const itemStacks = inventoryInterface.getItemStacks("dumbbell")
+                const itemStacks = inventoryInterface.getItemStacks("shiny_coin")
                 UIBus.emit("ITEM_FLASH", {
                     itemID: "shiny_coin"
                 })
