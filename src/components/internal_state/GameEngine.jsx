@@ -356,7 +356,14 @@ export function useGameEngine() {
     const roundEnding = useRef(false)
     async function endRoundAwait() {
         await _enqueueStateChange(EngineStepEndRound) 
-        setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
+        if(engineState["roundNum"] > 3 && engineState["roundNum"] < 15)
+        {
+            setQuota((quotaPrev) => Math.floor(quotaPrev*1.08) + 1)
+        }
+        else
+        {
+            setQuota((quotaPrev) => Math.floor(quotaPrev*1.1) + 1)
+        }
         setRollsLeft(() => engineState.baseRolls)
         completeQuotaFX()
         setRolling(() => false)

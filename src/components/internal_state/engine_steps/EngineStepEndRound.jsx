@@ -11,11 +11,10 @@ export default async function EngineStepEndRound(engineState, inventoryInterface
     
     // award gold, reset frozen die
     const newState = {...postItemEngineState, gold:postItemEngineState["gold"] + 5 + (linearSum(postItemEngineState["flatGoldUpgradesBought"])), 
-        frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"], score:0}
+        frozenDice:[], remainingFreezes: postItemEngineState["freezesBought"], score:0, roundNum:postItemEngineState["roundNum"]+1}
     newState["lastRoundGold"] = engineState["gold"]
-
     console.log("end_round")
     hooks["setRolling"](false)
 
-    return newState
+    return {...newState}
 }
