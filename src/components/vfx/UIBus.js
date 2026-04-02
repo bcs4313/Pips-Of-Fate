@@ -13,6 +13,7 @@ export class UIBus{
     }
 
     unsubscribe(event_name, callback) {
+        if(!this.listeners[event_name]) { return }
         this.listeners[event_name] = this.listeners[event_name].filter((func) => {
             return func !== callback
         })

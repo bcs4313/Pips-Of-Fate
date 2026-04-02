@@ -16,7 +16,7 @@ export default function ParticleRay({ canvasRef, destroyCallback, travelTime=1, 
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    console.log(spreadX)
+    //console.log(spreadX)
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;

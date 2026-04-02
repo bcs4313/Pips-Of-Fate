@@ -285,14 +285,15 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Uranium Rod",
         rarity: "uncommon",
-        description: "Rolling a 3 applies 1 radiation stack to the board.",
+        description: "Rolling a 3 applies 2 radiation stacks to the board.",
         image: "uranium_rod.png",
-        stackable: false,
+        stackable: true,
         steps: {
             END_ROLL: (engineState, inventoryInterface, hooks) => {
                 const UIBus = hooks["getUIBus"]()
                 const rads = engineState["radiationStacks"]
                 const diceValues = hooks["getDiceValues"]()
+                const itemStacks = inventoryInterface.getItemStacks("uranium_rod")
  
                 const itemBounds = inventoryInterface["getItemBounds"]("uranium_rod")
                 let threeCount = diceValues.reduce((accum, value, index) => {
@@ -332,15 +333,15 @@ export const ItemRegistry = {
                     }
                 }
 
-                console.log("accum = " + threeCount)
+                console.log("accum = " + threeCount * itemStacks * 2)
 
                 if(rads == undefined)
                 {
-                    engineState["radiationStacks"] = threeCount
+                    engineState["radiationStacks"] = threeCount * itemStacks * 2
                 } 
                 else
                 {
-                    engineState["radiationStacks"] = parseInt(engineState["radiationStacks"]) + threeCount
+                    engineState["radiationStacks"] = parseInt(engineState["radiationStacks"]) + threeCount * itemStacks * 2
                 }
                 return  {...engineState}
             }

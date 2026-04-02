@@ -3,10 +3,26 @@ import "./NavigationBar.css"
 import { useNavigate } from "react-router-dom"
 import GoldDisplay from "./GoldDisplay/GoldDisplay.jsx"
 import GameDataDisplay from "./GameDataDisplay/GameDataDisplay.jsx"
+import { useUIBus } from "../vfx/UIBusContextProvider.jsx"
+import { useEffect, useState } from "react"
 
 // @param { string } location : our current Router path
 export default function NavigationBar({currentLocation}) {
+    const UIBus = useUIBus()
     const navigate = useNavigate()
+    const [radFlashing, setRadFlashing] = useState(false)
+
+    useEffect(() => {
+        const radiationCallback = (args) => {
+            radiationFlashEffect()
+        }
+
+        UIBus.subscribe("SHOP_RADIATION_FLASH", radiationCallback)
+
+        return () => {
+            UIBus.unsubscribe("SHOP_RADIATION_FLASH", radiationCallback)
+        }
+    }, [UIBus ])
 
     function deleteSave() {
         localStorage.clear()
@@ -15,6 +31,14 @@ export default function NavigationBar({currentLocation}) {
 
     function goto(path) {
         navigate(path)
+    }
+
+        
+    function radiationFlashEffect() {
+        setRadFlashing(true)
+        setTimeout(() => {
+            setRadFlashing(false)
+        }, 1000)
     }
 
     function createSecondaryButton() {
@@ -27,7 +51,17 @@ export default function NavigationBar({currentLocation}) {
                 return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("/")} color="secondary">Back to Arena</Button>)
                 break;
             default:
-                return (<Button className="h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" onClick={() => goto("store")} color="secondary">Shop</Button>)
+                let classStr = "h-[60px]! w-[clamp(10px,18vw,300px)]! text-[clamp(0.4em,1cqmax,5em)]!" 
+                if(radFlashing)
+                {
+                    classStr += " rad-flashing"
+                    console.log("set to flashing")
+                }
+                else
+                {
+                    console.log("unset flashing")
+                }
+                return (<Button className={classStr} onClick={() => goto("store")} color="secondary">Shop</Button>)
                 break;
         }
     }

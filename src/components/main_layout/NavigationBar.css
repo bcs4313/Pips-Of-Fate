@@ -1,3 +1,20 @@
 .settings-button {
     background-color:#2a7f8a!important;
 }
+
+.rad-flashing {
+    animation: radiationFlash linear 0.5s infinite;
+}
+
+@keyframes radiationFlash {
+    0% {
+        background-color: var(--bs-secondary);
+    }
+    50% {
+        background-color: #FF7300;
+        transform: translateY(-10px);
+    }
+    100% {
+        background-color: var(--bs-secondary);
+    }
+}

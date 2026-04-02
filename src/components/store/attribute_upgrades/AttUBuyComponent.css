@@ -27,6 +27,7 @@
     gap:1em;
     margin-top:3em;
     min-width:0px;
+    position:relative;
 }
 
 .cost-btn {
@@ -36,6 +37,8 @@
     align-content:center;
     margin-top:3em; 
     margin-left:0px;
+    container-type:size;
+    position:relative;
 }
 
 .att-img {

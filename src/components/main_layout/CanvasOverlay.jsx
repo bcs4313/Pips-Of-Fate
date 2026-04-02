@@ -56,7 +56,7 @@ export default function CanvasOverlay() {
         setParticleEffects((effects) => [...effects, ray])
     }
 
-    console.log(particleEffects)
+    //console.log(particleEffects)
 
     return <div>
         {particleEffects}
