@@ -1,7 +1,7 @@
 import { useInventory } from "../../items/InventoryContextProvider"
 
-export default function EngineStepPostRollResults(engineState, inventoryInterface, hooks) {
+export default async function EngineStepPostRollResults(engineState, inventoryInterface, hooks) {
     // trigger items under this step
-    let postItemEngineState = inventoryInterface.forwardStep("POST_ROLL_RESULT", engineState, inventoryInterface, hooks)
+    let postItemEngineState = await inventoryInterface.forwardStep("POST_ROLL_RESULT", engineState, inventoryInterface, hooks)
     return postItemEngineState
 }

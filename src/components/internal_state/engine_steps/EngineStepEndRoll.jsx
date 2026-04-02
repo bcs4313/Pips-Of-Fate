@@ -1,7 +1,14 @@
 import { useInventory } from "../../items/InventoryContextProvider"
 
-export default function EngineStepEndRoll(engineState, inventoryInterface, hooks) {
+export default async function EngineStepEndRoll(engineState, inventoryInterface, hooks) {
     // trigger items under this step
-    let postItemEngineState = inventoryInterface.forwardStep("END_ROLL", engineState, inventoryInterface, hooks)
+    let postItemEngineState = await inventoryInterface.forwardStep("END_ROLL", engineState, inventoryInterface, hooks)
+
+    // radiation stack check
+    if(engineState["radiationStacks"] != undefined && Math.random() < engineState["radiationStacks"])
+    {
+        postItemEngineState["radiationStacks"] = 0
+    }
+
     return postItemEngineState
 }

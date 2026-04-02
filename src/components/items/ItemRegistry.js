@@ -293,17 +293,7 @@ export const ItemRegistry = {
                 const UIBus = hooks["getUIBus"]()
                 const rads = engineState["radiationStacks"]
                 const diceValues = hooks["getDiceValues"]()
-                console.log("uranium rod trigger")
-                console.log(diceValues)
  
-                if(Math.random() > 0.5)
-                {
-                    hooks.playSound("RadAbsorb1")
-                }
-                else
-                {
-                    hooks.playSound("RadAbsorb2")
-                }
                 const itemBounds = inventoryInterface["getItemBounds"]("uranium_rod")
                 let threeCount = diceValues.reduce((accum, value, index) => {
                     if(value == 3)
@@ -327,6 +317,20 @@ export const ItemRegistry = {
                     }
                     return accum
                 }, 0)
+
+                if(threeCount > 0)
+                {
+                    console.log("uranium rod trigger")
+                    console.log(diceValues)
+                    if(Math.random() > 0.5)
+                    {
+                        hooks.playSound("RadAbsorb1")
+                    }
+                    else
+                    {
+                        hooks.playSound("RadAbsorb2")
+                    }
+                }
 
                 console.log("accum = " + threeCount)
 

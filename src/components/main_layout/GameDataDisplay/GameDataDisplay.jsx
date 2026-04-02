@@ -55,7 +55,7 @@ export default function GameDataDisplay() {
         arrowClassName="custom-tooltip-arrow" // Class for the arrow
         >
             <h4 className="text-orange-500!">Radiation</h4>
-            <p>Chance to get a 25% discount on a random attribute upgrade per roll. +1% chance per stack. Discounts stack multiplicatively.</p>
+            <p>Chance to get a 50% discount on a random attribute upgrade per roll. +1% chance per stack. Discounts stack multiplicatively. Stacks reset to 0 when you get a discount.</p>
         </Tooltip>
         </div>)
     }

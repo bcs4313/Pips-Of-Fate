@@ -1,12 +1,12 @@
 import { useInventory } from "../../items/InventoryContextProvider"
 
-export default function EngineStepEndRound(engineState, inventoryInterface, hooks) {
+export default async function EngineStepEndRound(engineState, inventoryInterface, hooks) {
     function linearSum(n, start = 2.5) {
     return n * (2 * start + (n - 1)) / 2;
     }
 
     // trigger items under this step
-    let postItemEngineState = inventoryInterface.forwardStep("END_ROUND", engineState, inventoryInterface, hooks)
+    let postItemEngineState = await inventoryInterface.forwardStep("END_ROUND", engineState, inventoryInterface, hooks)
 
     
     // award gold, reset frozen die
