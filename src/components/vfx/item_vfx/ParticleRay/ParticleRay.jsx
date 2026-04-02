@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 // @param spreadY { number } variance in destination
 // @param emissionTime { number } how long should particles be emitted for? (seconds)
 // @param killTime { number } exact time when all particles are removed. The ray will call a function on the canvas parent to destroy itself
-export default function ParticleRay({ canvasRef, travelTime=1, maxParticles=500, spreadX=100, spreadY=100, emissionTime=0.25, killTime=1, originX, originY, destX, destY}) {
+export default function ParticleRay({ canvasRef, destroyCallback, travelTime=1, maxParticles=500, spreadX=100, spreadY=100, emissionTime=0.25, killTime=1, originX, originY, destX, destY}) {
   
   useEffect(() => {
     let elapsedTime = 0;
@@ -15,6 +15,8 @@ export default function ParticleRay({ canvasRef, travelTime=1, maxParticles=500,
     let deltaTime = 0
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    console.log(spreadX)
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
@@ -123,7 +125,10 @@ export default function ParticleRay({ canvasRef, travelTime=1, maxParticles=500,
       if (shouldKill && particles.length === 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         cancelAnimationFrame(animationFrameId);
-        markedForDestruction = true
+        if(destroyCallback != undefined)
+        {
+          destroyCallback()
+        }
         return;
       }
 

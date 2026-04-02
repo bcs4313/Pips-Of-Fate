@@ -61,6 +61,14 @@ export default function useInventory() {
         return items[itemID]
     }
 
+    function _getItemBounds(itemID)
+    {
+        console.log("itemicon-" + itemID)
+        const element = document.getElementById("itemicon-" + itemID)
+        const boundingBox = element.getBoundingClientRect()
+        return boundingBox
+    }
+
     function createPassiveItemCards() 
     {
         const itemCardList = []
@@ -107,6 +115,7 @@ export default function useInventory() {
         "setItemData":_setItemData,
         "getItemData":_getItemData,
         "getItemStacks": _getItemStacks,
+        "getItemBounds":_getItemBounds
     }
 
     return inventoryInterface

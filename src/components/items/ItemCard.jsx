@@ -21,7 +21,7 @@ export default function ItemCard({id, name, stacks, rarity, description, imagePa
     const [tooltipOpen, setTooltipOpen] = useState(false)
     const toggle = () => setTooltipOpen(!tooltipOpen)
 
-    const idRef = useRef("itemicon-" + id + "-" + Math.floor(Math.random() * 1000000))
+    const idRef = useRef("itemicon-" + id)
 
     // UI BUS SECTION
     const UIBus = useUIBus()

@@ -192,10 +192,10 @@ export default function DiceCard({rollState, diePosition}) {
     }
 
     return (
-    <div className="relative dice-card h-[100%]">
+    <div id={"dice-card-" + diePosition} className="relative dice-card h-[100%]">
         <h1 className={"die-num text-white " +  generateDieNumClasses()}>{rollState}</h1>
         { generateFreezeOverlay() }
-        <img className={ConstructImgClass()} src={imgRef}/>
+        <img id={"dice-img-" + diePosition} className={ConstructImgClass()} src={imgRef}/>
         { generateFreezeButton() }
     </div>
     )

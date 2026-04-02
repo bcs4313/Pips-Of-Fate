@@ -285,26 +285,51 @@ export const ItemRegistry = {
         basePrice: 15,
         name: "Uranium Rod",
         rarity: "uncommon",
-        description: "Rolling a 3 applies 1 radiation stack to the die.",
+        description: "Rolling a 3 applies 1 radiation stack to the board.",
         image: "uranium_rod.png",
         stackable: false,
         steps: {
             END_ROLL: (engineState, inventoryInterface, hooks) => {
+                const UIBus = hooks["getUIBus"]()
                 const rads = engineState["radiationStacks"]
                 const diceValues = hooks["getDiceValues"]()
                 console.log("uranium rod trigger")
                 console.log(diceValues)
-
-                let threeCount = diceValues.reduce((accum, value) => {
+ 
+                if(Math.random() > 0.5)
+                {
+                    hooks.playSound("RadAbsorb1")
+                }
+                else
+                {
+                    hooks.playSound("RadAbsorb2")
+                }
+                const itemBounds = inventoryInterface["getItemBounds"]("uranium_rod")
+                let threeCount = diceValues.reduce((accum, value, index) => {
                     if(value == 3)
                     {
                         accum += 1
+                        // particle effect
+                        const die = document.getElementById("dice-img-" + index)
+                        const dieBounds = die.getBoundingClientRect()
+                        UIBus.emit("PARTICLE_RAY", {
+                            travelTime:1,
+                            emissionTime:1,
+                            killTime:2,
+                            maxParticles:300,
+                            originX: dieBounds.x + dieBounds.width/2,
+                            originY: dieBounds.y + dieBounds.height/2,
+                            destX: itemBounds.x + itemBounds.width/2,
+                            destY: itemBounds.y + itemBounds.height/2,
+                            spreadX: dieBounds.width/4,
+                            spreadY: dieBounds.height/4,
+                        })
                     }
                     return accum
                 }, 0)
 
                 console.log("accum = " + threeCount)
-                
+
                 if(rads == undefined)
                 {
                     engineState["radiationStacks"] = threeCount
