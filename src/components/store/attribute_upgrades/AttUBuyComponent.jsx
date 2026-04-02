@@ -18,7 +18,7 @@ export default function AttUBuyComponent({ imgPath, price, title, description, u
     let truePrice = price
     if(upgradeDiscountCount)
     {
-        truePrice = Math.floor(price*(calculateDiscountPercent(upgradeDiscountCount)/100))
+        truePrice = Math.floor(price*(1-(calculateDiscountPercent(upgradeDiscountCount)/100)))
     }
     
 
